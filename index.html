@@ -5201,7 +5201,1948 @@ Insert 50 → [30,40,50] FULL → Split, promote 40:
         </div><!-- end main -->
     </div><!-- end layout -->
 
-    <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">▲</button>
+    
+            <!-- ==================== MODULE 4 - RELATIONAL ALGEBRA ==================== -->
+            <div id="m4-ra" class="module-view">
+                <div class="breadcrumb">
+                    <span class="crumb" onclick="showHome()">Home</span><span class="sep">›</span><span>Module 4</span><span class="sep">›</span><span style="color:var(--text)">Relational Algebra</span>
+                </div>
+                <div class="module-header">
+                    <div class="module-badge">MODULE 4</div>
+                    <div class="module-title">Relational Algebra Expressions</div>
+                </div>
+
+                <div class="algo-box">
+                    <div class="algo-title">General Algorithm — Writing Relational Algebra</div>
+                    <div class="algo-step"><span class="algo-num">1.</span><span>Identify the required output columns (→ Project π).</span></div>
+                    <div class="algo-step"><span class="algo-num">2.</span><span>Identify the required tables (→ From clause, cross product ×).</span></div>
+                    <div class="algo-step"><span class="algo-num">3.</span><span>Apply joins: Natural Join ⋈, Theta Join ⋈<sub>condition</sub>.</span></div>
+                    <div class="algo-step"><span class="algo-num">4.</span><span>Apply filters (→ Select σ with condition).</span></div>
+                    <div class="algo-step"><span class="algo-num">5.</span><span>Apply projection π on final result.</span></div>
+                    <div class="algo-step"><span class="algo-num">6.</span><span>For aggregates: use γ (group-by) or ℱ (aggregate function) notation.</span></div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">RA Operators</span>
+                    <span class="formula-content">σ = Select (filter rows) | π = Project (select columns) | ⋈ = Join | ρ = Rename | ∪ = Union | ∩ = Intersection | − = Difference | × = Cartesian Product</span>
+                </div>
+
+                <div class="topic-section">
+
+                    <!-- Q1 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q1</span>
+                                <span class="q-paper">FAT Apr/May 2023 – Q7d</span>
+                                <span class="q-marks marks-yellow">3 Marks 🟡</span>
+                                <div class="q-title">Write relational algebra expressions: (i) Number of employees who worked fewer hours than average hours/week. (ii) Employee IDs and names of every employee working for ContractID C103.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="q-text"><strong>Schema:</strong> EMPLOYEE(EmpId, EmpName, HoursPerWeek, ContractNo)</div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Part (i) — Employees with fewer hours than average</div>
+                                <div class="sol-para">Step 1: Compute average hours using aggregate.</div>
+                                <div class="sol-para">Step 2: Select employees below that average.</div>
+                                <div class="code-block">-- Step 1: Find average hours
+avgHrs ← ℱ<sub>AVG(HoursPerWeek)</sub>(EMPLOYEE)
+
+-- Step 2: Cross product and filter
+result ← π<sub>COUNT(EmpId)</sub>(σ<sub>HoursPerWeek &lt; avgHrs.AVG(HoursPerWeek)</sub>(EMPLOYEE × avgHrs))
+                                </div>
+                                <div class="note-box">In exam notation: Count(π<sub>EmpId</sub>(σ<sub>HoursPerWeek &lt; AVG(HoursPerWeek)</sub>(EMPLOYEE)))</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Part (ii) — Employees working for ContractID C103</div>
+                                <div class="formula-box">
+                                    <span class="formula-label">Expression</span>
+                                    <span class="formula-content">π<sub>EmpId, EmpName</sub>(σ<sub>ContractNo = 'C103'</sub>(EMPLOYEE))</span>
+                                </div>
+                                <div class="sol-step"><span class="step-label">σ Step</span><span class="step-content">Filter all rows where ContractNo = 'C103'. This gives only rows of employees with that contract.</span></div>
+                                <div class="sol-step"><span class="step-label">π Step</span><span class="step-content">Project (keep) only EmpId and EmpName columns. Discard HoursPerWeek and ContractNo from output.</span></div>
+                            </div>
+                            <div class="ans-box"><strong>Final Answers:</strong><br>
+                            (i) Count(π<sub>EmpId</sub>(σ<sub>HoursPerWeek &lt; AVG(HoursPerWeek)</sub>(EMPLOYEE)))<br>
+                            (ii) π<sub>EmpId, EmpName</sub>(σ<sub>ContractNo = 'C103'</sub>(EMPLOYEE))</div>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q2</span>
+                                <span class="q-paper">FAT Jul/Aug 2023 (Jani Anbarasi) – Q2a–d</span>
+                                <span class="q-marks marks-red">10 Marks 🔴</span>
+                                <div class="q-title">RA &amp; SQL on Registration_Table and Sports_Table: (a) Name+location of students enrolled (age&gt;13) in Football. (b) Count level earned per club. (c) Girls in Volleyball club. (d) DateOfJoining for students with 'B' qualification.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="q-text"><strong>Schema:</strong> Registration_Table(Reg_id, Fname, Lname, Education, Age, Location, Gender) | Sports_Table(Rid, Club, DateOfJoining, Level)</div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">(a) Name and Location — Football, Age &gt; 13</div>
+                                <div class="formula-box">
+                                    <span class="formula-label">RA</span>
+                                    <span class="formula-content">π<sub>Fname, Lname, Location</sub>(σ<sub>Age&gt;13 ∧ Club='Football'</sub>(Registration_Table ⋈<sub>Reg_id=Rid</sub> Sports_Table))</span>
+                                </div>
+                                <div class="sol-step"><span class="step-label">Join</span><span class="step-content">Join Registration_Table with Sports_Table on Reg_id = Rid to link student data with their sports enrollment.</span></div>
+                                <div class="sol-step"><span class="step-label">Select</span><span class="step-content">σ<sub>Age&gt;13 AND Club='Football'</sub> — filter to only Football students older than 13.</span></div>
+                                <div class="sol-step"><span class="step-label">Project</span><span class="step-content">π<sub>Fname, Lname, Location</sub> — keep only name and location columns.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">(b) Count of Levels Earned per Club</div>
+                                <div class="formula-box">
+                                    <span class="formula-label">RA with Aggregation</span>
+                                    <span class="formula-content"><sub>Club</sub>γ<sub>COUNT(Level)</sub>(Sports_Table)</span>
+                                </div>
+                                <div class="sol-para">Group Sports_Table by Club attribute, then count the number of Level records in each group. SQL equivalent: SELECT Club, COUNT(Level) FROM Sports_Table GROUP BY Club;</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">(c) Girls in Volleyball Club — Name and DateOfJoining</div>
+                                <div class="formula-box">
+                                    <span class="formula-label">RA</span>
+                                    <span class="formula-content">π<sub>Fname, Lname, DateOfJoining</sub>(σ<sub>Gender='Female' ∧ Club='Volleyball'</sub>(Registration_Table ⋈<sub>Reg_id=Rid</sub> Sports_Table))</span>
+                                </div>
+                                <div class="sol-step"><span class="step-label">Filter</span><span class="step-content">σ<sub>Gender='Female' AND Club='Volleyball'</sub> — filter for female students in Volleyball.</span></div>
+                                <div class="sol-step"><span class="step-label">Project</span><span class="step-content">π<sub>Fname, Lname, DateOfJoining</sub> — show their names and joining date.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">(d) DateOfJoining — Education starts with 'B'</div>
+                                <div class="formula-box">
+                                    <span class="formula-label">RA</span>
+                                    <span class="formula-content">π<sub>DateOfJoining</sub>(σ<sub>Education LIKE 'B%'</sub>(Registration_Table ⋈<sub>Reg_id=Rid</sub> Sports_Table))</span>
+                                </div>
+                                <div class="sol-para">The LIKE 'B%' pattern in RA is written as σ<sub>Education begins with 'B'</sub>. This selects students whose education qualification (e.g., B.Tech, BE, BSc) starts with the letter 'B'.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q3</span>
+                                <span class="q-paper">FAT Nov 2019 (Slot D2) – Q6a</span>
+                                <span class="q-marks marks-orange">5 Marks 🟠</span>
+                                <div class="q-title">List the Transformation Rules for Relational Algebra Operations used for algebraic query optimization.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Relational Algebra Transformation Rules</div>
+                                <div class="sol-para">These rules are used in heuristic query optimization to transform a query into a more efficient equivalent form. They are equivalence-preserving transformations.</div>
+
+                                <div class="sol-step"><span class="step-label">Rule 1</span><span class="step-content"><strong>Cascade of Selections (σ splitting):</strong> σ<sub>c1 ∧ c2</sub>(R) ≡ σ<sub>c1</sub>(σ<sub>c2</sub>(R)). A conjunction of conditions can be split into a cascade of individual selections. <em>Use: Push selections as far down the tree as possible.</em></span></div>
+
+                                <div class="sol-step"><span class="step-label">Rule 2</span><span class="step-content"><strong>Commutativity of Selection:</strong> σ<sub>c1</sub>(σ<sub>c2</sub>(R)) ≡ σ<sub>c2</sub>(σ<sub>c1</sub>(R)). The order of selections can be swapped freely.</span></div>
+
+                                <div class="sol-step"><span class="step-label">Rule 3</span><span class="step-content"><strong>Cascade of Projections:</strong> π<sub>L1</sub>(π<sub>L2</sub>(...(π<sub>Ln</sub>(R))...)) ≡ π<sub>L1</sub>(R), where L1 ⊆ L2 ⊆ ... ⊆ Ln. Only the final (outermost) projection matters.</span></div>
+
+                                <div class="sol-step"><span class="step-label">Rule 4</span><span class="step-content"><strong>Commuting Selection with Projection:</strong> σ<sub>c</sub>(π<sub>L</sub>(R)) ≡ π<sub>L</sub>(σ<sub>c</sub>(R)), when condition c involves only attributes in L. <em>Apply selection before projection to reduce tuples first.</em></span></div>
+
+                                <div class="sol-step"><span class="step-label">Rule 5</span><span class="step-content"><strong>Commutativity of Join/Cartesian Product:</strong> R ⋈<sub>c</sub> S ≡ S ⋈<sub>c</sub> R. Join order can be swapped. <em>Use: Place smaller/more-filtered relation on the left for efficiency.</em></span></div>
+
+                                <div class="sol-step"><span class="step-label">Rule 6</span><span class="step-content"><strong>Associativity of Join:</strong> (R ⋈ S) ⋈ T ≡ R ⋈ (S ⋈ T). Joins can be re-grouped. <em>Use: Choose join order that produces smallest intermediate results.</em></span></div>
+
+                                <div class="sol-step"><span class="step-label">Rule 7</span><span class="step-content"><strong>Commuting Selection with Cartesian Product:</strong> σ<sub>c</sub>(R × S) ≡ R ⋈<sub>c</sub> S. A selection on a cross product converts it to a join — much more efficient.</span></div>
+
+                                <div class="sol-step"><span class="step-label">Rule 8</span><span class="step-content"><strong>Commuting Selection with Set Operations:</strong> σ<sub>c</sub>(R ∪ S) ≡ σ<sub>c</sub>(R) ∪ σ<sub>c</sub>(S). Push selection into both operands of union/intersection/difference.</span></div>
+
+                                <div class="sol-step"><span class="step-label">Rule 9</span><span class="step-content"><strong>Commuting Projection with Join:</strong> π<sub>L1∪L2</sub>(R ⋈<sub>c</sub> S) ≡ (π<sub>L1</sub>(R)) ⋈<sub>c</sub> (π<sub>L2</sub>(S)), where c uses only attributes in L1 and L2. Reduce columns before joining.</span></div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Key Heuristics (exam tip)</span>
+                                    <span class="formula-content">1. Push σ down (apply filters early) | 2. Push π down (reduce columns early) | 3. Replace σ(R×S) with ⋈ | 4. Choose most restrictive join first</span>
+                                </div>
+                            </div>
+                            <div class="ans-box"><strong>Summary:</strong> The 9 transformation rules allow a DBMS query optimizer to rearrange relational algebra expressions without changing their result, but in a more efficient order — primarily by reducing the size of intermediate relations through early selection and projection.</div>
+                        </div>
+                    </div>
+
+                    <!-- Q4 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q4</span>
+                                <span class="q-paper">FAT Nov 2019 (Slot D2) – Q6b</span>
+                                <span class="q-marks marks-orange">5 Marks 🟠</span>
+                                <div class="q-title">Write RA expression for SQL query: SELECT LNAME FROM EMPLOYEE, WORKS_ON, PROJECT WHERE PNAME='AQUARIUS' AND PNUMBER=PNO AND ESSN=SSN AND BDATE&gt;'1957-12-31'. Draw initial query tree and optimized query tree.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="q-text"><strong>Schema:</strong> EMPLOYEE(SSN, LNAME, BDATE, ...) | WORKS_ON(ESSN, PNO, ...) | PROJECT(PNUMBER, PNAME, ...)</div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 1 — Relational Algebra Expression</div>
+                                <div class="formula-box">
+                                    <span class="formula-label">RA Expression</span>
+                                    <span class="formula-content">π<sub>LNAME</sub>(σ<sub>PNAME='AQUARIUS' ∧ BDATE&gt;'1957-12-31'</sub>(EMPLOYEE ⋈<sub>SSN=ESSN</sub> WORKS_ON ⋈<sub>PNO=PNUMBER</sub> PROJECT))</span>
+                                </div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 2 — Initial (Canonical) Query Tree</div>
+                                <div class="tree-display">               π<sub>LNAME</sub>
+                    |
+              σ<sub>PNAME='AQUARIUS' ∧ BDATE&gt;'1957-12-31'</sub>
+              ∧ PNUMBER=PNO ∧ ESSN=SSN
+                    |
+              × (Cartesian Product)
+             /             /       EMPLOYEE   ×
+              /         WORKS_ON  PROJECT
+
+(All conditions applied at the very top — inefficient)</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 3 — Apply Heuristic Optimization Rules</div>
+                                <div class="sol-step"><span class="step-label">Rule 1</span><span class="step-content">Break the combined selection: σ<sub>PNAME='AQUARIUS' ∧ BDATE&gt;'1957-12-31' ∧ PNUMBER=PNO ∧ ESSN=SSN</sub> into individual σ operations.</span></div>
+                                <div class="sol-step"><span class="step-label">Rule 2</span><span class="step-content">Push σ<sub>PNAME='AQUARIUS'</span> down to PROJECT table. ∴ Filter PROJECT first → tiny result.</span></div>
+                                <div class="sol-step"><span class="step-label">Rule 3</span><span class="step-content">Push σ<sub>BDATE&gt;'1957-12-31'</sub> down to EMPLOYEE table. ∴ Filter EMPLOYEE first → fewer rows to join.</span></div>
+                                <div class="sol-step"><span class="step-label">Rule 4</span><span class="step-content">Replace σ+× with natural joins (⋈).</span></div>
+                                <div class="sol-step"><span class="step-label">Rule 5</span><span class="step-content">Push projection π<sub>LNAME</sub> down as far as possible.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 4 — Optimized Query Tree</div>
+                                <div class="tree-display">               π<sub>LNAME</sub>
+                    |
+               ⋈<sub>PNO=PNUMBER</sub>
+              /                  ⋈<sub>SSN=ESSN</sub>          σ<sub>PNAME='AQUARIUS'</sub>
+    /         \                   |
+   /           \               PROJECT
+σ<sub>BDATE&gt;'1957-12-31'</sub>  WORKS_ON
+   |
+EMPLOYEE
+
+Improvements:
+→ σ applied to EMPLOYEE/PROJECT FIRST (reduces rows)
+→ Joins replace cross products (far fewer intermediate rows)
+→ π pushed down where possible</div>
+                            </div>
+
+                            <div class="ans-box"><strong>Key Optimizations Applied:</strong> (1) Selections pushed down to base relations — reducing data early. (2) Cross products converted to equijoins. (3) Most restrictive selection (PNAME='AQUARIUS') applied to smallest table (PROJECT) first. Result: far fewer intermediate tuples, significantly less I/O.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ==================== MODULE 4 - QUERY TREE ==================== -->
+            <div id="m4-qt" class="module-view">
+                <div class="breadcrumb">
+                    <span class="crumb" onclick="showHome()">Home</span><span class="sep">›</span><span>Module 4</span><span class="sep">›</span><span style="color:var(--text)">Query Tree Optimization</span>
+                </div>
+                <div class="module-header">
+                    <div class="module-badge">MODULE 4</div>
+                    <div class="module-title">Query Tree &amp; Heuristic Query Optimization</div>
+                </div>
+
+                <div class="algo-box">
+                    <div class="algo-title">Algorithm — Heuristic Query Optimization (6 Steps)</div>
+                    <div class="algo-step"><span class="algo-num">1.</span><span>Parse SQL → build <strong>initial canonical query tree</strong> (cross products at bottom, all conditions at top).</span></div>
+                    <div class="algo-step"><span class="algo-num">2.</span><span><strong>Break conjunctive selections</strong> into cascaded individual σ operations.</span></div>
+                    <div class="algo-step"><span class="algo-num">3.</span><span><strong>Push selections (σ) down</strong> the tree as far as possible — apply filters close to leaf (base relation) nodes.</span></div>
+                    <div class="algo-step"><span class="algo-num">4.</span><span><strong>Replace σ + ×</strong> (selection over Cartesian product) with corresponding <strong>join operations (⋈)</strong>.</span></div>
+                    <div class="algo-step"><span class="algo-num">5.</span><span><strong>Push projections (π) down</strong> — keep only needed columns at each join to reduce tuple width.</span></div>
+                    <div class="algo-step"><span class="algo-num">6.</span><span><strong>Reorder joins</strong> — most restrictive join (smallest intermediate result) first.</span></div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Heuristic Rules</span>
+                    <span class="formula-content">Push σ down → Push π down → Replace (σ+×) with ⋈ → Most restrictive join first → Apply selections to smallest table first</span>
+                </div>
+
+                <div class="topic-section">
+
+                    <!-- Q1 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q1</span>
+                                <span class="q-paper">FAT Nov 2019 (Slot D1) – Q12</span>
+                                <span class="q-marks marks-red">10 Marks 🔴</span>
+                                <div class="q-title">Construct Initial and Optimized Query Tree using Heuristic Optimization for: SELECT e.name, p.project_name FROM employee e, department d, workson w, project p WHERE e.dep_number=d.dep_number AND e.ssn=w.ssn AND w.project_id=p.project_id AND d.dname='SBST' AND p.project_name='OS'.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="q-text"><strong>Schema:</strong> Employee(ssn, name, designation, dep_number) | Department(dep_number, dname, dlocation) | Workson(ssn, project_id) | Project(project_id, project_name)</div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 1 — Relational Algebra Expression</div>
+                                <div class="formula-box">
+                                    <span class="formula-label">RA</span>
+                                    <span class="formula-content">π<sub>name, project_name</sub>(σ<sub>dname='SBST' ∧ project_name='OS'</sub>(Employee ⋈ Department ⋈ Workson ⋈ Project))</span>
+                                </div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 2 — Initial Query Tree (Canonical)</div>
+                                <div class="tree-display">           π<sub>name, project_name</sub>
+                   |
+         σ<sub>e.dep_no=d.dep_no ∧ e.ssn=w.ssn ∧ w.proj_id=p.proj_id</sub>
+         <sub>∧ dname='SBST' ∧ project_name='OS'</sub>
+                   |
+               × (cross products of all 4 tables)
+              /              /            Employee  ×
+                  /             Department ×
+                       /                   Workson  Project
+
+Problem: All 4 tables are cross-joined first (billions of rows),
+then all conditions are filtered at the top.</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 3 — Apply Heuristics</div>
+                                <div class="sol-step"><span class="step-label">Heuristic 1</span><span class="step-content">Break the combined selection into individual σ operations: σ<sub>dname='SBST'</sub>, σ<sub>project_name='OS'</sub>, σ<sub>e.dep_no=d.dep_no</sub>, σ<sub>e.ssn=w.ssn</sub>, σ<sub>w.proj_id=p.proj_id</sub>.</span></div>
+                                <div class="sol-step"><span class="step-label">Heuristic 2</span><span class="step-content">Push σ<sub>dname='SBST'</sub> to Department leaf — filter department early. Push σ<sub>project_name='OS'</sub> to Project leaf — only 1 row where OS project exists.</span></div>
+                                <div class="sol-step"><span class="step-label">Heuristic 3</span><span class="step-content">Replace cross products + join conditions with natural joins (⋈). Join order: start with smallest filtered tables.</span></div>
+                                <div class="sol-step"><span class="step-label">Heuristic 4</span><span class="step-content">Push projection π<sub>name, project_name</sub> down close to the final join.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 4 — Optimized Query Tree</div>
+                                <div class="tree-display">            π<sub>name, project_name</sub>
+                    |
+          ⋈<sub>w.project_id = p.project_id</sub>
+         /                        ⋈<sub>e.ssn = w.ssn</sub>              σ<sub>project_name='OS'</sub>
+    /          \                        |
+⋈<sub>e.dep_no=d.dep_no</sub>  Workson           Project
+   /        Employee    σ<sub>dname='SBST'</sub>
+                 |
+            Department
+
+Benefits of Optimization:
+→ σ<sub>dname='SBST'</sub>: filters Dept table (few rows) BEFORE joining
+→ σ<sub>project_name='OS'</sub>: filters Project table (1 row) BEFORE joining
+→ Joins happen on small intermediate results
+→ π reduces column width at final step</div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Disk I/O Savings</span>
+                                    <span class="formula-content">Canonical: |E| × |D| × |W| × |P| rows → then filter. Optimized: σ(D) ≈ 1 row, σ(P) ≈ 1 row → joins reduce to near-linear complexity.</span>
+                                </div>
+                            </div>
+
+                            <div class="ans-box"><strong>Conclusion:</strong> Heuristic optimization transformed the query by: (1) pushing σ<sub>dname='SBST'</sub> to Department leaf reducing it to ~1 row, (2) pushing σ<sub>project_name='OS'</sub> to Project leaf reducing it to ~1 row, (3) converting all cross products to joins. The optimized tree executes dramatically faster with far fewer disk I/Os.</div>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q2</span>
+                                <span class="q-paper">FAT May 2024 (KP Vijayakumar) – Q6b</span>
+                                <span class="q-marks marks-orange">8 Marks 🟠</span>
+                                <div class="q-title">Step-by-step optimized query tree for: SELECT name FROM employee, department, location WHERE dept=Finance AND city='New York' AND salary&gt;50000.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="q-text"><strong>Schema:</strong> employee(emp_id, name, dept_id, salary) | department(dept_id, dept_name, location_id) | location(location_id, city, country)</div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 1 — Identify all conditions</div>
+                                <div class="sol-para">Conditions: (1) dept_name = 'Finance' [on department], (2) city = 'New York' [on location], (3) salary &gt; 50000 [on employee]</div>
+                                <div class="sol-para">Join conditions: employee.dept_id = department.dept_id, department.location_id = location.location_id</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 2 — Initial Canonical Query Tree</div>
+                                <div class="tree-display">           π<sub>name</sub>
+               |
+         σ<sub>all conditions + joins</sub>
+               |
+           ×
+          /     employee  ×
+             /         department  location</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 3 — Optimized Query Tree</div>
+                                <div class="tree-display">              π<sub>name</sub>
+                   |
+         ⋈<sub>dept_id = dept_id</sub>
+        /                    σ<sub>salary&gt;50000</sub>      ⋈<sub>location_id = location_id</sub>
+    |                /                    employee    σ<sub>dept_name='Finance'</sub>    σ<sub>city='New York'</sub>
+                |                              |
+           department                       location
+
+Transformations Applied:
+1. σ<sub>salary>50000</sub> pushed to employee leaf
+2. σ<sub>dept_name='Finance'</sub> pushed to department leaf
+3. σ<sub>city='New York'</sub> pushed to location leaf
+4. Cross products → joins
+5. π<sub>name</sub> at top (can be pushed further down)</div>
+                            </div>
+
+                            <div class="ans-box"><strong>Key Insight:</strong> By applying each filter at the base table level, intermediate join results contain only matching rows. The Finance department is likely 1 row; New York locations are few rows; employees with salary &gt;50000 are a subset. Joining these filtered sets is vastly faster than joining all rows and filtering at the end.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ==================== MODULE 5 - LOG-BASED RECOVERY ==================== -->
+            <div id="m5-log" class="module-view">
+                <div class="breadcrumb">
+                    <span class="crumb" onclick="showHome()">Home</span><span class="sep">›</span><span>Module 5</span><span class="sep">›</span><span style="color:var(--text)">Log-based Recovery</span>
+                </div>
+                <div class="module-header">
+                    <div class="module-badge">MODULE 5</div>
+                    <div class="module-title">Log-based Recovery (Deferred &amp; Immediate Update)</div>
+                </div>
+
+                <div class="algo-box">
+                    <div class="algo-title">Algorithm — Writing Log Records for Recovery</div>
+                    <div class="algo-step"><span class="algo-num">1.</span><span>List all operations in schedule order.</span></div>
+                    <div class="algo-step"><span class="algo-num">2.</span><span><strong>Deferred Update:</strong> Defer all writes to disk until commit. Log format: &lt;Ti, start&gt; → &lt;Ti, X, new_value&gt; → &lt;Ti, commit&gt;. On recovery: REDO committed Tx only. Never UNDO (never written to DB before commit).</span></div>
+                    <div class="algo-step"><span class="algo-num">3.</span><span><strong>Immediate Update:</strong> Write to DB immediately (before commit). Log format: &lt;Ti, start&gt; → &lt;Ti, X, old_value, new_value&gt; → &lt;Ti, commit&gt;. On recovery: REDO committed Tx, UNDO uncommitted Tx.</span></div>
+                    <div class="algo-step"><span class="algo-num">4.</span><span>On crash: Scan log. Committed Tx → REDO (re-apply writes). Uncommitted Tx → UNDO (roll back using old_value).</span></div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Log Record Formats</span>
+                    <span class="formula-content">Deferred: &lt;Ti, start&gt;, &lt;Ti, X, new_val&gt;, &lt;Ti, commit&gt; | Immediate: &lt;Ti, start&gt;, &lt;Ti, X, old_val, new_val&gt;, &lt;Ti, commit&gt;</span>
+                </div>
+
+                <div class="topic-section">
+
+                    <!-- Q1 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q1</span>
+                                <span class="q-paper">FAT Jul/Aug 2023 (Reena Roy) – Q4b</span>
+                                <span class="q-marks marks-orange">6 Marks 🟠</span>
+                                <div class="q-title">Write log records for Deferred and Immediate modification. Initial: A=1100, B=1200, C=1000. T0: Read(A); A:=A-550; Write(A); Read(B); B:=B+550; Write(B). T1: Read(C); C:=C-300; Write(C).</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="q-text"><strong>Initial Values:</strong> A = 1100, B = 1200, C = 1000<br>
+                            T0: transfers 550 from A to B. T1: decrements C by 300.</div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Part 1 — Deferred Database Modification</div>
+                                <div class="sol-para"><strong>Key rule:</strong> Actual DB is NOT modified until transaction commits. All writes are recorded in log only. On commit → apply all writes (REDO only on crash).</div>
+                                <table class="sol-table">
+                                    <tr><th>Step</th><th>Operation</th><th>Log Record</th><th>DB Values (A,B,C)</th></tr>
+                                    <tr><td>1</td><td>T0 begins</td><td>&lt;T0, start&gt;</td><td>1100, 1200, 1000</td></tr>
+                                    <tr><td>2</td><td>Read(A) → compute A=550</td><td>—</td><td>unchanged</td></tr>
+                                    <tr><td>3</td><td>Write(A) [deferred]</td><td>&lt;T0, A, 550&gt;</td><td>1100 (not yet written)</td></tr>
+                                    <tr><td>4</td><td>Read(B) → compute B=1750</td><td>—</td><td>unchanged</td></tr>
+                                    <tr><td>5</td><td>Write(B) [deferred]</td><td>&lt;T0, B, 1750&gt;</td><td>1200 (not yet written)</td></tr>
+                                    <tr><td>6</td><td>T1 begins</td><td>&lt;T1, start&gt;</td><td>unchanged</td></tr>
+                                    <tr><td>7</td><td>Read(C) → compute C=700</td><td>—</td><td>unchanged</td></tr>
+                                    <tr><td>8</td><td>Write(C) [deferred]</td><td>&lt;T1, C, 700&gt;</td><td>1000 (not yet written)</td></tr>
+                                    <tr><td>9</td><td>T0 commits</td><td>&lt;T0, commit&gt;</td><td>A=550, B=1750 ← NOW applied</td></tr>
+                                    <tr><td>10</td><td>T1 commits</td><td>&lt;T1, commit&gt;</td><td>C=700 ← NOW applied</td></tr>
+                                </table>
+                                <div class="note-box">On crash before T0 commits: No UNDO needed (DB was never modified). Just re-do from log. Only REDO of committed transactions.</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Part 2 — Immediate Database Modification</div>
+                                <div class="sol-para"><strong>Key rule:</strong> DB is modified IMMEDIATELY when Write occurs (before commit). Log must record BOTH old and new values for UNDO capability.</div>
+                                <table class="sol-table">
+                                    <tr><th>Step</th><th>Operation</th><th>Log Record</th><th>DB Values (A,B,C)</th></tr>
+                                    <tr><td>1</td><td>T0 begins</td><td>&lt;T0, start&gt;</td><td>1100, 1200, 1000</td></tr>
+                                    <tr><td>2</td><td>Read(A) → A:=A-550=550</td><td>—</td><td>1100, 1200, 1000</td></tr>
+                                    <tr><td>3</td><td>Write(A) → DB updated</td><td>&lt;T0, A, 1100, 550&gt;</td><td><strong>550</strong>, 1200, 1000</td></tr>
+                                    <tr><td>4</td><td>Read(B) → B:=B+550=1750</td><td>—</td><td>550, 1200, 1000</td></tr>
+                                    <tr><td>5</td><td>Write(B) → DB updated</td><td>&lt;T0, B, 1200, 1750&gt;</td><td>550, <strong>1750</strong>, 1000</td></tr>
+                                    <tr><td>6</td><td>T1 begins</td><td>&lt;T1, start&gt;</td><td>550, 1750, 1000</td></tr>
+                                    <tr><td>7</td><td>Read(C) → C:=C-300=700</td><td>—</td><td>550, 1750, 1000</td></tr>
+                                    <tr><td>8</td><td>Write(C) → DB updated</td><td>&lt;T1, C, 1000, 700&gt;</td><td>550, 1750, <strong>700</strong></td></tr>
+                                    <tr><td>9</td><td>T0 commits</td><td>&lt;T0, commit&gt;</td><td>550, 1750, 700</td></tr>
+                                    <tr><td>10</td><td>T1 commits</td><td>&lt;T1, commit&gt;</td><td>550, 1750, 700</td></tr>
+                                </table>
+                                <div class="note-box">On crash after step 5 (T0 not yet committed): UNDO T0 using old values — restore A=1100, B=1200. On crash after step 9 (T0 committed, T1 not): REDO T0 (A=550, B=1750), UNDO T1 (restore C=1000).</div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Recovery Actions</span>
+                                    <span class="formula-content">Crash recovery: REDO all committed Tx (re-apply new_value) | UNDO all uncommitted Tx (restore old_value)</span>
+                                </div>
+                            </div>
+
+                            <div class="ans-box"><strong>Key Difference:</strong> Deferred uses &lt;Ti, X, new_val&gt; (no old value needed — never written before commit). Immediate uses &lt;Ti, X, old_val, new_val&gt; (old value needed for UNDO if crash before commit). Final values after both commit: A=550, B=1750, C=700.</div>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q2</span>
+                                <span class="q-paper">FAT May 2024 (Premalatha M) – Q6i</span>
+                                <span class="q-marks marks-orange">6 Marks 🟠</span>
+                                <div class="q-title">Initial: A=25000, B=12000, C=10000. Log records for S1 with deferred and immediate modification. T1: Read(A); A:=A-15000; Write(A); Read(B); B:=B+15000; Write(B). T2: Read(C); C:=C-1500; Write(C).</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="q-text"><strong>Initial Values:</strong> A = 25000, B = 12000, C = 10000<br>
+                            T1: transfers 15000 from A to B. T2: decrements C by 1500.</div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Deferred Modification Log Records</div>
+                                <table class="sol-table">
+                                    <tr><th>Log Record</th><th>Explanation</th></tr>
+                                    <tr><td>&lt;T1, start&gt;</td><td>T1 begins</td></tr>
+                                    <tr><td>&lt;T1, A, 10000&gt;</td><td>T1 will write A = 25000-15000 = 10000 (new value only, deferred)</td></tr>
+                                    <tr><td>&lt;T1, B, 27000&gt;</td><td>T1 will write B = 12000+15000 = 27000 (new value only, deferred)</td></tr>
+                                    <tr><td>&lt;T2, start&gt;</td><td>T2 begins</td></tr>
+                                    <tr><td>&lt;T2, C, 8500&gt;</td><td>T2 will write C = 10000-1500 = 8500 (new value only, deferred)</td></tr>
+                                    <tr><td>&lt;T1, commit&gt;</td><td>T1 commits → NOW write A=10000, B=27000 to DB</td></tr>
+                                    <tr><td>&lt;T2, commit&gt;</td><td>T2 commits → NOW write C=8500 to DB</td></tr>
+                                </table>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Immediate Modification Log Records</div>
+                                <table class="sol-table">
+                                    <tr><th>Log Record</th><th>DB State</th></tr>
+                                    <tr><td>&lt;T1, start&gt;</td><td>A=25000, B=12000, C=10000</td></tr>
+                                    <tr><td>&lt;T1, A, 25000, 10000&gt;</td><td>A=<strong>10000</strong>, B=12000, C=10000</td></tr>
+                                    <tr><td>&lt;T1, B, 12000, 27000&gt;</td><td>A=10000, B=<strong>27000</strong>, C=10000</td></tr>
+                                    <tr><td>&lt;T2, start&gt;</td><td>A=10000, B=27000, C=10000</td></tr>
+                                    <tr><td>&lt;T2, C, 10000, 8500&gt;</td><td>A=10000, B=27000, C=<strong>8500</strong></td></tr>
+                                    <tr><td>&lt;T1, commit&gt;</td><td>T1 now permanent</td></tr>
+                                    <tr><td>&lt;T2, commit&gt;</td><td>T2 now permanent</td></tr>
+                                </table>
+                                <div class="formula-box">
+                                    <span class="formula-label">Final Values</span>
+                                    <span class="formula-content">A = 10000 | B = 27000 | C = 8500</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q3</span>
+                                <span class="q-paper">FAT Nov 2019 (Slot D2) – Q8a</span>
+                                <span class="q-marks marks-orange">5 Marks 🟠</span>
+                                <div class="q-title">Distinguish between immediate and deferred modification methods in log-based recovery. Explain using Redo and Undo operations for making recovery based on commit/abort stored in log records.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Comparison Table</div>
+                                <table class="sol-table">
+                                    <tr><th>Aspect</th><th>Deferred Modification</th><th>Immediate Modification</th></tr>
+                                    <tr><td>When DB is updated</td><td>Only after COMMIT</td><td>Immediately after Write(X)</td></tr>
+                                    <tr><td>Log record format</td><td>&lt;Ti, X, new_value&gt;</td><td>&lt;Ti, X, old_value, new_value&gt;</td></tr>
+                                    <tr><td>Old value in log?</td><td>Not needed</td><td>Yes — required for UNDO</td></tr>
+                                    <tr><td>Recovery on crash</td><td>REDO only (committed Tx)</td><td>REDO committed + UNDO uncommitted</td></tr>
+                                    <tr><td>UNDO possible?</td><td>No (DB not written yet)</td><td>Yes (restore old value)</td></tr>
+                                    <tr><td>Complexity</td><td>Simpler recovery</td><td>More complex but safer</td></tr>
+                                </table>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">REDO Operation</div>
+                                <div class="sol-step"><span class="step-label">When</span><span class="step-content">Transaction T has committed (&lt;T, commit&gt; found in log) but its effects may not be in DB (crash after commit, before disk flush).</span></div>
+                                <div class="sol-step"><span class="step-label">How</span><span class="step-content">Scan log forward. For each &lt;Ti, X, old, new&gt; where Ti is committed, set X = new_value. Makes DB reflect the committed transaction.</span></div>
+                                <div class="formula-box">
+                                    <span class="formula-label">REDO</span>
+                                    <span class="formula-content">For each committed Ti: X := new_value (from log). Applied in forward order.</span>
+                                </div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">UNDO Operation</div>
+                                <div class="sol-step"><span class="step-label">When</span><span class="step-content">Transaction T did NOT commit (&lt;T, commit&gt; NOT in log) but had already written to DB (immediate modification). Must roll back.</span></div>
+                                <div class="sol-step"><span class="step-label">How</span><span class="step-content">Scan log BACKWARD. For each &lt;Ti, X, old, new&gt; where Ti is NOT committed, set X = old_value. Restores DB to pre-transaction state.</span></div>
+                                <div class="formula-box">
+                                    <span class="formula-label">UNDO</span>
+                                    <span class="formula-content">For each uncommitted Ti: X := old_value (from log). Applied in reverse (backward scan) order.</span>
+                                </div>
+                            </div>
+
+                            <div class="ans-box"><strong>Summary:</strong> Deferred modification requires only REDO on recovery (simpler). Immediate modification may require both REDO (for committed) and UNDO (for uncommitted), making recovery more complex but allowing the DBMS to support longer transactions without waiting until the end to flush disk.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ==================== MODULE 5 - ACID ==================== -->
+            <div id="m5-acid" class="module-view">
+                <div class="breadcrumb">
+                    <span class="crumb" onclick="showHome()">Home</span><span class="sep">›</span><span>Module 5</span><span class="sep">›</span><span style="color:var(--text)">ACID &amp; Transaction States</span>
+                </div>
+                <div class="module-header">
+                    <div class="module-badge">MODULE 5</div>
+                    <div class="module-title">ACID Properties &amp; Transaction States</div>
+                </div>
+
+                <div class="algo-box">
+                    <div class="algo-title">Algorithm — ACID Question Strategy</div>
+                    <div class="algo-step"><span class="algo-num">1.</span><span>State each ACID property (Atomicity, Consistency, Isolation, Durability) with its precise definition.</span></div>
+                    <div class="algo-step"><span class="algo-num">2.</span><span>Map the scenario to specific ACID properties and explain how each is maintained or violated.</span></div>
+                    <div class="algo-step"><span class="algo-num">3.</span><span>Explain the DBMS mechanism that enforces each property.</span></div>
+                    <div class="algo-step"><span class="algo-num">4.</span><span>Draw the transaction state diagram if asked.</span></div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">ACID</span>
+                    <span class="formula-content">A = Atomicity (all or nothing) | C = Consistency (valid state → valid state) | I = Isolation (concurrent Tx don't interfere) | D = Durability (committed changes survive crash)</span>
+                </div>
+
+                <div class="topic-section">
+
+                    <!-- Q1 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q1</span>
+                                <span class="q-paper">FAT May 2024 (Premalatha M) – Q5i</span>
+                                <span class="q-marks marks-orange">7 Marks 🟠</span>
+                                <div class="q-title">Ensure ACID properties for bank transfer: User transfers ₹5000 from current to savings. Server crashes after debit but before credit. How to maintain ACID and transaction state integrity?</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="q-text"><strong>Scenario:</strong> T1: Read(Current); Current := Current - 5000; Write(Current); Read(Savings); Savings := Savings + 5000; Write(Savings). Server crashes AFTER Write(Current) but BEFORE Write(Savings).</div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 1 — Atomicity (All or Nothing)</div>
+                                <div class="sol-step"><span class="step-label">Problem</span><span class="step-content">After crash: Current was debited (₹5000 deducted) but Savings was NOT credited. DB is in inconsistent state — money "disappeared".</span></div>
+                                <div class="sol-step"><span class="step-label">Solution</span><span class="step-content">Use <strong>Log-based recovery with UNDO</strong>. The log contains &lt;T1, Current, old_value, new_value&gt; and &lt;T1, Savings, old_value, new_value&gt; (for immediate) or &lt;T1, Savings, new_value&gt; (deferred). On crash, since T1 did NOT commit, UNDO restores Current to its original value. Transfer is fully rolled back — as if it never happened.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 2 — Consistency</div>
+                                <div class="sol-step"><span class="step-label">Rule</span><span class="step-content">Integrity constraint: Current_Balance + Savings_Balance must remain constant (total money conserved). Before: C + S = X. After transfer attempt: C reduced but S not increased → Total ≠ X → <strong>Inconsistent!</strong></span></div>
+                                <div class="sol-step"><span class="step-label">Solution</span><span class="step-content">Atomicity ensures either BOTH writes happen (consistent) or NEITHER happens (consistent). The DBMS checks integrity constraints after commit — but since T1 never commits, the constraint violation is avoided by UNDO.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 3 — Isolation</div>
+                                <div class="sol-step"><span class="step-label">Problem</span><span class="step-content">If another transaction T2 reads Current_Balance after the debit but before crash recovery, it sees the incorrect reduced balance (dirty read).</span></div>
+                                <div class="sol-step"><span class="step-label">Solution</span><span class="step-content">Use <strong>Strict 2-Phase Locking (S2PL)</strong>: T1 holds an exclusive lock on Current and Savings until it commits. No other transaction can read/write these items until T1 commits (or aborts). This prevents dirty reads.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 4 — Durability</div>
+                                <div class="sol-step"><span class="step-label">Guarantee</span><span class="step-content">Once T1 successfully commits, the transfer (both debit and credit) must survive any subsequent crash. Ensured by writing &lt;T1, commit&gt; to the log and flushing log to stable storage BEFORE acknowledging success to the user. After crash + restart: REDO log ensures committed changes are re-applied.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 5 — Transaction State Diagram</div>
+                                <div class="tree-display">                ┌─────────────────┐
+                │     ACTIVE      │← T1 starts, executes Read/Write
+                └────────┬────────┘
+                         │ (T1 completes all operations)
+                         ▼
+                ┌─────────────────┐
+                │  PARTIALLY      │← All operations done, not yet committed
+                │  COMMITTED      │
+                └────────┬────────┘
+                    /                   (crash/failure)   (success — flush log)
+               ↓                   ↓
+        ┌──────────┐        ┌──────────────┐
+        │  FAILED  │        │  COMMITTED   │← Durable, permanent
+        └────┬─────┘        └──────────────┘
+             │
+             ▼
+        ┌──────────┐
+        │ ABORTED  │← UNDO all changes, restore old values
+        └──────────┘</div>
+
+                                <div class="note-box">States: Active → Partially Committed → Committed (success path) OR Active → Partially Committed → Failed → Aborted (crash path with UNDO)</div>
+                            </div>
+
+                            <div class="ans-box"><strong>Conclusion:</strong> ACID is enforced by: Atomicity via log-based UNDO, Consistency as a consequence of Atomicity, Isolation via 2PL locking, Durability via log flush before commit acknowledgment. If the server crashes mid-transfer, the incomplete transaction is automatically rolled back, leaving the DB consistent.</div>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q2</span>
+                                <span class="q-paper">FAT Nov 2019 (Slot D2) – Q14b</span>
+                                <span class="q-marks marks-orange">5 Marks 🟠</span>
+                                <div class="q-title">Compare BASE and ACID Properties of Transactions.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">ACID vs BASE Comparison</div>
+                                <table class="sol-table">
+                                    <tr><th>Property</th><th>ACID (SQL/Relational)</th><th>BASE (NoSQL)</th></tr>
+                                    <tr><td><strong>A</strong></td><td>Atomicity — all or nothing</td><td>Basically Available — system responds even if some nodes fail</td></tr>
+                                    <tr><td><strong>C</strong></td><td>Consistency — DB always in valid state</td><td>Soft-state — state may change over time without input</td></tr>
+                                    <tr><td><strong>I / E</strong></td><td>Isolation — transactions don't interfere</td><td>Eventual Consistency — data becomes consistent eventually</td></tr>
+                                    <tr><td><strong>D</strong></td><td>Durability — committed = permanent</td><td>(No strict durability guarantee)</td></tr>
+                                    <tr><td>Consistency model</td><td>Strong consistency</td><td>Eventual consistency</td></tr>
+                                    <tr><td>Availability</td><td>May sacrifice availability for consistency</td><td>Prioritizes availability over consistency</td></tr>
+                                    <tr><td>Suitable for</td><td>Banking, financial systems, critical data</td><td>Social media, e-commerce, large-scale distributed</td></tr>
+                                    <tr><td>Examples</td><td>MySQL, PostgreSQL, Oracle</td><td>Cassandra, CouchDB, DynamoDB</td></tr>
+                                </table>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">BASE Acronym</span>
+                                    <span class="formula-content">B = Basically Available | A = Soft-state | S+E = Eventually Consistent</span>
+                                </div>
+
+                                <div class="note-box"><strong>CAP Theorem Connection:</strong> ACID systems prioritize Consistency (C) from CAP. BASE systems prioritize Availability (A) and Partition tolerance (P) from CAP, accepting eventual consistency.</div>
+                            </div>
+
+                            <div class="ans-box"><strong>Summary:</strong> ACID provides strong guarantees for data integrity—ideal for transactional systems like banking. BASE provides high availability and scalability—ideal for distributed web applications where eventual consistency is acceptable (e.g., a "like" count being slightly delayed is fine).</div>
+                        </div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q3</span>
+                                <span class="q-paper">FAT May 2024 (Premalatha M) – Q5ii</span>
+                                <span class="q-marks marks-yellow">3 Marks 🟡</span>
+                                <div class="q-title">Explain the different transaction states with a neat sketch.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Transaction State Diagram</div>
+                                <div class="tree-display">         Begin Transaction
+                   |
+                   ▼
+         ┌─────────────────┐
+         │    ACTIVE       │ ← Transaction executing (Read/Write operations)
+         └────────┬────────┘
+                  │ All operations complete
+                  ▼
+         ┌─────────────────────┐
+         │  PARTIALLY          │ ← All operations done, commit about to happen
+         │  COMMITTED          │   (log not yet forced to stable storage)
+         └──────────┬──────────┘
+              /                (failure/error)    (log flushed successfully)
+            ↓                      ↓
+     ┌──────────────┐     ┌──────────────────┐
+     │    FAILED    │     │    COMMITTED     │ ← Permanent, Durable
+     └──────┬───────┘     └──────────────────┘
+            │
+            │ (rollback executed)
+            ▼
+     ┌──────────────┐
+     │   ABORTED    │ ← All changes undone, DB restored to pre-Tx state
+     └──────────────┘
+            │
+            │ (restart or kill)
+            ▼
+     Restart or Terminate</div>
+
+                                <table class="sol-table">
+                                    <tr><th>State</th><th>Description</th><th>Next State</th></tr>
+                                    <tr><td>Active</td><td>Tx is currently executing read/write operations</td><td>Partially Committed</td></tr>
+                                    <tr><td>Partially Committed</td><td>Final operation executed, waiting for commit flush</td><td>Committed / Failed</td></tr>
+                                    <tr><td>Committed</td><td>Tx completed successfully, changes are permanent</td><td>End</td></tr>
+                                    <tr><td>Failed</td><td>Normal execution cannot proceed (error/crash detected)</td><td>Aborted</td></tr>
+                                    <tr><td>Aborted</td><td>Tx rolled back, DB restored to original state</td><td>Restart or Kill</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ==================== MODULE 5 - CASCADELESS ==================== -->
+            <div id="m5-cascade" class="module-view">
+                <div class="breadcrumb">
+                    <span class="crumb" onclick="showHome()">Home</span><span class="sep">›</span><span>Module 5</span><span class="sep">›</span><span style="color:var(--text)">Cascadeless Schedules</span>
+                </div>
+                <div class="module-header">
+                    <div class="module-badge">MODULE 5</div>
+                    <div class="module-title">Cascadeless &amp; Recoverable Schedules</div>
+                </div>
+
+                <div class="algo-box">
+                    <div class="algo-title">Algorithm — Checking Recoverable / Cascadeless Schedules</div>
+                    <div class="algo-step"><span class="algo-num">1.</span><span>List all transactions and their operations in schedule order.</span></div>
+                    <div class="algo-step"><span class="algo-num">2.</span><span>Identify all <strong>dirty reads</strong>: Tj reads X written by Ti before Ti commits → Ti must commit before Tj commits.</span></div>
+                    <div class="algo-step"><span class="algo-num">3.</span><span><strong>Recoverable:</strong> ∀ dirty reads Tj reads from Ti → Ti commits before Tj. If not, add commit ordering.</span></div>
+                    <div class="algo-step"><span class="algo-num">4.</span><span><strong>Cascadeless:</strong> Tj reads X written by Ti → Ti must commit BEFORE Tj reads X. No dirty reads at all.</span></div>
+                    <div class="algo-step"><span class="algo-num">5.</span><span>To make cascadeless: delay Tj's Read(X) until Ti commits. Use shared lock on X until Ti commits.</span></div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Definitions</span>
+                    <span class="formula-content">Recoverable: If Tj reads from Ti → Ti commits before Tj commits | Cascadeless: Tj can only read X AFTER Ti commits (no dirty reads at all) | Cascadeless ⊂ Recoverable</span>
+                </div>
+
+                <div class="topic-section">
+
+                    <!-- Q1 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q1</span>
+                                <span class="q-paper">FAT May 2024 (Premalatha M) – Q6ii</span>
+                                <span class="q-marks marks-orange">4 Marks 🟠</span>
+                                <div class="q-title">Identify and justify whether S2 is cascadeless. If not, convert to cascadeless: S2: T1:Read(A); A:=A-15000; Write(A); Read(B); B:=B+15000; Write(B); then T2:Read(A); A:=A-2000; Write(A); then T3:Read(A).</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="q-text"><strong>Schedule S2 (interleaved):</strong><br>
+                            T1: R(A), Write(A), R(B), Write(B)<br>
+                            T2: R(A) [before T1 commits], Write(A)<br>
+                            T3: R(A) [before T2 commits]</div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 1 — Identify Dirty Reads</div>
+                                <div class="sol-step"><span class="step-label">Dirty Read 1</span><span class="step-content">T2 reads A (which was written by T1 before T1 committed). This is a <strong>dirty read</strong>. If T1 aborts, T2 has read incorrect data and must also abort → <strong>cascading abort!</strong></span></div>
+                                <div class="sol-step"><span class="step-label">Dirty Read 2</span><span class="step-content">T3 reads A (which was written by T2 before T2 committed). This is another dirty read. If T2 aborts, T3 must also abort — causing a cascade.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 2 — Is S2 Recoverable?</div>
+                                <div class="sol-para">S2 is <strong>recoverable</strong> only if T1 commits before T2, and T2 commits before T3. If commit order is T1 → T2 → T3, then yes (recoverable). But it's still NOT cascadeless because dirty reads occur.</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 3 — Is S2 Cascadeless?</div>
+                                <div class="sol-para"><strong>NO — S2 is NOT cascadeless.</strong> For cascadeless, Tj must only read values written by committed transactions. Here T2 reads A written by uncommitted T1, and T3 reads A written by uncommitted T2.</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 4 — Convert to Cascadeless Schedule</div>
+                                <div class="sol-para">Delay T2's Read(A) until T1 commits. Delay T3's Read(A) until T2 commits:</div>
+                                <div class="tree-display">Cascadeless S2':
+T1: Read(A); A:=A-15000; Write(A); Read(B); B:=B+15000; Write(B); <strong>Commit</strong>
+                                                                          ↓
+T2:                                                              Read(A); A:=A-2000; Write(A); <strong>Commit</strong>
+                                                                                                       ↓
+T3:                                                                                           Read(A)</div>
+                                <div class="note-box">Now T2 reads A only AFTER T1 commits (no dirty read). T3 reads A only AFTER T2 commits (no dirty read). If any Tx aborts, only that Tx is rolled back — no cascading.</div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Cascadeless Rule</span>
+                                    <span class="formula-content">Tj reads data item X written by Ti → Ti must commit BEFORE the read operation of Tj on X</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q2</span>
+                                <span class="q-paper">FAT Nov/Dec 2025 (Vijayakumar KP) – Q8ii</span>
+                                <span class="q-marks marks-orange">6 Marks 🟠</span>
+                                <div class="q-title">Analyze the schedule and modify it to be recoverable and cascadeless. T1: read(X), write(X). T3: read(Y), read(Z), write(Y), write(Z). T2: read(Z), read(Y), write(Y), read(Y), write(Y), read(X), write(X).</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 1 — Identify All Dirty Reads in Schedule</div>
+                                <div class="sol-step"><span class="step-label">Analysis</span><span class="step-content">T2 reads X which was written by T1 (before T1 committed). Dirty read: T2 depends on T1. T2 reads Y written by T3 (before T3 committed). Dirty read: T2 depends on T3. If T1 or T3 aborts → T2 must also abort → cascading aborts!</span></div>
+
+                                <div class="sol-heading">Step 2 — Is it Recoverable?</div>
+                                <div class="sol-para">It is recoverable if T1 commits before T2 commits AND T3 commits before T2 commits. But dirty reads still exist, so it is NOT cascadeless.</div>
+
+                                <div class="sol-heading">Step 3 — Is it Cascadeless?</div>
+                                <div class="sol-para"><strong>NO</strong> — T2 reads from uncommitted T1 and uncommitted T3.</div>
+
+                                <div class="sol-heading">Step 4 — Modified Cascadeless Schedule</div>
+                                <div class="tree-display">Modified Schedule (Cascadeless):
+T1: read(X) → write(X) → <strong>COMMIT</strong>
+                                 ↓
+T3: read(Y) → write(Y) → read(Z) → write(Z) → <strong>COMMIT</strong>
+                                                          ↓
+T2: read(Y) → read(Z) → write(Y) → read(Y) → write(Y) → read(X) → write(X) → <strong>COMMIT</strong>
+
+Rule Applied:
+→ T2's read(X) now happens after T1 commits ✓
+→ T2's read(Y), read(Z) now happen after T3 commits ✓
+→ No dirty reads → Cascadeless ✓</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ==================== MODULE 6 - CONFLICT SERIALIZABILITY ==================== -->
+            <div id="m6-conflict" class="module-view">
+                <div class="breadcrumb">
+                    <span class="crumb" onclick="showHome()">Home</span><span class="sep">›</span><span>Module 6</span><span class="sep">›</span><span style="color:var(--text)">Conflict Serializability</span>
+                </div>
+                <div class="module-header">
+                    <div class="module-badge">MODULE 6</div>
+                    <div class="module-title">Conflict Serializability &amp; Precedence Graphs</div>
+                </div>
+
+                <div class="algo-box">
+                    <div class="algo-title">Algorithm — Checking Conflict Serializability</div>
+                    <div class="algo-step"><span class="algo-num">1.</span><span>List all operations in schedule order. Two operations <strong>conflict</strong> if: same data item, different transactions, at least one is a Write.</span></div>
+                    <div class="algo-step"><span class="algo-num">2.</span><span>Build <strong>Precedence Graph</strong>: For each conflict pair (Ti op, Tj op) where Ti's op comes first → draw edge Ti → Tj.</span></div>
+                    <div class="algo-step"><span class="algo-num">3.</span><span>Check for <strong>cycles</strong> in the precedence graph.</span></div>
+                    <div class="algo-step"><span class="algo-num">4.</span><span>If <strong>NO cycle</strong>: Schedule is conflict serializable. Topological sort of graph = equivalent serial order.</span></div>
+                    <div class="algo-step"><span class="algo-num">5.</span><span>If <strong>cycle exists</strong>: Schedule is NOT conflict serializable.</span></div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Conflict Pairs</span>
+                    <span class="formula-content">Read-Write conflict: Ri(X) before Wj(X) or Wi(X) before Rj(X) | Write-Write conflict: Wi(X) before Wj(X) | (Read-Read is NOT a conflict)</span>
+                </div>
+
+                <div class="topic-section">
+
+                    <!-- Q1 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q1</span>
+                                <span class="q-paper">FAT Apr/May 2023 – Q3</span>
+                                <span class="q-marks marks-red">10 Marks 🔴</span>
+                                <div class="q-title">Check conflict serializability of S1 and S2. T1: r1(X);r1(Z);w1(X);w1(Z). T2: r2(Y);r2(X);w2(Y). T3: r3(Y);r3(Z);w3(Z). S1: r2(Y);r1(X);r2(X);r3(Y);r3(Z);w2(Y);w3(Z);r1(Z);w1(X);w1(Z). S2: r2(Y);r1(X);r3(Y);r2(X);r1(Z);r3(Z);w2(Y);w1(X);w3(Z);w1(Z).</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Conflict Identification Rules</div>
+                                <div class="note-box">Two operations conflict if: (1) same data item, (2) different transactions, (3) at least one is WRITE. Read-Read is NOT a conflict.</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Schedule S1 — Conflict Pairs &amp; Precedence Graph</div>
+                                <div class="sol-para">S1 Order: r2(Y); r1(X); r2(X); r3(Y); r3(Z); w2(Y); w3(Z); r1(Z); w1(X); w1(Z)</div>
+                                <table class="sol-table">
+                                    <tr><th>Conflict Pair</th><th>Data Item</th><th>Type</th><th>Earlier Op</th><th>Later Op</th><th>Edge</th></tr>
+                                    <tr><td>r1(X) vs w2(Y)</td><td>X vs Y</td><td>—</td><td colspan="3" style="color:var(--text-muted)">different items, no conflict</td></tr>
+                                    <tr><td>r2(X) before w1(X)</td><td>X</td><td>Read-Write</td><td>r2(X)</td><td>w1(X)</td><td><strong>T2 → T1</strong></td></tr>
+                                    <tr><td>r3(Z) before w1(Z)</td><td>Z</td><td>Read-Write</td><td>r3(Z)</td><td>w1(Z)</td><td><strong>T3 → T1</strong></td></tr>
+                                    <tr><td>r3(Z) before w3(Z)</td><td>Z</td><td>same Tx</td><td colspan="3" style="color:var(--text-muted)">same transaction, ignore</td></tr>
+                                    <tr><td>w3(Z) before w1(Z)</td><td>Z</td><td>Write-Write</td><td>w3(Z)</td><td>w1(Z)</td><td><strong>T3 → T1</strong></td></tr>
+                                    <tr><td>w2(Y) before (no conflict)</td><td>Y</td><td>—</td><td colspan="3">r3(Y) before w2(Y): T3→T2</td></tr>
+                                </table>
+
+                                <div class="sol-para">Additional conflicts in S1:<br>
+                                • r1(Z) before w3(Z): T1→T3 edge (r1(Z) at position 8, w3(Z) at position 7 — No! w3(Z) comes BEFORE r1(Z)) → T3 → T1<br>
+                                • r3(Y) before w2(Y): r3(Y) at position 4, w2(Y) at position 6 → edge T3 → T2</div>
+
+                                <div class="tree-display">S1 Precedence Graph:
+T2 ──→ T1
+         ↑
+T3 ──→ T1
+T3 ──→ T2
+
+Simplified: T3 → T2 → T1
+            T3 → T1
+
+Check for cycle: T2→T1, T3→T1, T3→T2 — NO CYCLE!
+Topological order: T3, T2, T1
+→ S1 IS Conflict Serializable ✓
+→ Equivalent serial schedule: T3 → T2 → T1</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Schedule S2 — Conflict Pairs &amp; Precedence Graph</div>
+                                <div class="sol-para">S2 Order: r2(Y); r1(X); r3(Y); r2(X); r1(Z); r3(Z); w2(Y); w1(X); w3(Z); w1(Z)</div>
+                                <div class="sol-para">Key conflicts:<br>
+                                • r2(X) before w1(X): <strong>T2 → T1</strong><br>
+                                • r1(X) before w2(Y): different items, no conflict<br>
+                                • r3(Z) before w1(Z): <strong>T3 → T1</strong><br>
+                                • w1(X) before... check: w1(X) at pos 8, any later read on X? No → no conflict<br>
+                                • r3(Y) before w2(Y): <strong>T3 → T2</strong><br>
+                                • w3(Z) before w1(Z): <strong>T3 → T1</strong><br>
+                                • r1(Z) before w3(Z): r1(Z) at pos 5, w3(Z) at pos 9 → <strong>T1 → T3</strong></div>
+
+                                <div class="tree-display">S2 Precedence Graph:
+T2 → T1
+T3 → T1
+T3 → T2
+T1 → T3  ← NEW EDGE!
+
+Now: T1 → T3 → T2 → T1 ← CYCLE DETECTED!
+
+→ S2 is NOT Conflict Serializable ✗</div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Conclusion</span>
+                                    <span class="formula-content">S1: No cycle → Conflict Serializable. Equivalent serial: T3 → T2 → T1 | S2: Cycle (T1→T3→T2→T1) → NOT Conflict Serializable</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q2</span>
+                                <span class="q-paper">FAT Nov/Dec 2025 (Vijayakumar KP) – Q8i</span>
+                                <span class="q-marks marks-orange">9 Marks 🟠</span>
+                                <div class="q-title">Determine conflict serializability. T1: r(X),w(X),r(Y),w(Y). T2: r(Z),r(Y),w(Y),r(X),w(X). T3: r(Y),r(Z),w(Y),w(Z). Write all conflicting operations, precedence graph, serializable or not, equivalent serial order if yes.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 1 — Schedule Operations (in order)</div>
+                                <div class="schema-box">
+                                    <div>T1: r1(X), w1(X), r1(Y), w1(Y)</div>
+                                    <div>T2: r2(Z), r2(Y), w2(Y), r2(X), w2(X)</div>
+                                    <div>T3: r3(Y), r3(Z), w3(Y), w3(Z)</div>
+                                    <div>Combined schedule (assumed interleaved sequentially): r1(X); w1(X); r1(Y); w1(Y); r2(Z); r2(Y); w2(Y); r2(X); w2(X); r3(Y); r3(Z); w3(Y); w3(Z)</div>
+                                </div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 2 — All Conflicting Operations</div>
+                                <table class="sol-table">
+                                    <tr><th>#</th><th>Operation 1</th><th>Operation 2</th><th>Item</th><th>Conflict Type</th><th>Edge</th></tr>
+                                    <tr><td>1</td><td>w1(X) [pos 2]</td><td>r2(X) [pos 8]</td><td>X</td><td>Write-Read</td><td><strong>T1 → T2</strong></td></tr>
+                                    <tr><td>2</td><td>w1(X) [pos 2]</td><td>w2(X) [pos 9]</td><td>X</td><td>Write-Write</td><td><strong>T1 → T2</strong></td></tr>
+                                    <tr><td>3</td><td>w1(Y) [pos 4]</td><td>r2(Y) [pos 6]</td><td>Y</td><td>Write-Read</td><td><strong>T1 → T2</strong></td></tr>
+                                    <tr><td>4</td><td>w1(Y) [pos 4]</td><td>w2(Y) [pos 7]</td><td>Y</td><td>Write-Write</td><td><strong>T1 → T2</strong></td></tr>
+                                    <tr><td>5</td><td>w1(Y) [pos 4]</td><td>r3(Y) [pos 10]</td><td>Y</td><td>Write-Read</td><td><strong>T1 → T3</strong></td></tr>
+                                    <tr><td>6</td><td>w1(Y) [pos 4]</td><td>w3(Y) [pos 12]</td><td>Y</td><td>Write-Write</td><td><strong>T1 → T3</strong></td></tr>
+                                    <tr><td>7</td><td>w2(Y) [pos 7]</td><td>r3(Y) [pos 10]</td><td>Y</td><td>Write-Read</td><td><strong>T2 → T3</strong></td></tr>
+                                    <tr><td>8</td><td>w2(Y) [pos 7]</td><td>w3(Y) [pos 12]</td><td>Y</td><td>Write-Write</td><td><strong>T2 → T3</strong></td></tr>
+                                    <tr><td>9</td><td>w2(X) [pos 9]</td><td>—</td><td>X</td><td>no later X ops</td><td>—</td></tr>
+                                    <tr><td>10</td><td>r2(Z) [pos 5]</td><td>w3(Z) [pos 13]</td><td>Z</td><td>Read-Write</td><td><strong>T2 → T3</strong></td></tr>
+                                </table>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 3 — Precedence Graph</div>
+                                <div class="tree-display">   T1 ──→ T2 ──→ T3
+   T1 ──────────→ T3
+
+Edges: T1→T2, T1→T3, T2→T3
+No cycle detected!</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 4 — Result</div>
+                                <div class="formula-box">
+                                    <span class="formula-label">Conclusion</span>
+                                    <span class="formula-content">No cycle in precedence graph → Schedule IS Conflict Serializable ✓ | Topological sort: T1 → T2 → T3 | Equivalent serial schedule: Execute T1 completely, then T2 completely, then T3 completely.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ==================== MODULE 6 - 2PL ==================== -->
+            <div id="m6-2pl" class="module-view">
+                <div class="breadcrumb">
+                    <span class="crumb" onclick="showHome()">Home</span><span class="sep">›</span><span>Module 6</span><span class="sep">›</span><span style="color:var(--text)">2PL Protocol</span>
+                </div>
+                <div class="module-header">
+                    <div class="module-badge">MODULE 6</div>
+                    <div class="module-title">Two-Phase Locking (2PL) Protocol</div>
+                </div>
+
+                <div class="algo-box">
+                    <div class="algo-title">Algorithm — 2PL Protocol</div>
+                    <div class="algo-step"><span class="algo-num">1.</span><span><strong>Growing Phase:</strong> Transaction acquires locks (shared S for Read, exclusive X for Write). Cannot release any lock in this phase.</span></div>
+                    <div class="algo-step"><span class="algo-num">2.</span><span><strong>Shrinking Phase:</strong> Transaction releases locks. Cannot acquire any new lock in this phase.</span></div>
+                    <div class="algo-step"><span class="algo-num">3.</span><span><strong>Lock Point:</strong> The moment the last lock is acquired (end of growing phase). Used for ordering serializable schedule.</span></div>
+                    <div class="algo-step"><span class="algo-num">4.</span><span><strong>Basic 2PL:</strong> Locks released after lock point (can still be before commit). May cause cascading aborts.</span></div>
+                    <div class="algo-step"><span class="algo-num">5.</span><span><strong>Strict 2PL:</strong> Exclusive (X) locks held until commit. Prevents dirty reads.</span></div>
+                    <div class="algo-step"><span class="algo-num">6.</span><span><strong>Rigorous 2PL:</strong> ALL locks (S and X) held until commit. Prevents all anomalies. Serial order = commit order.</span></div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Lock Compatibility Matrix</span>
+                    <span class="formula-content">S + S = Compatible ✓ | S + X = Not Compatible ✗ | X + S = Not Compatible ✗ | X + X = Not Compatible ✗</span>
+                </div>
+
+                <div class="topic-section">
+
+                    <!-- Q1 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q1</span>
+                                <span class="q-paper">FAT Nov/Dec 2025 (Vijayakumar KP) – Q2</span>
+                                <span class="q-marks marks-red">10 Marks 🔴</span>
+                                <div class="q-title">Analyze schedule of T1, T2, T3 under Basic 2PL, Strict 2PL, and Rigorous 2PL. T1: Read(A),Write(A),Commit. T2: Read(B),Write(B),Commit. T3: Read(A),Read(B),Commit.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Basic 2PL Analysis</div>
+                                <div class="sol-para"><strong>Rule:</strong> Growing phase (acquire locks) → Lock point → Shrinking phase (release locks, possibly before commit).</div>
+                                <table class="sol-table">
+                                    <tr><th>Step</th><th>T1</th><th>T2</th><th>T3</th><th>Lock State</th></tr>
+                                    <tr><td>1</td><td>lock-S(A); Read(A)</td><td>—</td><td>—</td><td>A:S(T1)</td></tr>
+                                    <tr><td>2</td><td>upgrade A: lock-X(A); Write(A)</td><td>—</td><td>—</td><td>A:X(T1)</td></tr>
+                                    <tr><td>3</td><td>unlock(A)</td><td>lock-S(B); Read(B)</td><td>—</td><td>B:S(T2)</td></tr>
+                                    <tr><td>4</td><td>Commit</td><td>lock-X(B); Write(B)</td><td>lock-S(A)</td><td>B:X(T2), A:S(T3)</td></tr>
+                                    <tr><td>5</td><td>—</td><td>unlock(B); Commit</td><td>Read(A)</td><td>A:S(T3)</td></tr>
+                                    <tr><td>6</td><td>—</td><td>—</td><td>lock-S(B); Read(B)</td><td>A:S(T3), B:S(T3)</td></tr>
+                                    <tr><td>7</td><td>—</td><td>—</td><td>unlock(A); unlock(B); Commit</td><td>—</td></tr>
+                                </table>
+                                <div class="note-box">In Basic 2PL: T1 may release lock(A) before committing. T3 can read A before T1 commits → potential dirty read. Cascading aborts possible.</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Strict 2PL Analysis</div>
+                                <div class="sol-para"><strong>Rule:</strong> Exclusive (X) locks held until COMMIT. Shared (S) locks can be released before commit.</div>
+                                <table class="sol-table">
+                                    <tr><th>Transaction</th><th>Lock Acquisition</th><th>Lock Release</th><th>Key Property</th></tr>
+                                    <tr><td>T1</td><td>lock-S(A), upgrade to lock-X(A)</td><td>unlock(A) ONLY after T1 commits</td><td>X lock on A held to commit</td></tr>
+                                    <tr><td>T2</td><td>lock-S(B), upgrade to lock-X(B)</td><td>unlock(B) ONLY after T2 commits</td><td>X lock on B held to commit</td></tr>
+                                    <tr><td>T3</td><td>lock-S(A) [waits for T1 commit], lock-S(B) [waits for T2 commit]</td><td>unlock after reads</td><td>T3 blocked until T1,T2 commit</td></tr>
+                                </table>
+                                <div class="note-box">Strict 2PL prevents dirty reads. T3 cannot read A until T1 commits (X lock held). T3 cannot read B until T2 commits. No cascading aborts.</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Rigorous 2PL Analysis</div>
+                                <div class="sol-para"><strong>Rule:</strong> ALL locks (both S and X) held until COMMIT. Strictest protocol.</div>
+                                <table class="sol-table">
+                                    <tr><th>Transaction</th><th>Acquires</th><th>Releases</th><th>Effect</th></tr>
+                                    <tr><td>T1</td><td>lock-S(A), lock-X(A)</td><td>BOTH released only at Commit</td><td>A fully locked until T1 done</td></tr>
+                                    <tr><td>T2</td><td>lock-S(B), lock-X(B)</td><td>BOTH released only at Commit</td><td>B fully locked until T2 done</td></tr>
+                                    <tr><td>T3</td><td>lock-S(A) [after T1 commit], lock-S(B) [after T2 commit]</td><td>At T3 commit</td><td>Sees only committed data</td></tr>
+                                </table>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Comparison</span>
+                                    <span class="formula-content">Basic 2PL: may release locks before commit (cascading aborts possible) | Strict 2PL: X locks until commit (no dirty writes) | Rigorous 2PL: ALL locks until commit (serial order = commit order, no anomalies)</span>
+                                </div>
+                            </div>
+
+                            <div class="ans-box"><strong>Conclusion:</strong> All three are 2PL variants that guarantee conflict serializability. Rigorous 2PL is the safest (used in practice) since all locks are held until commit, making the serial order equivalent to the commit order of transactions.</div>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q2</span>
+                                <span class="q-paper">FAT Nov 2019 (Slot D1) – Q6</span>
+                                <span class="q-marks marks-orange">5 Marks 🟠</span>
+                                <div class="q-title">Detail the disadvantages of 2PL and how they are overcome using Rigorous 2PL with suitable examples.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Disadvantages of Basic 2PL</div>
+                                <div class="sol-step"><span class="step-label">1. Cascading Aborts</span><span class="step-content">T1 acquires X(A), writes A, then releases lock before committing. T2 reads A (dirty read). If T1 aborts, T2 must also abort (cascading abort). In Basic 2PL this is possible since locks can be released before commit.</span></div>
+                                <div class="sol-step"><span class="step-label">2. Dirty Reads</span><span class="step-content">T1 writes X and releases lock. T2 reads X before T1 commits. If T1 later aborts, T2 has read an invalid "dirty" value.</span></div>
+                                <div class="sol-step"><span class="step-label">3. Deadlock Risk</span><span class="step-content">T1 holds A waiting for B. T2 holds B waiting for A. Deadlock — both are waiting forever. 2PL does NOT prevent deadlock.</span></div>
+                                <div class="sol-step"><span class="step-label">4. Reduced Concurrency</span><span class="step-content">The two-phase rule restricts when locks can be acquired, potentially reducing the number of transactions that can run concurrently.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">How Rigorous 2PL Overcomes These</div>
+                                <div class="sol-step"><span class="step-label">Solves #1</span><span class="step-content"><strong>No Cascading Aborts:</strong> In Rigorous 2PL, ALL locks (S and X) are held until commit. T2 cannot read A until T1 commits. If T1 aborts, T2 was never given the lock — no cascade.</span></div>
+                                <div class="sol-step"><span class="step-label">Solves #2</span><span class="step-content"><strong>No Dirty Reads:</strong> T2 can only read A AFTER T1 has committed and released all its locks. Guaranteed clean reads.</span></div>
+                                <div class="sol-step"><span class="step-label">Gain</span><span class="step-content"><strong>Serial Order = Commit Order:</strong> In Rigorous 2PL, the equivalent serial schedule has transactions in the same order as their commit timestamps. This makes reasoning about correctness simple.</span></div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Rigorous 2PL Rule</span>
+                                    <span class="formula-content">All locks (S and X) acquired during GROWING phase → All released only at COMMIT. Growing phase ends at commit.</span>
+                                </div>
+                            </div>
+
+                            <div class="ans-box"><strong>Example:</strong> T1 reads A, writes A; T2 reads A, writes A. Basic 2PL: T1 might release S(A) after reading — T2 grabs X(A) — T1 tries to upgrade to X(A) — DEADLOCK. Rigorous 2PL: T1 holds S(A) until commit. T2 must wait. No dirty read, no cascading abort, no unexpected interaction.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ==================== MODULE 6 - DEADLOCK ==================== -->
+            <div id="m6-deadlock" class="module-view">
+                <div class="breadcrumb">
+                    <span class="crumb" onclick="showHome()">Home</span><span class="sep">›</span><span>Module 6</span><span class="sep">›</span><span style="color:var(--text)">Deadlock Detection</span>
+                </div>
+                <div class="module-header">
+                    <div class="module-badge">MODULE 6</div>
+                    <div class="module-title">Deadlock Detection (Wait-For Graph) &amp; Prevention</div>
+                </div>
+
+                <div class="algo-box">
+                    <div class="algo-title">Algorithm — Deadlock Detection using Wait-For Graph</div>
+                    <div class="algo-step"><span class="algo-num">1.</span><span>Create a node for each transaction.</span></div>
+                    <div class="algo-step"><span class="algo-num">2.</span><span>Draw edge Ti → Tj if Ti is WAITING for a lock held by Tj.</span></div>
+                    <div class="algo-step"><span class="algo-num">3.</span><span>If the Wait-For Graph has a <strong>cycle</strong> → Deadlock exists.</span></div>
+                    <div class="algo-step"><span class="algo-num">4.</span><span>To resolve: Select a victim transaction (usually lowest cost) and abort it. Roll it back and release all its locks.</span></div>
+                    <div class="algo-step"><span class="algo-num">5.</span><span>Prevention strategies: Wait-Die or Wound-Wait (timestamp-based).</span></div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Deadlock Conditions (Coffman)</span>
+                    <span class="formula-content">Mutual Exclusion + Hold &amp; Wait + No Preemption + Circular Wait → ALL four must hold for deadlock to occur</span>
+                </div>
+
+                <div class="topic-section">
+
+                    <!-- Q1 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q1</span>
+                                <span class="q-paper">FAT Apr/May 2023 – Q8c</span>
+                                <span class="q-marks marks-orange">5 Marks 🟠</span>
+                                <div class="q-title">Create a wait-for graph and determine if deadlock exists. T1 locks X2, waits X1,X3. T2 locks X3,X10, waits X7,X8. T3 locks X8, waits X4,X5. T4 locks X7, waits X1. T5 locks X1,X5, waits X3. T6 locks X4,X9, waits X6. T7 locks X6, waits X5.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 1 — Determine Who Holds Each Lock</div>
+                                <table class="sol-table">
+                                    <tr><th>Lock Item</th><th>Held By</th><th>Waited By</th></tr>
+                                    <tr><td>X1</td><td>T5</td><td>T1, T4</td></tr>
+                                    <tr><td>X2</td><td>T1</td><td>—</td></tr>
+                                    <tr><td>X3</td><td>T2</td><td>T1, T5</td></tr>
+                                    <tr><td>X4</td><td>T6</td><td>T3</td></tr>
+                                    <tr><td>X5</td><td>T5</td><td>T3, T7</td></tr>
+                                    <tr><td>X6</td><td>T7</td><td>T6</td></tr>
+                                    <tr><td>X7</td><td>T4</td><td>T2</td></tr>
+                                    <tr><td>X8</td><td>T3</td><td>T2</td></tr>
+                                    <tr><td>X9</td><td>T6</td><td>—</td></tr>
+                                    <tr><td>X10</td><td>T2</td><td>—</td></tr>
+                                </table>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 2 — Build Wait-For Graph (Ti → Tj = Ti waits for Tj)</div>
+                                <div class="sol-step"><span class="step-label">T1 waits X1,X3</span><span class="step-content">X1 held by T5 → <strong>T1 → T5</strong>. X3 held by T2 → <strong>T1 → T2</strong>.</span></div>
+                                <div class="sol-step"><span class="step-label">T2 waits X7,X8</span><span class="step-content">X7 held by T4 → <strong>T2 → T4</strong>. X8 held by T3 → <strong>T2 → T3</strong>.</span></div>
+                                <div class="sol-step"><span class="step-label">T3 waits X4,X5</span><span class="step-content">X4 held by T6 → <strong>T3 → T6</strong>. X5 held by T5 → <strong>T3 → T5</strong>.</span></div>
+                                <div class="sol-step"><span class="step-label">T4 waits X1</span><span class="step-content">X1 held by T5 → <strong>T4 → T5</strong>.</span></div>
+                                <div class="sol-step"><span class="step-label">T5 waits X3</span><span class="step-content">X3 held by T2 → <strong>T5 → T2</strong>.</span></div>
+                                <div class="sol-step"><span class="step-label">T6 waits X6</span><span class="step-content">X6 held by T7 → <strong>T6 → T7</strong>.</span></div>
+                                <div class="sol-step"><span class="step-label">T7 waits X5</span><span class="step-content">X5 held by T5 → <strong>T7 → T5</strong>.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 3 — Wait-For Graph Diagram</div>
+                                <div class="tree-display">T1 → T5 → T2 → T3 → T6 → T7 → T5 (CYCLE: T5→T2→T3→T6→T7→T5)
+T1 → T2 → T4 → T5
+T2 → T3 → T5
+
+Cycle found: T5 → T2 → T3 → T6 → T7 → T5
+All transactions in this cycle are deadlocked!</div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Deadlock Conclusion</span>
+                                    <span class="formula-content">Cycle: T5 → T2 → T3 → T6 → T7 → T5 → DEADLOCK EXISTS ✓ | Resolution: Abort one victim (e.g., T5 — it breaks the cycle). Roll back T5, release X1, X5.</span>
+                                </div>
+                            </div>
+
+                            <div class="ans-box"><strong>Deadlock Detection Result:</strong> YES — deadlock exists. Cycle: T5 → T2 → T3 → T6 → T7 → T5. To resolve, abort T5 (victim). This releases X1 (T1, T4 can proceed) and X5 (T3, T7 can proceed), breaking the cycle completely.</div>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q2</span>
+                                <span class="q-paper">FAT Jul/Aug 2023 (Jani Anbarasi) – Q8b</span>
+                                <span class="q-marks marks-orange">5 Marks 🟠</span>
+                                <div class="q-title">Wait-for graph and deadlock check. T1 requests A(Exclusive), B(Shared). T2 requests B(Exclusive). T3 requests B(Shared). T4 requests A(Shared), C(Exclusive).</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 1 — Lock Conflict Analysis</div>
+                                <div class="sol-para">Assume current lock state: A held by T4 (Shared), B held by T3 (Shared). Now T1, T2 request locks:</div>
+                                <div class="sol-step"><span class="step-label">T1 wants X(A)</span><span class="step-content">A is held by T4 (S). S+X = incompatible → T1 waits for T4 → <strong>T1 → T4</strong></span></div>
+                                <div class="sol-step"><span class="step-label">T1 wants S(B)</span><span class="step-content">B held by T3 (S). S+S = compatible → T1 gets S(B). No wait. But T2 wants X(B).</span></div>
+                                <div class="sol-step"><span class="step-label">T2 wants X(B)</span><span class="step-content">B held by T3 (S) and T1 (S). X + S = incompatible → T2 waits for T3 AND T1 → <strong>T2 → T3</strong>, <strong>T2 → T1</strong></span></div>
+                                <div class="sol-step"><span class="step-label">T4 wants X(C)</span><span class="step-content">C not held by anyone → T4 gets X(C). No wait.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 2 — Wait-For Graph</div>
+                                <div class="tree-display">T1 → T4
+T2 → T1
+T2 → T3
+
+Check for cycles:
+T2 → T1 → T4 (T4 holds no locks that T2 needs, no cycle back)
+T2 → T3 (T3 holds no lock that T2 needs from T1/T4 direction)
+
+NO CYCLE FOUND!</div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Conclusion</span>
+                                    <span class="formula-content">No cycle in wait-for graph → NO DEADLOCK. T4 will complete (has all needed locks), then T1 can get X(A), then T2 can get X(B).</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ==================== MODULE 6 - TIMESTAMP ==================== -->
+            <div id="m6-timestamp" class="module-view">
+                <div class="breadcrumb">
+                    <span class="crumb" onclick="showHome()">Home</span><span class="sep">›</span><span>Module 6</span><span class="sep">›</span><span style="color:var(--text)">Timestamp Ordering</span>
+                </div>
+                <div class="module-header">
+                    <div class="module-badge">MODULE 6</div>
+                    <div class="module-title">Timestamp Ordering Algorithm</div>
+                </div>
+
+                <div class="algo-box">
+                    <div class="algo-title">Algorithm — Timestamp Ordering Protocol</div>
+                    <div class="algo-step"><span class="algo-num">1.</span><span>Each transaction Ti has timestamp TS(Ti) = time it starts. Older transaction = smaller timestamp.</span></div>
+                    <div class="algo-step"><span class="algo-num">2.</span><span>Each data item X has: <strong>Read_TS(X)</strong> = largest TS of Tx that read X. <strong>Write_TS(X)</strong> = largest TS of Tx that wrote X.</span></div>
+                    <div class="algo-step"><span class="algo-num">3.</span><span><strong>Read(X) by Ti:</strong> If TS(Ti) &lt; Write_TS(X) → REJECT (Ti is too old, X was already written by newer Tx) → rollback Ti. Else: Execute read, Read_TS(X) = max(TS(Ti), Read_TS(X)).</span></div>
+                    <div class="algo-step"><span class="algo-num">4.</span><span><strong>Write(X) by Ti:</strong> If TS(Ti) &lt; Read_TS(X) → REJECT (newer Tx already read X). If TS(Ti) &lt; Write_TS(X) → REJECT (newer Tx already wrote X). Else: Execute write, Write_TS(X) = TS(Ti).</span></div>
+                    <div class="algo-step"><span class="algo-num">5.</span><span>Rejected transaction is rolled back and restarted with a new (higher) timestamp.</span></div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Timestamp Rules</span>
+                    <span class="formula-content">Read(X) rejected if TS(Ti) &lt; Write_TS(X) | Write(X) rejected if TS(Ti) &lt; Read_TS(X) OR TS(Ti) &lt; Write_TS(X)</span>
+                </div>
+
+                <div class="topic-section">
+
+                    <!-- Q1 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q1</span>
+                                <span class="q-paper">FAT Nov/Dec 2025 (Appalaraju Muralidhar) – Q8a</span>
+                                <span class="q-marks marks-orange">5 Marks 🟠</span>
+                                <div class="q-title">Apply timestamp ordering algorithm. T1(TS=1): read(P), write(P). T2(TS=2): read(R), read(Q), write(Q), read(R), read(Q), write(Q), read(R), write(R). T3(TS=3): read(Q), read(R). Analyze each operation.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="q-text"><strong>Timestamps:</strong> TS(T1)=1, TS(T2)=2, TS(T3)=3. Initial: Read_TS(P)=Read_TS(Q)=Read_TS(R)=0, Write_TS(P)=Write_TS(Q)=Write_TS(R)=0</div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step-by-step Timestamp Analysis</div>
+                                <table class="sol-table">
+                                    <tr><th>Op</th><th>Tx</th><th>TS</th><th>Check</th><th>Result</th><th>Update</th></tr>
+                                    <tr><td>Read(P)</td><td>T1</td><td>1</td><td>TS(T1)=1 ≥ Write_TS(P)=0 ✓</td><td>ALLOW</td><td>Read_TS(P)=1</td></tr>
+                                    <tr><td>Write(P)</td><td>T1</td><td>1</td><td>TS(T1)=1 ≥ Read_TS(P)=1 ✓, ≥ Write_TS(P)=0 ✓</td><td>ALLOW</td><td>Write_TS(P)=1</td></tr>
+                                    <tr><td>Read(R)</td><td>T2</td><td>2</td><td>TS(T2)=2 ≥ Write_TS(R)=0 ✓</td><td>ALLOW</td><td>Read_TS(R)=2</td></tr>
+                                    <tr><td>Read(Q)</td><td>T2</td><td>2</td><td>TS(T2)=2 ≥ Write_TS(Q)=0 ✓</td><td>ALLOW</td><td>Read_TS(Q)=2</td></tr>
+                                    <tr><td>Write(Q)</td><td>T2</td><td>2</td><td>TS(T2)=2 ≥ Read_TS(Q)=2 ✓, ≥ Write_TS(Q)=0 ✓</td><td>ALLOW</td><td>Write_TS(Q)=2</td></tr>
+                                    <tr><td>Read(Q)</td><td>T3</td><td>3</td><td>TS(T3)=3 ≥ Write_TS(Q)=2 ✓</td><td>ALLOW</td><td>Read_TS(Q)=3</td></tr>
+                                    <tr><td>Read(R)</td><td>T3</td><td>3</td><td>TS(T3)=3 ≥ Write_TS(R)=0 ✓</td><td>ALLOW</td><td>Read_TS(R)=3</td></tr>
+                                    <tr><td>Write(Q)</td><td>T2</td><td>2</td><td>TS(T2)=2 &lt; Read_TS(Q)=3 ✗</td><td><strong>REJECT/ROLLBACK T2</strong></td><td>—</td></tr>
+                                </table>
+                                <div class="warn-box">T2's second Write(Q) is REJECTED because T3 (newer, TS=3) has already read Q. Writing now would violate the timestamp order (T3 would have read an outdated value). T2 is rolled back and restarted with a new timestamp.</div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Key Rule Applied</span>
+                                    <span class="formula-content">Write(X) by Ti rejected if TS(Ti) &lt; Read_TS(X) → means a newer transaction already read X, and Ti writing would retroactively invalidate that read.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ==================== MODULE 6 - LOCKS ==================== -->
+            <div id="m6-locks" class="module-view">
+                <div class="breadcrumb">
+                    <span class="crumb" onclick="showHome()">Home</span><span class="sep">›</span><span>Module 6</span><span class="sep">›</span><span style="color:var(--text)">Lock-Based Protocols</span>
+                </div>
+                <div class="module-header">
+                    <div class="module-badge">MODULE 6</div>
+                    <div class="module-title">Lock-Based Protocols &amp; Conflict Identification</div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Lock Compatibility Matrix</span>
+                    <span class="formula-content">S (Shared/Read lock) + S = ✓ Compatible | S + X = ✗ | X + S = ✗ | X (Exclusive/Write lock) + X = ✗ Not Compatible</span>
+                </div>
+
+                <div class="topic-section">
+
+                    <!-- Q1 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q1</span>
+                                <span class="q-paper">FAT Apr/May 2023 – Q8a</span>
+                                <span class="q-marks marks-orange">4 Marks 🟠</span>
+                                <div class="q-title">Illustrate S1 for Read-Write conflict and Write-Write conflict. T1 reads X and Y then writes X. T2 reads X and Y then writes X and Y.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Schedule Notation</div>
+                                <div class="schema-box">
+                                    <div>S1: r1(X); r1(Y); r2(X); r2(Y); w1(X); w2(X); w2(Y)</div>
+                                </div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">(i) Read-Write Conflict</div>
+                                <div class="sol-para">A <strong>Read-Write conflict</strong> occurs when one transaction reads a data item and another transaction writes that same data item (or vice versa), and these are from different transactions.</div>
+                                <div class="sol-step"><span class="step-label">RW Conflict 1</span><span class="step-content">r2(X) before w1(X): T2 reads X, later T1 writes X → If we swap them, T2 would read a different value (T1's written value). These two operations CONFLICT. Edge: T2 → T1.</span></div>
+                                <div class="sol-step"><span class="step-label">RW Conflict 2</span><span class="step-content">r1(X) before w2(X): T1 reads X, later T2 writes X → Conflict. Edge: T1 → T2.</span></div>
+                                <div class="sol-step"><span class="step-label">RW Conflict 3</span><span class="step-content">r1(Y) before w2(Y): T1 reads Y, later T2 writes Y → Conflict. Edge: T1 → T2.</span></div>
+                                <div class="sol-step"><span class="step-label">RW Conflict 4</span><span class="step-content">r2(Y) before w2(Y): Same transaction (T2) — Not a conflict.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">(ii) Write-Write Conflict</div>
+                                <div class="sol-para">A <strong>Write-Write conflict</strong> occurs when two different transactions both write to the same data item.</div>
+                                <div class="sol-step"><span class="step-label">WW Conflict</span><span class="step-content">w1(X) before w2(X): T1 writes X at position 5, T2 writes X at position 6. Both write to same item X → Write-Write Conflict. Edge: T1 → T2. If swapped, T1's write would overwrite T2's — changing the final value of X.</span></div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">All Conflicts in S1</span>
+                                    <span class="formula-content">RW: r2(X)→w1(X) [T2→T1], r1(X)→w2(X) [T1→T2], r1(Y)→w2(Y) [T1→T2] | WW: w1(X)→w2(X) [T1→T2]</span>
+                                </div>
+
+                                <div class="note-box">Precedence graph has edges: T2→T1 AND T1→T2 → CYCLE → S1 is NOT conflict serializable!</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q2</span>
+                                <span class="q-paper">FAT Nov 2019 (Slot D2) – Q7a</span>
+                                <span class="q-marks marks-orange">5 Marks 🟠</span>
+                                <div class="q-title">Write the Properties of a transaction. Explain the need for locks in concurrent execution. Draw the compatibility matrix for locks.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">ACID Properties of Transactions</div>
+                                <div class="sol-step"><span class="step-label">Atomicity</span><span class="step-content">A transaction is an indivisible unit — either ALL its operations complete successfully (commit) or NONE do (rollback). No partial execution. Example: Bank transfer either debits AND credits, or does neither.</span></div>
+                                <div class="sol-step"><span class="step-label">Consistency</span><span class="step-content">A transaction must transform the database from one consistent state to another. All integrity constraints (primary key, foreign key, domain) must hold before and after the transaction.</span></div>
+                                <div class="sol-step"><span class="step-label">Isolation</span><span class="step-content">Concurrent transactions execute as if they were serial (one after another). Intermediate states of a transaction are invisible to other concurrent transactions.</span></div>
+                                <div class="sol-step"><span class="step-label">Durability</span><span class="step-content">Once a transaction commits, its changes are permanent — even in the event of system failures. Achieved through logging and checkpointing.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Need for Locks in Concurrent Execution</div>
+                                <div class="sol-para">Without locks, concurrent transactions may produce incorrect results:</div>
+                                <div class="sol-step"><span class="step-label">Lost Update</span><span class="step-content">T1 reads X=100, T2 reads X=100. T1 writes X=150. T2 writes X=120. T1's update is lost! Correct result should have been X=170 (100-50+70 for example).</span></div>
+                                <div class="sol-step"><span class="step-label">Dirty Read</span><span class="step-content">T1 writes X=200, T2 reads X=200, T1 aborts → X reverts to 100. T2 has read a value that no longer exists — inconsistent computation.</span></div>
+                                <div class="sol-step"><span class="step-label">Solution</span><span class="step-content">Locks ensure that when T1 is modifying X, no other transaction can read or write X until T1 finishes. This enforces isolation.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Lock Compatibility Matrix</div>
+                                <table class="sol-table">
+                                    <tr><th>Lock Requested →</th><th>Shared (S)</th><th>Exclusive (X)</th></tr>
+                                    <tr><td><strong>S (currently held)</strong></td><td>✓ Compatible — multiple readers allowed</td><td>✗ Not compatible — writer needs exclusive access</td></tr>
+                                    <tr><td><strong>X (currently held)</strong></td><td>✗ Not compatible — exclusive writer blocks readers</td><td>✗ Not compatible — only one writer at a time</td></tr>
+                                </table>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Lock Types</span>
+                                    <span class="formula-content">Shared lock (S) = for READ operations. Multiple S locks on same item OK. | Exclusive lock (X) = for WRITE operations. Only ONE X lock allowed. Blocks all others.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ==================== MODULE 6 - CONCURRENCY ISSUES ==================== -->
+            <div id="m6-issues" class="module-view">
+                <div class="breadcrumb">
+                    <span class="crumb" onclick="showHome()">Home</span><span class="sep">›</span><span>Module 6</span><span class="sep">›</span><span style="color:var(--text)">Concurrency Issues</span>
+                </div>
+                <div class="module-header">
+                    <div class="module-badge">MODULE 6</div>
+                    <div class="module-title">Concurrent Transaction Issues (Lost Update, Dirty Read, etc.)</div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">Concurrency Problems</span>
+                    <span class="formula-content">Lost Update | Dirty Read (Temporary Update) | Unrepeatable Read | Phantom Read | Incorrect Summary</span>
+                </div>
+
+                <div class="topic-section">
+
+                    <!-- Q1 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q1</span>
+                                <span class="q-paper">FAT Nov 2019 (Slot D1) – Q13a</span>
+                                <span class="q-marks marks-orange">5 Marks 🟠</span>
+                                <div class="q-title">Detail the following issues with Concurrent Transactions using suitable examples: Lost Update Problem, Temporary Update Problem, Incorrect Summary Problem.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">1. Lost Update Problem</div>
+                                <div class="sol-para"><strong>Definition:</strong> Two transactions read the same item, compute new values based on the old value, and both write back. The second write overwrites the first, making the first transaction's update permanently lost.</div>
+                                <div class="tree-display">Time  T1 (books seat 5A)       T2 (books seat 5A)
+  1   Read(Seat5A) = EMPTY
+  2                             Read(Seat5A) = EMPTY
+  3   Write(Seat5A = BOOKED)
+  4                             Write(Seat5A = BOOKED)
+  5   Commit
+  6                             Commit
+
+Result: Both T1 and T2 think they booked 5A.
+T1's booking appears committed but T2's write OVERWROTE it.
+→ Double booking! T1's update is LOST.</div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Lost Update Pattern</span>
+                                    <span class="formula-content">T1 R(X) → T2 R(X) → T1 W(X) → T2 W(X) → T1's write is overwritten (lost) by T2</span>
+                                </div>
+
+                                <div class="sol-para"><strong>Solution:</strong> Exclusive lock on the data item during the entire read-modify-write cycle.</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">2. Temporary Update (Dirty Read) Problem</div>
+                                <div class="sol-para"><strong>Definition:</strong> T1 updates a data item but then aborts (rolls back). Before the rollback, T2 reads the updated (dirty) value. T2 now has incorrect data.</div>
+                                <div class="tree-display">Time  T1 (transfer Rs.500)      T2 (check balance)
+  1   Read(A) = 1000
+  2   A := A - 500
+  3   Write(A) = 500
+  4                             Read(A) = 500  ← DIRTY READ!
+  5   [System Crash → T1 ABORTS]
+  6   A restored to 1000
+  7                             Uses A = 500 (WRONG!)
+                                Commits with incorrect data.</div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Dirty Read Pattern</span>
+                                    <span class="formula-content">T1 W(X) → T2 R(X) → T1 ABORT (rollback) → T2 committed with wrong X value</span>
+                                </div>
+
+                                <div class="sol-para"><strong>Solution:</strong> Strict 2PL — T2 can only read X after T1 commits (X lock held by T1 until commit).</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">3. Incorrect Summary Problem</div>
+                                <div class="sol-para"><strong>Definition:</strong> T1 is computing an aggregate (sum/average) over multiple data items while T2 is concurrently updating some of those items. T1 reads some items before T2's update and some after — producing an incorrect aggregate.</div>
+                                <div class="tree-display">Accounts: A=100, B=200, C=300. Total should = 600.
+T1: compute SUM(A+B+C)     T2: transfer 50 from B to C
+
+Time  T1 (sum)                    T2 (transfer)
+  1   read(A) = 100
+  2                               Read(B)=200; B:=200-50; Write(B)=150
+  3                               Read(C)=300; C:=300+50; Write(C)=350
+  4   Read(B) = 150 ← (after T2 updated)
+  5   Read(C) = 300 ← (before T2's C update flushed?)
+  6   SUM = 100+150+300 = 550 ← WRONG! Should be 600</div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Incorrect Summary Pattern</span>
+                                    <span class="formula-content">T1 reads items at different times while T2 is updating them → inconsistent snapshot → wrong aggregate result</span>
+                                </div>
+
+                                <div class="sol-para"><strong>Solution:</strong> Snapshot isolation or shared locks on ALL items being read before T1 starts computing the aggregate.</div>
+                            </div>
+
+                            <div class="ans-box"><strong>All Three Problems Summary:</strong> (1) Lost Update — T2 overwrites T1's committed write. (2) Dirty Read — T2 reads T1's uncommitted (dirty) write. (3) Incorrect Summary — T1 sees partial effects of T2's concurrent update. All are solved by proper locking protocols (2PL) or isolation levels (Serializable).</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ==================== MODULE 7 - CAP THEOREM ==================== -->
+            <div id="m7-cap" class="module-view">
+                <div class="breadcrumb">
+                    <span class="crumb" onclick="showHome()">Home</span><span class="sep">›</span><span>Module 7</span><span class="sep">›</span><span style="color:var(--text)">CAP Theorem</span>
+                </div>
+                <div class="module-header">
+                    <div class="module-badge">MODULE 7</div>
+                    <div class="module-title">CAP Theorem — Consistency, Availability, Partition Tolerance</div>
+                </div>
+
+                <div class="algo-box">
+                    <div class="algo-title">Algorithm — Answering CAP Theorem Questions</div>
+                    <div class="algo-step"><span class="algo-num">1.</span><span>State CAP Theorem: In a distributed system, you can guarantee at most <strong>2 of 3</strong> properties: Consistency, Availability, Partition Tolerance.</span></div>
+                    <div class="algo-step"><span class="algo-num">2.</span><span>Define each property precisely with the given scenario.</span></div>
+                    <div class="algo-step"><span class="algo-num">3.</span><span>Identify which 2 properties the scenario prioritizes (C+A=CA, C+P=CP, A+P=AP).</span></div>
+                    <div class="algo-step"><span class="algo-num">4.</span><span>Identify which 1 property is sacrificed and state WHY it's an acceptable trade-off.</span></div>
+                    <div class="algo-step"><span class="algo-num">5.</span><span>Draw a diagram showing nodes, network partition, and behavior.</span></div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">CAP Theorem</span>
+                    <span class="formula-content">C = Consistency (all nodes see same data at same time) | A = Availability (every request gets a response) | P = Partition Tolerance (system works even if network fails) | Choose only 2!</span>
+                </div>
+
+                <div class="topic-section">
+
+                    <!-- Q1 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q1</span>
+                                <span class="q-paper">FAT May 2024 (KP Vijayakumar) – Q10</span>
+                                <span class="q-marks marks-red">10 Marks 🔴</span>
+                                <div class="q-title">Grade Monitoring System: Faculty posts grade of student A from node XYZ. Student A accesses grade from node PQR. Illustrate the upholding of CAP theorem for this scenario with suitable diagrams.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 1 — CAP Theorem Definitions</div>
+                                <div class="sol-step"><span class="step-label">Consistency (C)</span><span class="step-content">Every read returns the most recent write. If faculty posts grade at node XYZ, student accessing from node PQR should see the same grade immediately — same data at all nodes at all times.</span></div>
+                                <div class="sol-step"><span class="step-label">Availability (A)</span><span class="step-content">Every request (read or write) receives a non-error response — system always responds, even if the response might not reflect the latest data. Student can always check their grade, faculty can always post a grade.</span></div>
+                                <div class="sol-step"><span class="step-label">Partition Tolerance (P)</span><span class="step-content">System continues to operate even if the network link between node XYZ (faculty side) and node PQR (student side) fails (network partition). System must handle message loss between nodes.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 2 — Scenario Analysis (Normal Operation)</div>
+                                <div class="tree-display">        Node XYZ (Faculty)              Node PQR (Student)
+        ┌─────────────────┐             ┌─────────────────┐
+        │ Faculty posts   │  Network    │ Student reads   │
+        │ Grade(A) = 91   │◄───────────►│ Grade(A) = 91   │
+        │                 │  (healthy)  │                 │
+        └─────────────────┘             └─────────────────┘
+
+Normal case: Data replicated → Grade = 91 seen at both nodes.
+All three CAP properties satisfied during normal operation.</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 3 — Network Partition Scenario &amp; CAP Trade-off</div>
+                                <div class="tree-display">        Node XYZ (Faculty)       ✗ PARTITION ✗    Node PQR (Student)
+        ┌─────────────────┐      Network fails!      ┌──────────────────┐
+        │ Faculty posts   │      ═══════════✗═══      │ Student reads    │
+        │ Grade(A) = 91   │   (link broken)          │ Grade(A) = ???   │
+        └─────────────────┘                           └──────────────────┘
+
+During partition — must choose:
+Option 1 (CP system — Sacrifice Availability):
+  → PQR returns error: "Grade unavailable — network issue"
+  → Student cannot access grade until partition heals
+  → But when grade IS returned, it's consistent (= 91)
+
+Option 2 (AP system — Sacrifice Consistency):
+  → PQR returns last known grade (e.g., old grade = 85)
+  → Student always gets a response (Available)
+  → But response may be stale (not consistent with faculty's 91)</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 4 — What Grade Monitoring System Should Choose</div>
+                                <div class="sol-para">A Grade Monitoring System requires <strong>CP (Consistency + Partition Tolerance)</strong>:</div>
+                                <div class="sol-step"><span class="step-label">P required</span><span class="step-content">Network partitions are unavoidable in distributed systems. The system must keep working even when XYZ ↔ PQR link fails.</span></div>
+                                <div class="sol-step"><span class="step-label">C required</span><span class="step-content">Academic grades must be accurate. A student seeing an old/wrong grade could lead to incorrect academic decisions (CGPA calculation, reexam applications). Consistency is crucial.</span></div>
+                                <div class="sol-step"><span class="step-label">A sacrificed</span><span class="step-content">During partition, it's acceptable to temporarily make PQR (student node) unavailable rather than show wrong grade. Student can try again later. Availability is sacrificed for correctness.</span></div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">CAP Choice</span>
+                                    <span class="formula-content">Grade Monitoring System = CP (Consistency + Partition Tolerance). Sacrifice: Availability during network failure. Examples: HBase, Zookeeper, MongoDB (by default).</span>
+                                </div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 5 — Three CAP Combinations Explained</div>
+                                <table class="sol-table">
+                                    <tr><th>CAP Type</th><th>Guarantees</th><th>Sacrifices</th><th>Example DB</th><th>Use Case</th></tr>
+                                    <tr><td><strong>CA</strong></td><td>C + A</td><td>Partition Tolerance</td><td>Traditional RDBMS (MySQL, PostgreSQL)</td><td>Single site, no distribution</td></tr>
+                                    <tr><td><strong>CP</strong></td><td>C + P</td><td>Availability</td><td>HBase, MongoDB, Zookeeper</td><td>Financial, Academic systems</td></tr>
+                                    <tr><td><strong>AP</strong></td><td>A + P</td><td>Consistency</td><td>DynamoDB, Cassandra, CouchDB</td><td>Social media, e-commerce</td></tr>
+                                </table>
+                            </div>
+
+                            <div class="ans-box"><strong>Conclusion:</strong> The Grade Monitoring System should be a <strong>CP system</strong>. When faculty posts grade at XYZ and a network partition occurs, PQR (student node) will be temporarily unavailable rather than showing stale data. Upon partition recovery, grade data is synchronized and students see the accurate grade. This trade-off is justified because grade accuracy is non-negotiable in an academic context.</div>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q2</span>
+                                <span class="q-paper">FAT Nov/Dec 2025 (Vijayakumar KP) – Q3</span>
+                                <span class="q-marks marks-red">10 Marks 🔴</span>
+                                <div class="q-title">International e-commerce: Data replicated across data centers. During network outage, system continues accepting orders and allowing product views. Analyze which 2 CAP properties are prioritized and which is compromised. Evaluate why this trade-off is appropriate.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 1 — Identify the Scenario Properties</div>
+                                <div class="sol-step"><span class="step-label">Observation 1</span><span class="step-content">"System continues to accept new orders even during network outage" → System is <strong>Available</strong>. Every request receives a response.</span></div>
+                                <div class="sol-step"><span class="step-label">Observation 2</span><span class="step-content">"Data centers lose communication (network outage)" → System tolerates <strong>Network Partitions</strong>. Partition Tolerance is maintained.</span></div>
+                                <div class="sol-step"><span class="step-label">Observation 3</span><span class="step-content">Different data centers may have different states (India DC doesn't know about order placed at US DC during outage) → <strong>Consistency is sacrificed</strong>. Different nodes may show different product availability, stock counts.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 2 — CAP Choice: AP System</div>
+                                <div class="tree-display">           NETWORK PARTITION SCENARIO
+
+Data Center (US)              Data Center (India)
+┌──────────────────┐          ┌──────────────────┐
+│ Users order      │  ✗ FAIL  │ Users view        │
+│ Products (live)  │══════════│ products (live)   │
+│ Stock: 10 items  │ network  │ Stock: 10 items   │
+└──────────────────┘ broken   └──────────────────┘
+        ↓                              ↓
+US orders: stock = 8         India still shows: 10
+After partition heals: sync → both show 8 (eventual consistency)</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 3 — Why AP is Appropriate for E-Commerce</div>
+                                <div class="sol-step"><span class="step-label">Revenue</span><span class="step-content">An e-commerce platform that goes down during network issues loses millions in revenue. Amazon estimates $1M loss per minute of downtime. Availability must be maintained.</span></div>
+                                <div class="sol-step"><span class="step-label">Consistency Trade-off</span><span class="step-content">Minor inconsistencies (stock showing 10 instead of 8) are acceptable and rare. "Eventual consistency" means within minutes of partition healing, all nodes sync. Rarely leads to real business problems.</span></div>
+                                <div class="sol-step"><span class="step-label">User Experience</span><span class="step-content">Users expect to be able to browse and order at all times. A temporarily stale catalog is far better than a "503 Service Unavailable" error.</span></div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">CAP Conclusion</span>
+                                    <span class="formula-content">System = AP (Availability + Partition Tolerance) | Sacrificed = Consistency | Model = Eventual Consistency | Examples: DynamoDB (Amazon), Cassandra</span>
+                                </div>
+                            </div>
+
+                            <div class="ans-box"><strong>Final Answer:</strong> The e-commerce system prioritizes <strong>Availability (A) and Partition Tolerance (P)</strong>. Consistency is compromised — during network partition, different data centers may show slightly different data (e.g., different stock counts). This is acceptable because: (1) revenue loss from downtime far outweighs minor stock inconsistencies, (2) eventual consistency ensures synchronization when the partition heals, (3) global e-commerce customers expect 24/7 availability regardless of infrastructure issues.</div>
+                        </div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q3</span>
+                                <span class="q-paper">FAT Apr/May 2023 – Q4a</span>
+                                <span class="q-marks marks-orange">6 Marks 🟠</span>
+                                <div class="q-title">Discuss in detail the relevance of the CAP theorem with respect to NoSQL.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">CAP Theorem and NoSQL Relevance</div>
+                                <div class="sol-para">CAP Theorem (proposed by Eric Brewer, 2000) states that a distributed data store can guarantee at most <strong>2 of 3 properties</strong>. Traditional RDBMS (SQL) prioritizes CA (ignoring P, run on single node). NoSQL databases were designed for distributed environments — they must handle P, so they choose between C and A.</div>
+
+                                <div class="sol-heading">How NoSQL Databases Position Themselves</div>
+                                <table class="sol-table">
+                                    <tr><th>NoSQL Type</th><th>Example</th><th>CAP Choice</th><th>Why</th></tr>
+                                    <tr><td>Document Store</td><td>MongoDB</td><td>CP</td><td>Strong consistency by default; may be unavailable during partition</td></tr>
+                                    <tr><td>Column Store</td><td>Cassandra</td><td>AP</td><td>Always available; eventual consistency; designed for write-heavy workloads</td></tr>
+                                    <tr><td>Key-Value Store</td><td>DynamoDB</td><td>AP</td><td>High availability for shopping carts, sessions; eventual consistency</td></tr>
+                                    <tr><td>Key-Value Store</td><td>Redis (single node)</td><td>CA</td><td>No distribution; exact consistency and availability</td></tr>
+                                    <tr><td>Graph DB</td><td>Neo4j</td><td>CA/CP</td><td>Relationship integrity (consistency) important</td></tr>
+                                    <tr><td>Wide Column</td><td>HBase</td><td>CP</td><td>Built on HDFS, prefers consistency over availability</td></tr>
+                                </table>
+
+                                <div class="sol-heading">Why P is Almost Always Required in NoSQL</div>
+                                <div class="sol-para">NoSQL databases are almost always distributed across multiple nodes/data centers. Network partitions (failures) are inevitable in such systems. Therefore, NoSQL always includes Partition Tolerance (P) — making the real choice between C (CP systems) and A (AP systems).</div>
+
+                                <div class="sol-para"><strong>Eventual Consistency (AP choice):</strong> Many NoSQL systems use BASE (Basically Available, Soft-state, Eventually consistent) instead of ACID. Data replication happens asynchronously — all nodes converge to the same state eventually, but at any instant, different nodes might show different values.</div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">NoSQL + CAP</span>
+                                    <span class="formula-content">All NoSQL systems must choose: CP (consistency + partition) = strong consistency, possible unavailability | AP (availability + partition) = always responds, possible stale data</span>
+                                </div>
+                            </div>
+
+                            <div class="ans-box"><strong>Relevance:</strong> CAP theorem is the foundational design principle for all NoSQL databases. It explains why Cassandra (Instagram, Netflix) chooses AP for high-traffic read/write workloads, while HBase (Facebook Messages) chooses CP for message ordering integrity. Developers must understand CAP to choose the right NoSQL database for their application's requirements.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ==================== MODULE 7 - NOSQL ==================== -->
+            <div id="m7-nosql" class="module-view">
+                <div class="breadcrumb">
+                    <span class="crumb" onclick="showHome()">Home</span><span class="sep">›</span><span>Module 7</span><span class="sep">›</span><span style="color:var(--text)">SQL vs NoSQL</span>
+                </div>
+                <div class="module-header">
+                    <div class="module-badge">MODULE 7</div>
+                    <div class="module-title">SQL vs NoSQL &amp; NoSQL Types</div>
+                </div>
+
+                <div class="formula-box">
+                    <span class="formula-label">NoSQL Types</span>
+                    <span class="formula-content">Key-Value Store | Document Store | Column-Family (Wide Column) | Graph Database | Time-series</span>
+                </div>
+
+                <div class="topic-section">
+
+                    <!-- Q1 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q1</span>
+                                <span class="q-paper">FAT May 2024 (Premalatha M) – Q7</span>
+                                <span class="q-marks marks-red">10 Marks 🔴</span>
+                                <div class="q-title">Design a database for a large e-commerce platform. Outline considerations for choosing between document-oriented, key-value, column-oriented, and graph databases. Discuss features, advantages, drawbacks of each. Explain how chosen NoSQL aligns with scalability, performance, data modeling needs.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">E-commerce Platform Requirements</div>
+                                <div class="sol-para">Large e-commerce platform with: high traffic, real-time inventory, user authentication, order processing, analytics. Serves customers, sellers, administrators.</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">1. Key-Value Store (e.g., Redis, DynamoDB)</div>
+                                <div class="sol-step"><span class="step-label">Features</span><span class="step-content">Stores data as (key, value) pairs. Extremely fast lookups O(1). Values can be strings, lists, sets, hashes.</span></div>
+                                <div class="sol-step"><span class="step-label">Advantages</span><span class="step-content">Fastest for simple read/write. Perfect for session management, shopping carts, caching, rate limiting.</span></div>
+                                <div class="sol-step"><span class="step-label">Drawbacks</span><span class="step-content">Cannot query by value. No complex relationships. No JOIN support. Limited data modeling.</span></div>
+                                <div class="sol-step"><span class="step-label">E-commerce Use</span><span class="step-content">User sessions (key=session_id, value=user_data), Shopping cart (key=user_id, value=cart), Product cache (key=product_id, value=product JSON).</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">2. Document Store (e.g., MongoDB, CouchDB)</div>
+                                <div class="sol-step"><span class="step-label">Features</span><span class="step-content">Stores data as JSON/BSON documents. Schema-flexible — each document can have different structure. Queries on any field.</span></div>
+                                <div class="sol-step"><span class="step-label">Advantages</span><span class="step-content">Flexible schema (product can have variable attributes: electronics have voltage, clothing has size). Rich query support. Good for product catalogs.</span></div>
+                                <div class="sol-step"><span class="step-label">Drawbacks</span><span class="step-content">Not ideal for highly relational data. Joins are limited. Duplication of data (denormalization required).</span></div>
+                                <div class="sol-step"><span class="step-label">E-commerce Use</span><span class="step-content">Product catalog (each product is a document with arbitrary attributes), Order history (order document containing all order details).</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">3. Column-Oriented / Wide Column (e.g., Cassandra, HBase)</div>
+                                <div class="sol-step"><span class="step-label">Features</span><span class="step-content">Stores data by columns rather than rows. Each row can have different columns. Highly compressed. Optimized for aggregate analytics.</span></div>
+                                <div class="sol-step"><span class="step-label">Advantages</span><span class="step-content">Excellent for analytics queries (SUM, AVG of a column over millions of rows). Write-heavy workloads. Auto-sharding and replication across clusters.</span></div>
+                                <div class="sol-step"><span class="step-label">Drawbacks</span><span class="step-content">Complex data modeling. Not ideal for transactional operations. Steep learning curve.</span></div>
+                                <div class="sol-step"><span class="step-label">E-commerce Use</span><span class="step-content">Sales analytics (revenue per category per day), User activity tracking (click streams, page views at massive scale).</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">4. Graph Database (e.g., Neo4j, Amazon Neptune)</div>
+                                <div class="sol-step"><span class="step-label">Features</span><span class="step-content">Stores data as nodes (entities) and edges (relationships). Optimized for traversing relationships. Query language: Cypher (Neo4j).</span></div>
+                                <div class="sol-step"><span class="step-label">Advantages</span><span class="step-content">Excellent for relationship-heavy queries: "customers who bought X also bought Y" (recommendations), fraud detection, social networks.</span></div>
+                                <div class="sol-step"><span class="step-label">Drawbacks</span><span class="step-content">Not suitable for bulk writes. Complex for simple queries. High memory usage for traversals.</span></div>
+                                <div class="sol-step"><span class="step-label">E-commerce Use</span><span class="step-content">Product recommendation engine (User → purchased → Product → related to → Product), Seller-Product-Category relationships.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Recommended Architecture</div>
+                                <table class="sol-table">
+                                    <tr><th>Component</th><th>Database Type</th><th>DB</th></tr>
+                                    <tr><td>User sessions, Cart</td><td>Key-Value</td><td>Redis</td></tr>
+                                    <tr><td>Product Catalog</td><td>Document</td><td>MongoDB</td></tr>
+                                    <tr><td>Orders, Transactions</td><td>Relational (ACID)</td><td>PostgreSQL</td></tr>
+                                    <tr><td>Analytics, Reports</td><td>Column-family</td><td>Cassandra</td></tr>
+                                    <tr><td>Recommendations</td><td>Graph</td><td>Neo4j</td></tr>
+                                </table>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Polyglot Persistence</span>
+                                    <span class="formula-content">Large e-commerce platforms use multiple database types simultaneously — each chosen for the specific use case it excels at. This is called Polyglot Persistence.</span>
+                                </div>
+                            </div>
+
+                            <div class="ans-box"><strong>Conclusion:</strong> No single NoSQL database type fits all e-commerce needs. Redis for speed (sessions/cache), MongoDB for flexibility (product catalog), Cassandra for scale (analytics), Neo4j for relationships (recommendations), PostgreSQL for ACID transactions (orders/payments). This polyglot architecture optimizes scalability, performance, and data modeling for each specific component.</div>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q2</span>
+                                <span class="q-paper">FAT Apr/May 2025 (Sandhya) – Q3b</span>
+                                <span class="q-marks marks-orange">4 Marks 🟠</span>
+                                <div class="q-title">Compare SQL and NoSQL. Describe how NoSQL is used for developing a Hospital Management System.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">SQL vs NoSQL Comparison</div>
+                                <table class="sol-table">
+                                    <tr><th>Feature</th><th>SQL (Relational)</th><th>NoSQL</th></tr>
+                                    <tr><td>Schema</td><td>Fixed schema (table structure defined upfront)</td><td>Flexible schema (schema-less)</td></tr>
+                                    <tr><td>Data Model</td><td>Tables with rows and columns</td><td>Documents, Key-Value, Columns, Graphs</td></tr>
+                                    <tr><td>ACID</td><td>Full ACID compliance</td><td>Eventual consistency (BASE) or partial ACID</td></tr>
+                                    <tr><td>Scalability</td><td>Vertical (scale up: bigger server)</td><td>Horizontal (scale out: more servers)</td></tr>
+                                    <tr><td>Joins</td><td>Supports complex multi-table joins</td><td>Typically no join support</td></tr>
+                                    <tr><td>Query Language</td><td>SQL (standardized)</td><td>Varies: MongoDB→MQL, Cassandra→CQL</td></tr>
+                                    <tr><td>Best For</td><td>Structured data, complex queries, transactions</td><td>Unstructured data, high write volume, scale</td></tr>
+                                    <tr><td>Examples</td><td>MySQL, PostgreSQL, Oracle</td><td>MongoDB, Cassandra, Redis, Neo4j</td></tr>
+                                </table>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">NoSQL for Hospital Management System</div>
+                                <div class="sol-step"><span class="step-label">Patient Records</span><span class="step-content"><strong>Document Store (MongoDB):</strong> Each patient is a document with flexible structure — some may have allergy lists, some may not. Each visit/encounter is a sub-document. Schema flexibility handles different patient data types.</span></div>
+                                <div class="sol-step"><span class="step-label">Real-time Patient Monitoring</span><span class="step-content"><strong>Key-Value (Redis):</strong> Real-time vitals (heart rate, BP) stored with key=patient_id → extremely fast read/write for ICU dashboards.</span></div>
+                                <div class="sol-step"><span class="step-label">Hospital Analytics</span><span class="step-content"><strong>Column Store (Cassandra):</strong> Millions of medical records analyzed for disease patterns, outcomes. Column-oriented queries on specific measurements across all patients are highly efficient.</span></div>
+                                <div class="sol-step"><span class="step-label">Doctor-Patient Relationships</span><span class="step-content"><strong>Graph DB (Neo4j):</strong> Which doctor treated which patient for which condition → referrals, specialist chains, infection tracing.</span></div>
+
+                                <div class="ans-box"><strong>Conclusion:</strong> For a Hospital Management System, NoSQL provides: (1) MongoDB for flexible patient records, (2) Redis for real-time monitoring, (3) Cassandra for analytics, (4) Neo4j for complex relationships. However, financial transactions (billing) should still use SQL for ACID compliance and auditability.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q3</span>
+                                <span class="q-paper">FAT Nov/Dec 2025 (Appalaraju Muralidhar) – Q4c</span>
+                                <span class="q-marks marks-yellow">3 Marks 🟡</span>
+                                <div class="q-title">Compare and contrast between SQL and NoSQL.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <table class="sol-table">
+                                    <tr><th>Parameter</th><th>SQL</th><th>NoSQL</th></tr>
+                                    <tr><td>Full Form</td><td>Structured Query Language DB</td><td>Not Only SQL DB</td></tr>
+                                    <tr><td>Data Structure</td><td>Predefined tables (rows + columns)</td><td>Flexible: documents, graphs, K-V, columns</td></tr>
+                                    <tr><td>Schema</td><td>Rigid, must be defined first</td><td>Dynamic, schema-less</td></tr>
+                                    <tr><td>ACID</td><td>Fully ACID compliant</td><td>Often eventual consistency (BASE)</td></tr>
+                                    <tr><td>Scalability</td><td>Vertical scaling</td><td>Horizontal scaling (sharding)</td></tr>
+                                    <tr><td>Performance</td><td>Optimized for complex queries</td><td>Optimized for large-scale simple queries</td></tr>
+                                    <tr><td>Relationships</td><td>JOINs — supports complex relations</td><td>Embedded or denormalized</td></tr>
+                                    <tr><td>When to use</td><td>Transactions, financial, structured data</td><td>Big data, real-time web apps, flexible data</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">▲</button>
 
     <script>
         // Toggle question card open/closed
