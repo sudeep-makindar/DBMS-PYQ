@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -4826,6 +4826,256 @@
                                     <div>→ 3 total index entries (much smaller!)</div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Q3 - Multi-level Indexing Disadvantages -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q3</span>
+                                <span class="q-paper">FAT Nov 2019 (Slot D1)</span>
+                                <span class="q-marks marks-orange">5 Marks 🟠</span>
+                                <div class="q-title">What are the disadvantages of multi-level indexing? Detail how dynamic multi-level indexes address these issues with suitable examples.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="q-text"><strong>Question:</strong> What do you think are the disadvantages of multi-level indexing? Detail how dynamic multi-level indexes address the issues of multi-level indexes with suitable examples.</div>
+
+                            <div class="algo-box">
+                                <div class="algo-title">Algorithm — Answering Multi-level Indexing Questions</div>
+                                <div class="algo-step"><span class="algo-num">1.</span><span>Define multi-level indexing and why it was introduced (problem it solves over single-level).</span></div>
+                                <div class="algo-step"><span class="algo-num">2.</span><span>List the disadvantages of static multi-level indexing clearly.</span></div>
+                                <div class="algo-step"><span class="algo-num">3.</span><span>Explain how dynamic multi-level indexes (B+ Trees) overcome each disadvantage.</span></div>
+                                <div class="algo-step"><span class="algo-num">4.</span><span>Give a concrete example with a small B+ Tree diagram.</span></div>
+                                <div class="algo-step"><span class="algo-num">5.</span><span>Conclude with key advantages of the dynamic approach.</span></div>
+                            </div>
+
+                            <div class="formula-box">
+                                <span class="formula-label">Key Formula</span>
+                                <span class="formula-content">Levels in Multi-level Index = &lceil;log<sub>fo</sub>(n)&rceil; &nbsp;|&nbsp; fo = fan-out (index blocking factor) &nbsp;|&nbsp; n = number of records</span>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 1 — What is Multi-Level Indexing?</div>
+                                <div class="sol-para">A <strong>multi-level index</strong> is created when a single-level index itself becomes too large to fit in memory. The idea is to build an index over the index file — Level 1 (primary index over data), Level 2 (index over Level 1), and so on, until the top-level fits in a single disk block.</div>
+                                <div class="tree-display">Data File       → Level 1 Index  → Level 2 Index  → Level 3 Index
+(all records)     (sparse, 1/block)  (sparse, 1/block)  (fits in RAM)
+n records         n/fo entries       n/fo² entries      n/fo³ entries</div>
+                                <div class="note-box">Example: n=1,000,000 records, fo=100 &nbsp;→&nbsp; L1: 10,000 entries | L2: 100 entries | L3: 1 entry (1 block in RAM). Only 3+1=4 disk reads instead of &lceil;log₂ 10,000&rceil;=14!</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 2 — Disadvantages of Static Multi-Level Indexing</div>
+                                <div class="sol-step"><span class="step-label">1.</span><span class="step-content"><strong>Overflow and Periodic Reorganization:</strong> When new records are inserted, index blocks may become full, creating overflow blocks. To fix this, the <em>entire data file and all index levels must be reorganized periodically</em> — an extremely expensive operation that can take hours on large databases.</span></div>
+                                <div class="sol-step"><span class="step-label">2.</span><span class="step-content"><strong>Rigid Structure — Fixed Levels:</strong> The number of levels is fixed at creation time. As the database grows beyond the original design, performance degrades because new levels cannot be added dynamically without complete reconstruction.</span></div>
+                                <div class="sol-step"><span class="step-label">3.</span><span class="step-content"><strong>Wasted Space After Deletions:</strong> After records are deleted, their index entries may remain (orphan/dangling entries). Index blocks become partially empty (low occupancy) and space cannot be reclaimed without full reorganization.</span></div>
+                                <div class="sol-step"><span class="step-label">4.</span><span class="step-content"><strong>Insertion Inefficiency:</strong> Inserting a new record in the sorted data file requires physically shifting records to maintain sorted order, which invalidates many index pointers across all index levels — requiring expensive updates.</span></div>
+                                <div class="sol-step"><span class="step-label">5.</span><span class="step-content"><strong>Unbalanced Performance:</strong> After many insertions and deletions, the structure becomes unbalanced — some index paths may traverse more levels than others, causing unpredictable and degrading search performance.</span></div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Problems Summary</span>
+                                    <span class="formula-content">Static Multi-Level: Overflow | Reorganization | Rigid Levels | Space Waste | Slow Insert/Delete | Unbalanced</span>
+                                </div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 3 — Dynamic Multi-Level Index (B+ Tree) Solves All Issues</div>
+                                <div class="sol-para">A <strong>B+ Tree</strong> (Balanced Plus Tree) is the standard dynamic multi-level index. It automatically adjusts its structure with every insertion and deletion, always maintaining balance. All data pointers live in leaf nodes; internal nodes serve as a navigational index.</div>
+
+                                <div class="sol-step"><span class="step-label">Solves #1</span><span class="step-content"><strong>No Reorganization:</strong> When a node is full during insertion, it <em>splits</em> — divides into two nodes and promotes the middle key upward. No overflow blocks and no global reorganization is ever needed.</span></div>
+                                <div class="sol-step"><span class="step-label">Solves #2</span><span class="step-content"><strong>Self-Balancing Dynamic Levels:</strong> B+ Trees are always height-balanced. All leaf nodes are at the exact same depth. The tree <em>grows upward</em> (a new root is created when the root splits) and <em>shrinks downward</em> (root is removed when it has only one child). This is automatic and transparent.</span></div>
+                                <div class="sol-step"><span class="step-label">Solves #3</span><span class="step-content"><strong>Enforced Minimum Occupancy:</strong> Every non-root node must be at least <strong>50% full</strong> (minimum ⌈p/2⌉ pointers where p = order). After deletion, if a node falls below 50%, it either borrows a key from a sibling (<em>redistribution</em>) or merges with a sibling, reclaiming space automatically.</span></div>
+                                <div class="sol-step"><span class="step-label">Solves #4</span><span class="step-content"><strong>Efficient Insertion O(log n):</strong> Data file does not need to be physically sorted. B+ Trees only require the tree nodes to maintain sorted order internally. Insertions cost O(log n) at most — no shifting of data records.</span></div>
+                                <div class="sol-step"><span class="step-label">Solves #5</span><span class="step-content"><strong>Guaranteed O(log n) Search:</strong> Since the tree is always balanced, every search follows exactly h = height steps from root to leaf, where h = O(log<sub>p</sub> n). Performance is always predictable and optimal.</span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 4 — Example: B+ Tree of Order 3 (Dynamic Multi-Level)</div>
+                                <div class="sol-para">Order p=3: each internal node → max 2 keys, 3 pointers. Each leaf → max 2 key-pointer pairs + 1 pointer to next leaf. Insert keys: 10, 20, 30, 40, 50.</div>
+                                <div class="tree-display">Insert 10, 20: Leaf = [10, 20]
+
+Insert 30 → Leaf [10,20,30] is FULL (max=2 for order 3):
+  SPLIT → Promote 20 to new root:
+                    [20]
+                   /    \
+          [10, 20]    →    [30]   ← leaves linked with →
+
+Insert 40: Goes to right leaf → [30, 40]
+                    [20]
+                   /    \
+          [10, 20] → [30, 40]
+
+Insert 50 → [30,40,50] FULL → Split, promote 40:
+                    [20 | 40]
+                  /     |     \
+       [10,20] → [30,40] → [50]   ← all leaves linked
+
+✓ Always balanced: all leaves at same level
+✓ Range query: traverse linked leaf list (→)
+✓ Point query: root → internal node → leaf — always 2 hops (height=2)</div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">B+ Tree Properties</span>
+                                    <span class="formula-content">Order p: max p pointers per node | min &lceil;p/2&rceil; pointers (non-root) | All data at leaf level | Leaves linked for range queries | Height h = &lceil;log<sub>&lceil;p/2&rceil;</sub>(n)&rceil;</span>
+                                </div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 5 — Comparison: Static vs Dynamic Multi-Level Index</div>
+                                <table class="sol-table">
+                                    <tr><th>Aspect</th><th>Static Multi-Level Index</th><th>Dynamic (B+ Tree)</th></tr>
+                                    <tr><td>Insertion</td><td>Requires data file shifting + reindexing all levels</td><td>Node split — O(log n)</td></tr>
+                                    <tr><td>Deletion</td><td>Orphan entries; periodic cleanup needed</td><td>Redistribution / merge — O(log n)</td></tr>
+                                    <tr><td>Balance</td><td>Degrades over time; unbalanced</td><td>Always perfectly balanced</td></tr>
+                                    <tr><td>Reorganization</td><td>Periodic full reorganization required</td><td>Never needed</td></tr>
+                                    <tr><td>Space utilization</td><td>Wastes space after deletions</td><td>Min 50% occupancy guaranteed</td></tr>
+                                    <tr><td>Search time</td><td>O(log n) initially, degrades</td><td>Guaranteed O(log n) always</td></tr>
+                                    <tr><td>Real-world use</td><td>Rarely used today</td><td>MySQL InnoDB, PostgreSQL, Oracle</td></tr>
+                                </table>
+                            </div>
+
+                            <div class="ans-box"><strong>Conclusion:</strong> Static multi-level indexes suffer from reorganization overhead, rigidity, wasted space, and degrading performance. Dynamic multi-level indexes (B+ Trees) solve all these problems through automatic node splitting/merging and self-balancing, guaranteeing O(log n) performance for all operations. This is why B+ Trees are the universal choice for database indexing in all major DBMS.</div>
+                        </div>
+                    </div>
+
+                    <!-- Q4 - Multilevel Index Construction with 3 Levels -->
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header">
+                            <div class="q-meta">
+                                <span class="q-num">Q4</span>
+                                <span class="q-paper">FAT Nov 2019 (Slot D2)</span>
+                                <span class="q-marks marks-orange">7 Marks 🟠</span>
+                                <div class="q-title">Develop a multilevel indexing structure with four keys per block for key values 2, 35, 55, 85. First-level bases: 2, 8, 15, 24, 35, 39, 44, 51, 55, 63, 71, 79, 85, 90, 97. Create at least three levels. Explain single and multi-level indexing.</div>
+                            </div>
+                            <span class="q-chevron">▼</span>
+                        </div>
+                        <div class="q-body">
+                            <div class="q-text"><strong>Question:</strong> Develop a multilevel indexing structure with four keys in each level of the index tree for key values 2, 35, 55 and 85. Explain single and multi-level indexing. Create at least three levels by considering first level bases as: 2, 8, 15, 24, 35, 39, 44, 51, 55, 63, 71, 79, 85, 90, 97.</div>
+
+                            <div class="algo-box">
+                                <div class="algo-title">Algorithm — Constructing a Multi-Level Index (Step-by-Step)</div>
+                                <div class="algo-step"><span class="algo-num">1.</span><span>Identify the <strong>data file blocks</strong> and their anchor keys (smallest key in each block).</span></div>
+                                <div class="algo-step"><span class="algo-num">2.</span><span>Build <strong>Level 1 index</strong> — one entry (anchor key, pointer) per data block. Group into index blocks using fo (fan-out = keys per index block).</span></div>
+                                <div class="algo-step"><span class="algo-num">3.</span><span>Build <strong>Level 2 index</strong> — one entry per Level 1 block. Group using same fo.</span></div>
+                                <div class="algo-step"><span class="algo-num">4.</span><span>Build <strong>Level 3 index</strong> — one entry per Level 2 block. Stop when top-level fits in 1 block.</span></div>
+                                <div class="algo-step"><span class="algo-num">5.</span><span>To search: Start at top index → binary search → follow pointer down each level → reach data block.</span></div>
+                            </div>
+
+                            <div class="formula-box">
+                                <span class="formula-label">Multi-Level Index Formula</span>
+                                <span class="formula-content">Entries at Level i = &lceil;Entries at Level (i-1) &divide; fo&rceil; &nbsp;|&nbsp; fo = fan-out &nbsp;|&nbsp; Total disk I/Os = number of levels + 1</span>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 1 — Single-Level vs Multi-Level Indexing</div>
+                                <div class="sol-step"><span class="step-label">Single-Level</span><span class="step-content">An ordered index file with one entry (key, block pointer) per data block. To find a record: binary search the index. For 15 blocks → &lceil;log₂ 15&rceil; = 4 disk I/Os for index + 1 for data = 5 total. <strong>Problem:</strong> If the index itself has thousands of entries, binary search over the index still requires many disk I/Os.</span></div>
+                                <div class="sol-step"><span class="step-label">Multi-Level</span><span class="step-content">Build an index on top of the index. With fo=4 keys per index block and 15 entries in Level 1 → Level 2 has only &lceil;15/4&rceil;=4 entries. Level 3 has &lceil;4/4&rceil;=1 entry (fits in memory). Now search = 3+1 = 4 disk I/Os regardless of database size growth — <strong>much better scaling!</strong></span></div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 2 — Given Data (Level 1 Anchor Keys)</div>
+                                <div class="sol-para">The data file has <strong>15 blocks</strong>. The anchor key (smallest key) of each block is given:</div>
+                                <div class="schema-box">
+                                    <div>Block 1: 2 &nbsp;|&nbsp; Block 2: 8 &nbsp;|&nbsp; Block 3: 15 &nbsp;|&nbsp; Block 4: 24</div>
+                                    <div>Block 5: 35 &nbsp;|&nbsp; Block 6: 39 &nbsp;|&nbsp; Block 7: 44 &nbsp;|&nbsp; Block 8: 51</div>
+                                    <div>Block 9: 55 &nbsp;|&nbsp; Block 10: 63 &nbsp;|&nbsp; Block 11: 71 &nbsp;|&nbsp; Block 12: 79</div>
+                                    <div>Block 13: 85 &nbsp;|&nbsp; Block 14: 90 &nbsp;|&nbsp; Block 15: 97</div>
+                                    <div style="margin-top:0.4rem; color:var(--accent2)">Fan-out fo = 4 keys per index block</div>
+                                </div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 3 — Level 1 Index (Sparse Primary Index over Data File)</div>
+                                <div class="sol-para">15 data blocks → 15 Level 1 entries. Grouped into index blocks of 4 entries each → &lceil;15/4&rceil; = <strong>4 Level 1 blocks (L1B1–L1B4)</strong>:</div>
+                                <table class="sol-table">
+                                    <tr><th>L1 Block</th><th>Entry 1</th><th>Entry 2</th><th>Entry 3</th><th>Entry 4</th></tr>
+                                    <tr><td><strong>L1B1</strong></td><td>(2 → DB1)</td><td>(8 → DB2)</td><td>(15 → DB3)</td><td>(24 → DB4)</td></tr>
+                                    <tr><td><strong>L1B2</strong></td><td>(35 → DB5)</td><td>(39 → DB6)</td><td>(44 → DB7)</td><td>(51 → DB8)</td></tr>
+                                    <tr><td><strong>L1B3</strong></td><td>(55 → DB9)</td><td>(63 → DB10)</td><td>(71 → DB11)</td><td>(79 → DB12)</td></tr>
+                                    <tr><td><strong>L1B4</strong></td><td>(85 → DB13)</td><td>(90 → DB14)</td><td>(97 → DB15)</td><td>—</td></tr>
+                                </table>
+                                <div class="note-box">Level 1 has 15 entries → &lceil;15/4&rceil; = <strong>4 blocks</strong>. Each entry = (anchor key of data block, pointer to that data block).</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 4 — Level 2 Index (Sparse Index over Level 1)</div>
+                                <div class="sol-para">Level 2 treats Level 1 index blocks as its "data". 4 Level 1 blocks → 4 Level 2 entries. All 4 fit in one block → <strong>1 Level 2 block (L2B1)</strong>. Each entry = (smallest key of L1 block, pointer to L1 block):</div>
+                                <table class="sol-table">
+                                    <tr><th>L2 Block</th><th>Entry 1</th><th>Entry 2</th><th>Entry 3</th><th>Entry 4</th></tr>
+                                    <tr><td><strong>L2B1</strong></td><td>(2 → L1B1)</td><td>(35 → L1B2)</td><td>(55 → L1B3)</td><td>(85 → L1B4)</td></tr>
+                                </table>
+                                <div class="note-box">The Level 2 anchor keys are <strong>2, 35, 55, 85</strong> — exactly the values given in the question! These are the smallest keys of each L1 block.</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 5 — Level 3 Index (Index over Level 2)</div>
+                                <div class="sol-para">Level 3 treats Level 2 blocks as its "data". 1 Level 2 block → 1 Level 3 entry → <strong>1 Level 3 block (L3B1)</strong>:</div>
+                                <table class="sol-table">
+                                    <tr><th>L3 Block</th><th>Entry</th><th>Purpose</th></tr>
+                                    <tr><td><strong>L3B1</strong></td><td>(2 → L2B1)</td><td>Points to the only Level 2 block. This is the top of the index — loaded into RAM permanently.</td></tr>
+                                </table>
+                                <div class="warn-box">The index terminates at Level 3 because Level 3 has only 1 block — it fits entirely in memory. There is no need for Level 4.</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 6 — Complete Multi-Level Index Structure Diagram</div>
+                                <div class="tree-display">┌──────────────────────────────────────────────────────────┐
+│  LEVEL 3 (Top — fits in RAM):                            │
+│  L3B1: [ (2 → L2B1) ]                                   │
+└────────────────────────┬─────────────────────────────────┘
+                         │ (1 disk I/O)
+                         ▼
+┌──────────────────────────────────────────────────────────┐
+│  LEVEL 2 (Index over L1):                                │
+│  L2B1: [ (2→L1B1) | (35→L1B2) | (55→L1B3) | (85→L1B4) ]│
+└────┬──────────────┬────────────────┬──────────────┬───────┘
+     │              │   (1 disk I/O) │              │
+     ▼              ▼                ▼              ▼
+┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐
+│ L1B1     │  │ L1B2     │  │ L1B3     │  │ L1B4     │
+│(2→DB1)   │  │(35→DB5)  │  │(55→DB9)  │  │(85→DB13) │
+│(8→DB2)   │  │(39→DB6)  │  │(63→DB10) │  │(90→DB14) │
+│(15→DB3)  │  │(44→DB7)  │  │(71→DB11) │  │(97→DB15) │
+│(24→DB4)  │  │(51→DB8)  │  │(79→DB12) │  │—         │
+└──┬───────┘  └──┬───────┘  └──┬───────┘  └──┬───────┘
+   │              │   (1 disk I/O)│              │
+   ▼              ▼              ▼              ▼
+ DB1–DB4       DB5–DB8        DB9–DB12      DB13–DB15
+ (Data blocks — searched for actual records)</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 7 — Search Example: Find Key = 63</div>
+                                <div class="sol-step"><span class="step-label">L3 (RAM)</span><span class="step-content">L3B1 has only (2→L2B1). Since 63 ≥ 2, follow pointer → L2B1. <em>0 extra disk I/O</em> (already in RAM).</span></div>
+                                <div class="sol-step"><span class="step-label">L2 (Disk I/O 1)</span><span class="step-content">Read L2B1. Keys: 2, 35, 55, 85. Largest key ≤ 63 is <strong>55</strong>. Follow (55→L1B3). <em>1 disk I/O.</em></span></div>
+                                <div class="sol-step"><span class="step-label">L1 (Disk I/O 2)</span><span class="step-content">Read L1B3. Keys: 55, 63, 71, 79. Largest key ≤ 63 is <strong>63</strong>. Follow (63→DB10). <em>1 disk I/O.</em></span></div>
+                                <div class="sol-step"><span class="step-label">Data (Disk I/O 3)</span><span class="step-content">Read DB10. Search for key=63. Found! Return record. <em>1 disk I/O.</em></span></div>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Total Disk I/Os to find any record</span>
+                                    <span class="formula-content">= (L3 in RAM) + L2 read (1) + L1 read (1) + Data block read (1) = <strong>3 disk accesses</strong></span>
+                                </div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">Step 8 — Summary Table</div>
+                                <table class="sol-table">
+                                    <tr><th>Level</th><th>Entries</th><th>Blocks</th><th>Entry Format</th><th>Points To</th></tr>
+                                    <tr><td>Data File</td><td>n records</td><td>15</td><td>actual records</td><td>—</td></tr>
+                                    <tr><td>Level 1 Index</td><td>15</td><td>4</td><td>(anchor key → data block ptr)</td><td>Data blocks</td></tr>
+                                    <tr><td>Level 2 Index</td><td>4</td><td>1</td><td>(anchor key → L1 block ptr)</td><td>L1 blocks</td></tr>
+                                    <tr><td>Level 3 Index</td><td>1</td><td>1</td><td>(2 → L2B1)</td><td>L2 block</td></tr>
+                                </table>
+
+                                <div class="formula-box">
+                                    <span class="formula-label">Level Calculation Check</span>
+                                    <span class="formula-content">L1 = &lceil;15/4&rceil; = 4 blocks &nbsp;|&nbsp; L2 = &lceil;4/4&rceil; = 1 block &nbsp;|&nbsp; L3 = &lceil;1/4&rceil; = 1 block (top level) &nbsp;|&nbsp; Total search I/Os = 3</span>
+                                </div>
+                            </div>
+
+                            <div class="ans-box"><strong>Conclusion:</strong> A three-level index is built over 15 data blocks with fan-out fo=4. Level 1 has 4 blocks (15 entries), Level 2 has 1 block (4 entries with anchor keys <strong>2, 35, 55, 85</strong> as given), and Level 3 has 1 block (1 entry). To find any record, only <strong>3 disk I/Os</strong> are needed (with Level 3 kept in RAM). This demonstrates how multi-level indexing achieves logarithmic search complexity and scales efficiently for large databases.</div>
                         </div>
                     </div>
                 </div>
