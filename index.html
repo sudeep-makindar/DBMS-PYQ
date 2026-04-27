@@ -2244,7 +2244,323 @@
                         </div>
                     </div>
 
-                </div><!-- end topic -->
+                
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q4</span>
+                            <span class="q-paper">FAT May 2024 (Premalatha M) – Q1</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">Design a comprehensive DBMS architecture for a university: student info, course offerings, faculty details, academic records, administrative activities. Describe 3-schema architecture and 3-tier client-server model. How is data abstraction achieved?</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Three-Schema (ANSI/SPARC) Architecture</div>
+                                <div class="sol-step"><span class="step-label">External Level</span><span class="step-content">Multiple user views — Student View (own grades, timetable), Faculty View (class roster, attendance), Admin View (all departments, finance). Each user sees only their relevant data.</span></div>
+                                <div class="sol-step"><span class="step-label">Conceptual Level</span><span class="step-content">Complete logical schema: Student(StudentID, Name, DOB, Program, CGPA), Course(CourseID, Title, Credits), Enrollment(StudentID, CourseID, Semester, Grade), Faculty(FacID, Name, Dept). Integrity constraints defined here.</span></div>
+                                <div class="sol-step"><span class="step-label">Internal Level</span><span class="step-content">Physical storage: B+ tree indexes on StudentID/CourseID, file organizations, buffer pool management, page sizes. Completely transparent to users.</span></div>
+                                <div class="formula-box"><span class="formula-label">Data Independence</span><span class="formula-content">Logical Independence: Change conceptual schema → external views unaffected | Physical Independence: Change storage → conceptual schema unaffected</span></div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Three-Tier Client-Server Architecture</div>
+                                <div class="tree-display">TIER 1 (Presentation): Web/Mobile UI — student portal, faculty dashboard
+    ↕ HTTPS
+TIER 2 (Application): Web Server + App Server
+    Business rules: GPA calc, enrollment rules, prerequisite check
+    ↕ JDBC/ODBC
+TIER 3 (Database): DBMS Server (PostgreSQL/Oracle)
+    All university data + B+tree indexes</div>
+                                <div class="sol-heading">Key DBMS Components</div>
+                                <table class="sol-table"><tr><th>Component</th><th>University Role</th></tr>
+                                <tr><td>DDL Compiler</td><td>Process CREATE TABLE Student, ALTER TABLE; update catalog</td></tr>
+                                <tr><td>Query Optimizer</td><td>Optimize "List students with CGPA&gt;8.5 in CS"</td></tr>
+                                <tr><td>Transaction Manager</td><td>Atomic enrollment: register + fee deduction together</td></tr>
+                                <tr><td>Buffer Manager</td><td>Cache hot pages (course catalog, student records)</td></tr>
+                                <tr><td>Authorization Manager</td><td>Students see only own grades; admin sees all</td></tr></table>
+                            </div>
+                            <div class="ans-box"><strong>Conclusion:</strong> University DBMS uses 3-schema (external/conceptual/internal) for abstraction and 3-tier deployment for scalability. ACID transactions ensure safe concurrent enrollment. Catalog stores metadata enabling both logical and physical data independence.</div>
+                        </div>
+                    </div>
+
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q5</span>
+                            <span class="q-paper">FAT Nov/Dec 2025 (Vijayakumar KP / Jani Anbarasi L) – Q1</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">Identify which DBMS component is primarily responsible for: (i) Redefining table structures/updating catalog (ii) Generating inefficient query execution plan (iii) Coordinating multi-user access (iv) Translating high-level queries to low-level ops (v) Fetching data from disk to memory.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <table class="sol-table"><tr><th>#</th><th>Scenario</th><th>Component</th><th>Justification</th></tr>
+                            <tr><td>i</td><td>Redefining table structures, updating catalog</td><td><strong>DDL Compiler</strong></td><td>Processes DDL commands (CREATE/ALTER/DROP). Updates the System Catalog (Data Dictionary) with new schema info — table names, data types, constraints.</td></tr>
+                            <tr><td>ii</td><td>Generating query execution plan</td><td><strong>Query Optimizer</strong></td><td>Part of Query Processor. Generates candidate execution plans and selects the best (based on indexes, statistics). A poor optimizer may choose full table scans over index scans — inefficient plans.</td></tr>
+                            <tr><td>iii</td><td>Coordinating multi-user access, maintaining consistency</td><td><strong>Concurrency Control Manager</strong></td><td>Uses 2PL, timestamp ordering, or MVCC to ensure isolation of concurrent transactions. Prevents lost updates, dirty reads, and ensures consistency (ACID-I and ACID-C).</td></tr>
+                            <tr><td>iv</td><td>Translating high-level SQL to efficient low-level ops</td><td><strong>DML Compiler / Query Processor</strong></td><td>Parses SQL → relational algebra → query plan. Works with optimizer for plan selection. Generates executable code (π, σ, ⋈ operations on physical files).</td></tr>
+                            <tr><td>v</td><td>Fetching data from disk to memory, writing back</td><td><strong>Buffer Manager</strong></td><td>Manages buffer pool (RAM cache for disk pages). Fetches pages on demand (page faults). Uses LRU/MRU to evict pages. Writes dirty pages to disk. Critical for I/O performance.</td></tr></table>
+                            <div class="formula-box"><span class="formula-label">Quick Recall</span><span class="formula-content">DDL Compiler → schema+catalog | Query Optimizer → execution plan | Concurrency Manager → isolation | DML Compiler → SQL→ops | Buffer Manager → disk↔memory</span></div>
+                        </div>
+                    </div>
+
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q6</span>
+                            <span class="q-paper">FAT May 2024 (KP Vijayakumar) – Q1b | FAT Jul/Aug 2023 (Reena Roy) – Q1a</span>
+                            <span class="q-marks marks-orange">7–8 Marks 🟠</span>
+                            <div class="q-title">(Q1b) Describe three-tier architecture with neat diagram. (Q1a) HappyShoppy online retail store has rapid growth in customer base and product inventory. Identify the DBMS architecture needed for this scale.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Three-Tier Architecture Diagram</div>
+                                <div class="tree-display">╔════════════════════════════════════════╗
+║  TIER 1 — PRESENTATION TIER            ║
+║  Web Browser, Mobile App               ║
+║  Only UI — no business logic           ║
+╚══════════════════╤═════════════════════╝
+                   │ HTTP/HTTPS
+╔══════════════════╧═════════════════════╗
+║  TIER 2 — APPLICATION / LOGIC TIER     ║
+║  Web Server (Apache/Nginx/Node.js)     ║
+║  Business rules, validation, REST API  ║
+╚══════════════════╤═════════════════════╝
+                   │ JDBC/ODBC/DB Driver
+╔══════════════════╧═════════════════════╗
+║  TIER 3 — DATABASE TIER                ║
+║  DBMS Server (MySQL/PostgreSQL/Oracle) ║
+║  Data storage, SQL processing, ACID    ║
+╚════════════════════════════════════════╝</div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">HappyShoppy — Why Three-Tier?</div>
+                                <div class="sol-step"><span class="step-label">Tier 2 at Scale</span><span class="step-content">Millions of users need simultaneous access. App servers scale horizontally (10 app-server instances behind a load balancer). DB tier stays protected and unmodified.</span></div>
+                                <div class="sol-step"><span class="step-label">Tier 3 — DB</span><span class="step-content">Products, Customers, Orders, Inventory, Payments stored with ACID transactions (order + payment atomic). ReadReplicas for high read traffic.</span></div>
+                                <div class="formula-box"><span class="formula-label">Three-Tier Benefits</span><span class="formula-content">Scalability: each tier independently scalable | Security: DB never exposed to internet | Maintainability: business logic in Tier 2, no DB schema change needed | Concurrency: load balancer routes millions of requests</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q5</span>
+                            <span class="q-paper">FAT Nov 2019 (D1/D2) | FAT Apr/May 2023 | FAT Jul/Aug 2023 (Reena Roy) – Banking ER</span>
+                            <span class="q-marks marks-red">8–10 Marks 🔴</span>
+                            <div class="q-title">Construct an ER Model for the Banking Enterprise. Customer(cust_no/SSN, name, DOB, street, city), Account(account-no, balance), Loan(loan-no, amount), Branch(branch-name, city, assets), Employee(SSN, name, phone multivalued). Map to relational schema.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Entities and Key Attributes</div>
+                                <table class="sol-table"><tr><th>Entity</th><th>Attributes</th><th>Key</th><th>Special</th></tr>
+                                <tr><td>CUSTOMER</td><td>cust_no, name(comp:fname,lname), DOB, street, city</td><td>cust_no (SSN)</td><td>name=composite; Age=derived</td></tr>
+                                <tr><td>ACCOUNT</td><td>account_no, balance</td><td>account_no</td><td>Subtypes: Savings, Checking</td></tr>
+                                <tr><td>LOAN</td><td>loan_no, amount</td><td>loan_no</td><td></td></tr>
+                                <tr><td>BRANCH</td><td>branch_name, branch_city, assets</td><td>branch_name</td><td></td></tr>
+                                <tr><td>EMPLOYEE</td><td>SSN, emp_name, phone(MV), salary</td><td>SSN</td><td>phone=multivalued (double oval)</td></tr>
+                                <tr><td>BANK</td><td>bank_name, bank_code, hq_address</td><td>bank_code</td><td>Contains Branches</td></tr></table>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Relationships</div>
+                                <table class="sol-table"><tr><th>Relationship</th><th>Entities</th><th>Cardinality</th></tr>
+                                <tr><td>HAS/HOLDS</td><td>CUSTOMER — ACCOUNT</td><td>M:N (joint accounts)</td></tr>
+                                <tr><td>BORROWS</td><td>CUSTOMER — LOAN</td><td>M:N (co-borrowers)</td></tr>
+                                <tr><td>ISSUES</td><td>BRANCH — LOAN</td><td>1:N</td></tr>
+                                <tr><td>CONTAINS</td><td>BRANCH — ACCOUNT</td><td>1:N</td></tr>
+                                <tr><td>EMPLOYS</td><td>BRANCH — EMPLOYEE</td><td>1:N</td></tr>
+                                <tr><td>MANAGES</td><td>EMPLOYEE — BRANCH</td><td>1:1</td></tr>
+                                <tr><td>LOCATED-IN</td><td>BANK — BRANCH</td><td>1:N</td></tr></table>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Relational Schema Mapping</div>
+                                <div class="code-block">BANK(bank_code [PK], bank_name, hq_address)
+BRANCH(branch_name [PK], branch_city, assets, bank_code [FK→BANK])
+CUSTOMER(cust_no [PK], fname, lname, DOB, street, city)
+ACCOUNT(account_no [PK], balance, branch_name [FK→BRANCH])
+LOAN(loan_no [PK], amount, branch_name [FK→BRANCH])
+EMPLOYEE(SSN [PK], emp_name, salary, branch_name [FK→BRANCH])
+EMPLOYEE_PHONE(SSN [FK→EMPLOYEE], phone)              -- multivalued
+HOLDS(cust_no [FK], account_no [FK])                   -- M:N CUSTOMER-ACCOUNT
+BORROWS(cust_no [FK], loan_no [FK])                    -- M:N CUSTOMER-LOAN
+MANAGES(SSN [FK→EMPLOYEE], branch_name [FK→BRANCH])   -- 1:1</div>
+                            </div>
+                            <div class="ans-box"><strong>Key Points:</strong> M:N (HOLDS, BORROWS) → separate bridge tables. Multivalued phone → EMPLOYEE_PHONE. 1:N → FK in child (ACCOUNT.branch_name, LOAN.branch_name). 1:1 MANAGES → special table or FK added to one side.</div>
+                        </div>
+                    </div>
+
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q6</span>
+                            <span class="q-paper">FAT May 2024 (Premalatha M) – Q2 (Railway Reservation ER)</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">Design ER diagram for a railway reservation system. Passenger(PassengerID PK, Name composite, DoB, Age derived, Gender, Contact multivalued). Train(TrainID, TrainName, Source, Destination, DepartureTime, ArrivalTime). Route(RouteNo, Stops multivalued, Distance). Booking(BookingID, Date, Status, SeatType). Relationships: Passenger BOOKS Booking, Booking FOR Train, Train RUNS-ON Route.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Attribute Types Table</div>
+                                <table class="sol-table"><tr><th>Entity</th><th>Attribute</th><th>Type</th></tr>
+                                <tr><td rowspan="6">PASSENGER</td><td>PassengerID</td><td>Key (underline)</td></tr>
+                                <tr><td>Name → {FirstName, LastName}</td><td>Composite</td></tr>
+                                <tr><td>DoB</td><td>Simple</td></tr>
+                                <tr><td>Age</td><td>Derived (dashed oval, computed from DoB)</td></tr>
+                                <tr><td>Gender</td><td>Simple</td></tr>
+                                <tr><td>Contact</td><td>Multivalued (double oval): phone, email</td></tr>
+                                <tr><td rowspan="4">TRAIN</td><td>TrainID</td><td>Key</td></tr>
+                                <tr><td>TrainName, Source, Destination</td><td>Simple</td></tr>
+                                <tr><td>DepartureTime, ArrivalTime</td><td>Simple</td></tr>
+                                <tr><td>Duration</td><td>Derived (ArrivalTime - DepartureTime)</td></tr>
+                                <tr><td>ROUTE</td><td>RouteNo(PK), Distance, Stops(MV)</td><td>Stops=Multivalued</td></tr>
+                                <tr><td>BOOKING</td><td>BookingID(PK), BookingDate, Status, SeatType</td><td>Simple</td></tr></table>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Relational Schema</div>
+                                <div class="code-block">PASSENGER(PassengerID [PK], FName, LName, DoB, Gender, email)
+PASSENGER_CONTACT(PassengerID [FK], contact_type, contact_value)  -- MV
+TRAIN(TrainID [PK], TrainName, Source, Destination, DeptTime, ArrTime)
+ROUTE(RouteNo [PK], Distance)
+ROUTE_STOPS(RouteNo [FK], StopName, StopOrder)                    -- MV
+BOOKING(BookingID [PK], BookingDate, Status, SeatType,
+        PassengerID [FK→PASSENGER], TrainID [FK→TRAIN])
+TRAIN_ROUTE(TrainID [FK], RouteNo [FK], ScheduleDays)             -- M:N</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q7</span>
+                            <span class="q-paper">FAT Apr/May 2025 (Sandhya) + FAT Nov/Dec 2025 (Appalaraju) – Q5 (Hospital ER)</span>
+                            <span class="q-marks marks-red">15 Marks 🔴</span>
+                            <div class="q-title">Hospital Management System ER + Mapping. Patient(patient_ID, name, gender, DOB, address, phone, email), Doctor(doctor_ID, name, specialization, qualification, years_exp, consulting_fees), Nurse(nurse_ID, name, ward), Bills(bill_ID, amount, date, status), Rooms(room_no, room_type, charges_per_day). Draw ER diagram and map to relational schema step by step.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="algo-box">
+                                <div class="algo-title">ER Mapping Rules (7 Steps)</div>
+                                <div class="algo-step"><span class="algo-num">1.</span><span>Strong Entity → Table with all simple attributes. PK = key attribute.</span></div>
+                                <div class="algo-step"><span class="algo-num">2.</span><span>Composite attribute → expand into component attributes in table.</span></div>
+                                <div class="algo-step"><span class="algo-num">3.</span><span>1:N relationship → add FK of '1' side into 'N' side table.</span></div>
+                                <div class="algo-step"><span class="algo-num">4.</span><span>M:N relationship → create new bridge table with both PKs + relationship attributes.</span></div>
+                                <div class="algo-step"><span class="algo-num">5.</span><span>1:1 relationship → add FK in one entity (total participation side preferred).</span></div>
+                                <div class="algo-step"><span class="algo-num">6.</span><span>Multivalued attribute → create separate table (entity PK + attribute = composite PK).</span></div>
+                                <div class="algo-step"><span class="algo-num">7.</span><span>Derived attribute → do NOT store (compute on demand).</span></div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Entities and Relationships</div>
+                                <table class="sol-table"><tr><th>Relationship</th><th>Type</th><th>Mapping</th></tr>
+                                <tr><td>PATIENT TREATED-BY DOCTOR</td><td>M:N</td><td>New table TREATS(patient_ID, doctor_ID, diagnosis, treatment_date)</td></tr>
+                                <tr><td>NURSE ASSIGNED-TO PATIENT</td><td>1:N</td><td>Add nurse_ID FK in PATIENT</td></tr>
+                                <tr><td>PATIENT ADMITTED-IN ROOM</td><td>M:1</td><td>Add room_no FK in PATIENT</td></tr>
+                                <tr><td>PATIENT HAS BILLS</td><td>1:N</td><td>Add patient_ID FK in BILLS</td></tr>
+                                <tr><td>DOCTOR SUPERVISES NURSE</td><td>1:N</td><td>Add doctor_ID FK in NURSE</td></tr></table>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Step-by-Step Relational Schema</div>
+                                <div class="code-block">-- Step 1: Strong Entities
+PATIENT(patient_ID [PK], fname, lname, gender, DOB, street, city, state, email,
+        room_no [FK→ROOM], nurse_ID [FK→NURSE])   -- from 1:N relationships
+DOCTOR(doctor_ID [PK], doctor_name, specialization, qualification, years_exp, consulting_fees)
+NURSE(nurse_ID [PK], nurse_name, assigned_ward, doctor_ID [FK→DOCTOR])  -- SUPERVISES 1:N
+BILLS(bill_ID [PK], amount, bill_date, status, patient_ID [FK→PATIENT]) -- HAS 1:N
+ROOM(room_no [PK], room_type, charges_per_day)
+
+-- Step 6: Multivalued Attribute (phone)
+PATIENT_PHONE(patient_ID [FK→PATIENT], phone)   -- PK: (patient_ID, phone)
+
+-- Step 4: M:N Relationship (PATIENT TREATED-BY DOCTOR)
+TREATS(patient_ID [FK→PATIENT], doctor_ID [FK→DOCTOR],
+       diagnosis, treatment_date, prescription)
+-- PK: (patient_ID, doctor_ID, treatment_date)</div>
+                                <div class="formula-box"><span class="formula-label">Final Schema</span><span class="formula-content">7 tables: PATIENT, DOCTOR, NURSE, BILLS, ROOM, PATIENT_PHONE, TREATS</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q8</span>
+                            <span class="q-paper">FAT Nov/Dec 2025 (Vijayakumar KP / Jani Anbarasi L) – Q5 (Game Developer ER)</span>
+                            <span class="q-marks marks-red">15 Marks 🔴</span>
+                            <div class="q-title">Consider ER diagram for Game Developer system: GameDeveloper, Team, Assets, GameFeatures, StudioLocation, Publisher. Convert into relations by applying ER mapping rules. Show final schema after mapping.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Entities, Attributes, Relationships</div>
+                                <table class="sol-table"><tr><th>Entity</th><th>Attributes</th><th>Relationships</th></tr>
+                                <tr><td>GAME_DEVELOPER</td><td>dev_ID(PK), dev_name, experience, skills(MV), email</td><td>BELONGS-TO Team (M:N), CREATES Assets</td></tr>
+                                <tr><td>TEAM</td><td>team_ID(PK), team_name, formation_date</td><td>LOCATED-AT StudioLocation (M:1)</td></tr>
+                                <tr><td>ASSETS</td><td>asset_ID(PK), asset_name, asset_type, file_size</td><td>USED-IN GameFeature (M:N)</td></tr>
+                                <tr><td>GAME_FEATURES</td><td>feature_ID(PK), feature_name, description, priority</td><td>PUBLISHED-BY Publisher (M:N)</td></tr>
+                                <tr><td>STUDIO_LOCATION</td><td>studio_ID(PK), address, city, country</td><td>HOSTS Team (1:N)</td></tr>
+                                <tr><td>PUBLISHER</td><td>pub_ID(PK), pub_name, country, contact</td><td>PUBLISHES GameFeature</td></tr></table>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Relational Schema Mapping</div>
+                                <div class="code-block">-- Strong Entities
+GAME_DEVELOPER(dev_ID [PK], dev_name, experience, email)
+TEAM(team_ID [PK], team_name, formation_date, studio_ID [FK→STUDIO_LOCATION])
+STUDIO_LOCATION(studio_ID [PK], address, city, country)
+ASSETS(asset_ID [PK], asset_name, asset_type, file_size, dev_ID [FK→GAME_DEVELOPER])
+GAME_FEATURES(feature_ID [PK], feature_name, description, priority)
+PUBLISHER(pub_ID [PK], pub_name, country, contact)
+
+-- Multivalued: developer skills
+DEVELOPER_SKILLS(dev_ID [FK], skill)
+
+-- M:N Bridges
+DEVELOPER_TEAM(dev_ID [FK], team_ID [FK])            -- developer belongs to team
+FEATURE_ASSETS(feature_ID [FK], asset_ID [FK])       -- feature uses assets
+PUBLISHES(pub_ID [FK], feature_ID [FK], release_date) -- publisher publishes feature</div>
+                                <div class="formula-box"><span class="formula-label">Final Schema Count</span><span class="formula-content">6 strong entity tables + 1 MV attributes + 3 M:N bridge tables = 10 tables total</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q9</span>
+                            <span class="q-paper">FAT Jul/Aug 2023 (Jani Anbarasi) – Q4 (Research Works ER) | FAT Jul/Aug 2023 – Q5i (University Enrollment)</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">(Q4) Premier institute ER for research: Journal publication, Patents, Consultancy, Challenging tasks — showing all attribute types (atomic, multivalued, numeric, descriptive). (Q5i) University enrollment ER: Course, Section, Instructor, Student enrollment.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Research Works ER — Attribute Types</div>
+                                <table class="sol-table"><tr><th>Entity</th><th>Attribute</th><th>Type</th></tr>
+                                <tr><td rowspan="4">EMPLOYEE</td><td>emp_ID</td><td>Key (atomic)</td></tr>
+                                <tr><td>name → {fname, lname}</td><td>Composite</td></tr>
+                                <tr><td>phone_numbers</td><td>Multivalued (double oval)</td></tr>
+                                <tr><td>age</td><td>Derived (from DOB)</td></tr>
+                                <tr><td rowspan="4">JOURNAL_PUBLICATION</td><td>paper_ID</td><td>Key</td></tr>
+                                <tr><td>authors</td><td>Multivalued</td></tr>
+                                <tr><td>impact_factor</td><td>Numeric</td></tr>
+                                <tr><td>abstract</td><td>Descriptive (long text)</td></tr>
+                                <tr><td>PATENT</td><td>patent_no, title, inventors(MV), description(descriptive)</td><td>Mixed types</td></tr>
+                                <tr><td>CONSULTANCY</td><td>project_ID, client, funding_amount(numeric), description(descriptive)</td><td>Mixed</td></tr></table>
+
+                                <div class="sol-heading">Research Works — Specialization (ISA)</div>
+                                <div class="tree-display">               [RESEARCH_WORK]
+               research_ID, title, year
+                       |
+           ____________|____________
+          |       |         |        |
+    JOURNAL   PATENT   CONSULTANCY  TASK
+    (ISA — Partial, Disjoint specialization)
+
+EMPLOYEE ──CONDUCTS(M:N)──RESEARCH_WORK ──COLLABORATED──COLLABORATOR</div>
+                            </div>
+
+                            <div class="sol-section">
+                                <div class="sol-heading">University Enrollment ER (Jani Q5i)</div>
+                                <div class="code-block">Entities: STUDENT, COURSE, SECTION (weak or strong), INSTRUCTOR
+Relationships: COURSE HAS SECTION (1:N), SECTION TAUGHT-BY INSTRUCTOR (M:1),
+               STUDENT ENROLLS-IN SECTION (M:N with grade attribute)
+
+Relational Schema:
+STUDENT(student_ID [PK], name, email, program)
+COURSE(course_ID [PK], title, credits, dept)
+INSTRUCTOR(instructor_ID [PK], name, dept, designation)
+SECTION(section_ID [PK], semester, year, classroom,
+        course_ID [FK→COURSE], instructor_ID [FK→INSTRUCTOR])
+ENROLLMENT(student_ID [FK→STUDENT], section_ID [FK→SECTION], grade)
+-- PK: (student_ID, section_ID)</div>
+                            </div>
+                        </div>
+                    </div>
+</div><!-- end topic -->
             </div><!-- end m2-er -->
 
             <!-- MODULE 2 - EER -->
@@ -2342,7 +2658,54 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q2</span>
+                            <span class="q-paper">FAT May 2024 (KP Vijayakumar) – Q2</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">Design EER diagram for vehicle management system. Vehicle(VehicleID, Make, Model, Year, Color) is superclass. Car(NumDoors, NumPassengers, CargoSpace), Truck(PayloadCapacity, NumAxles), Motorbike(SaddleHeight) are subclasses. Show ISA hierarchy, disjoint/total constraints, inheritance. Map to relational schema.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="algo-box">
+                                <div class="algo-title">EER Specialization Steps</div>
+                                <div class="algo-step"><span class="algo-num">1.</span><span>Identify superclass (generalized entity): VEHICLE with common attributes.</span></div>
+                                <div class="algo-step"><span class="algo-num">2.</span><span>Identify subclasses: CAR, TRUCK, MOTORBIKE with specific attributes.</span></div>
+                                <div class="algo-step"><span class="algo-num">3.</span><span>Determine constraint: Disjoint (d) — a vehicle is EITHER car OR truck OR motorbike, not multiple.</span></div>
+                                <div class="algo-step"><span class="algo-num">4.</span><span>Completeness: Total (=) — every vehicle MUST belong to one subclass (double line).</span></div>
+                                <div class="algo-step"><span class="algo-num">5.</span><span>Subclass inherits ALL attributes of superclass + has its own specific attributes.</span></div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">EER Diagram</div>
+                                <div class="tree-display">     VEHICLE (Superclass)
+     VehicleID, Make, Model, Year, Color
+              |
+         ISA (d, =)   ← Disjoint, Total
+        /     |            CAR   TRUCK  MOTORBIKE
+   NumDoors  Payload  SaddleHeight
+   NumPass   NumAxles
+   CargoSpace
+
+Additional Entities:
+CUSTOMER(CustID, Name, License, Phone)
+RENTAL(RentalID, StartDate, EndDate, Cost, VehicleID[FK], CustID[FK])
+MAINTENANCE(MaintID, Date, Type, Cost, VehicleID[FK])</div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Relational Mapping — Method B (Table-per-Type, preferred)</div>
+                                <div class="code-block">VEHICLE(VehicleID [PK], Make, Model, Year, Color)
+CAR(VehicleID [PK, FK→VEHICLE], NumDoors, NumPassengers, CargoSpace)
+TRUCK(VehicleID [PK, FK→VEHICLE], PayloadCapacity, NumAxles)
+MOTORBIKE(VehicleID [PK, FK→VEHICLE], SaddleHeight)
+CUSTOMER(CustID [PK], Name, License, Phone)
+RENTAL(RentalID [PK], StartDate, EndDate, Cost,
+       VehicleID [FK→VEHICLE], CustID [FK→CUSTOMER])
+MAINTENANCE(MaintID [PK], MaintDate, Type, Cost, VehicleID [FK→VEHICLE])</div>
+                                <div class="formula-box"><span class="formula-label">EER Inheritance</span><span class="formula-content">CAR inherits VehicleID, Make, Model, Year, Color from VEHICLE. Query full car: JOIN CAR with VEHICLE on VehicleID. Subclass PK = Superclass PK (same value).</span></div>
+                            </div>
+                        </div>
+                    </div>
+</div>
             </div>
 
             <!-- MODULE 2 - Mapping -->
@@ -2502,7 +2865,56 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q3</span>
+                            <span class="q-paper">FAT May 2024 (Premalatha M) – Q8 (Car-Customer-Employee-Invoice-Order Mapping)</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">Convert the ER diagram [Car-Customer-Employee-Invoice-Order] into a relational model step by step. Car(CarID, Make, Model, Year, Color, Price), Customer(CustID, Name, Phone multivalued, Email, Address), Employee(EmpID, Name, Role, Commission), Invoice(InvoiceID, Date, Amount), Order(OrderID, Date, Status). Relationships: Customer PLACES Order (1:N), Order FOR Car (M:N), Employee HANDLES Order (1:N), Invoice FOR Order (1:1).</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="algo-box">
+                                <div class="algo-title">ER-to-Relational Mapping (7 Rules)</div>
+                                <div class="algo-step"><span class="algo-num">1.</span><span>Strong Entity → Table. Simple attributes = columns. Key attribute = PK.</span></div>
+                                <div class="algo-step"><span class="algo-num">2.</span><span>Composite attribute → expand (fname, lname instead of name).</span></div>
+                                <div class="algo-step"><span class="algo-num">3.</span><span>1:1 Relationship → add FK in either entity (prefer total participation side).</span></div>
+                                <div class="algo-step"><span class="algo-num">4.</span><span>1:N Relationship → add PK of '1' side as FK in 'N' side.</span></div>
+                                <div class="algo-step"><span class="algo-num">5.</span><span>M:N Relationship → new table with both entity PKs as composite PK + relationship attrs.</span></div>
+                                <div class="algo-step"><span class="algo-num">6.</span><span>Multivalued Attribute → new table with entity PK + attribute value = composite PK.</span></div>
+                                <div class="algo-step"><span class="algo-num">7.</span><span>Derived attribute → do NOT store; compute when needed.</span></div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Step-by-Step Application</div>
+                                <div class="code-block">-- Rule 1: Strong Entities
+CAR(CarID [PK], Make, Model, Year, Color, Price)
+CUSTOMER(CustID [PK], CustName, Email, Street, City)
+EMPLOYEE(EmpID [PK], EmpName, Role, Commission)
+INVOICE(InvoiceID [PK], InvoiceDate, TotalAmount)
+ORDER_TABLE(OrderID [PK], OrderDate, Status)
+
+-- Rule 6: Multivalued attribute — Customer Phone
+CUSTOMER_PHONE(CustID [FK→CUSTOMER], Phone)   -- PK: (CustID, Phone)
+
+-- Rule 4: 1:N — Customer PLACES Order → Add CustID FK into ORDER
+ORDER_TABLE(OrderID [PK], OrderDate, Status,
+            CustID [FK→CUSTOMER],     -- Customer PLACES Order
+            EmpID  [FK→EMPLOYEE])     -- Employee HANDLES Order
+
+-- Rule 3: 1:1 — Invoice FOR Order → Add OrderID FK into INVOICE
+INVOICE(InvoiceID [PK], InvoiceDate, TotalAmount,
+        OrderID [FK→ORDER_TABLE],    -- 1:1
+        CustID  [FK→CUSTOMER])       -- Customer HAS Invoice
+
+-- Rule 5: M:N — Order FOR Car → New Bridge Table
+ORDER_ITEMS(OrderID [FK→ORDER_TABLE], CarID [FK→CAR],
+            Quantity, UnitPrice)
+-- PK: (OrderID, CarID)</div>
+                                <div class="formula-box"><span class="formula-label">Final Count</span><span class="formula-content">7 tables: CAR | CUSTOMER | CUSTOMER_PHONE | EMPLOYEE | ORDER_TABLE | INVOICE | ORDER_ITEMS</span></div>
+                            </div>
+                        </div>
+                    </div>
+</div>
             </div>
 
             <!-- MODULE 2 - Keys & Constraints -->
@@ -3118,7 +3530,86 @@
                         </div>
                     </div>
 
-                </div>
+                
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q6</span>
+                            <span class="q-paper">FAT Jul/Aug 2023 (Reena Roy) – Q3 / Q7a i (Book/PersonData normalize to 3NF)</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">Normalize table: BookTable(BookID, PublishedDate, TutorID, Title, Room, PHONE_NUMBER[multivalued], Block_Numbers). FDs: BookID→{PublishedDate, TutorID, Title}; TutorID→{Room, Block_Numbers}; TutorID→→PHONE_NUMBER. Normalize up to 3NF with justification.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">1NF — Remove Multivalued Attribute</div>
+                                <div class="sol-para"><strong>Violation:</strong> PHONE_NUMBER is multivalued (a tutor may have multiple phones). 1NF requires all attributes atomic.</div>
+                                <div class="code-block">After 1NF:
+BOOK_1NF(BookID, PublishedDate, TutorID, Title, Room, Block_Numbers)
+TUTOR_PHONE(TutorID, PHONE_NUMBER)   -- PK: (TutorID, PHONE_NUMBER)</div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">2NF — Remove Partial Dependencies</div>
+                                <div class="sol-para"><strong>Candidate Key = BookID</strong> (single attribute → no composite key → no partial dependencies possible).</div>
+                                <div class="sol-para">BOOK_1NF is already in <strong>2NF ✓</strong> — single-attribute primary key means no partial FDs can exist.</div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">3NF — Remove Transitive Dependencies</div>
+                                <div class="sol-para"><strong>Transitive FD found:</strong> BookID → TutorID → {Room, Block_Numbers}</div>
+                                <div class="sol-para">Room and Block_Numbers depend on TutorID, not directly on BookID. This is a transitive dependency → violates 3NF.</div>
+                                <div class="formula-box"><span class="formula-label">3NF Violation</span><span class="formula-content">Non-prime attribute (Room, Block_Numbers) depends on non-prime attribute (TutorID) rather than directly on the primary key (BookID) → transitive dependency → 3NF violation.</span></div>
+                                <div class="code-block">After 3NF decomposition:
+BOOK(BookID [PK], PublishedDate, TutorID [FK→TUTOR], Title)
+TUTOR(TutorID [PK], Room, Block_Numbers)
+TUTOR_PHONE(TutorID [FK→TUTOR], PHONE_NUMBER)   -- from 1NF</div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Verification Table</div>
+                                <table class="sol-table"><tr><th>Table</th><th>PK</th><th>Transitive Dep?</th><th>3NF?</th></tr>
+                                <tr><td>BOOK</td><td>BookID</td><td>No — TutorID is FK, not a non-prime determining another non-prime</td><td>✓</td></tr>
+                                <tr><td>TUTOR</td><td>TutorID</td><td>No</td><td>✓</td></tr>
+                                <tr><td>TUTOR_PHONE</td><td>(TutorID, PHONE)</td><td>No</td><td>✓</td></tr></table>
+                            </div>
+                            <div class="ans-box"><strong>Final 3NF Schema:</strong> BOOK(BookID, PublishedDate, TutorID[FK], Title) | TUTOR(TutorID, Room, Block_Numbers) | TUTOR_PHONE(TutorID[FK], PHONE_NUMBER). Steps: 1NF removed MV phone, 2NF no action (single PK), 3NF removed transitive TutorID→{Room,Block}.</div>
+                        </div>
+                    </div>
+
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q7</span>
+                            <span class="q-paper">FAT Nov/Dec 2025 (Vijayakumar KP / Jani Anbarasi L) – Q6ii Airline FLIGHT_BOOKING</span>
+                            <span class="q-marks marks-yellow">9 Marks 🟡</span>
+                            <div class="q-title">Normalize FLIGHT_BOOKING to 3NF step by step. FDs: BookingID→{PassengerID, FlightNo, SeatNo, BookingDate, Class}; FlightNo→{AirlineName, DepartureCity, ArrivalCity}; PassengerID→{PassengerName, PassportNo}; (FlightNo, SeatNo)→Class. Then check if 3NF violates BCNF. Decompose if needed.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Original Relation</div>
+                                <div class="schema-box">FLIGHT_BOOKING(BookingID, PassengerID, PassengerName, PassportNo, FlightNo, AirlineName, DepartureCity, ArrivalCity, SeatNo, BookingDate, Class)<br>
+Candidate Key = BookingID</div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">1NF: All atomic. Already in 1NF ✓</div>
+                                <div class="sol-heading">2NF: Single attribute PK (BookingID). No partial deps possible. Already in 2NF ✓</div>
+                                <div class="sol-heading">3NF: Find and Remove Transitive Dependencies</div>
+                                <div class="sol-step"><span class="step-label">Transitive 1</span><span class="step-content">BookingID → FlightNo → {AirlineName, DepartureCity, ArrivalCity}. AirlineName/City depend on FlightNo (not directly on BookingID). Remove to FLIGHT table.</span></div>
+                                <div class="sol-step"><span class="step-label">Transitive 2</span><span class="step-content">BookingID → PassengerID → {PassengerName, PassportNo}. PassengerName/PassportNo depend on PassengerID. Remove to PASSENGER table.</span></div>
+                                <div class="code-block">After 3NF:
+BOOKING(BookingID [PK], PassengerID [FK], FlightNo [FK], SeatNo, BookingDate, Class)
+FLIGHT(FlightNo [PK], AirlineName, DepartureCity, ArrivalCity)
+PASSENGER(PassengerID [PK], PassengerName, PassportNo)</div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">BCNF Check — Does any 3NF relation still violate BCNF?</div>
+                                <div class="sol-para"><strong>BCNF Rule:</strong> For every FD X→Y, X must be a superkey.</div>
+                                <div class="sol-step"><span class="step-label">BOOKING FD check</span><span class="step-content">FD: (FlightNo, SeatNo) → Class exists within BOOKING. But (FlightNo, SeatNo) is NOT a superkey of BOOKING (only BookingID is PK). → <strong>BCNF Violation in BOOKING!</strong></span></div>
+                                <div class="code-block">After BCNF decomposition:
+BOOKING(BookingID [PK], PassengerID [FK], FlightNo [FK], SeatNo, BookingDate)
+SEAT_CLASS(FlightNo, SeatNo, Class)   -- PK: (FlightNo, SeatNo)
+FLIGHT(FlightNo [PK], AirlineName, DepartureCity, ArrivalCity)
+PASSENGER(PassengerID [PK], PassengerName, PassportNo)</div>
+                                <div class="formula-box"><span class="formula-label">Final 4 BCNF Tables</span><span class="formula-content">BOOKING | SEAT_CLASS | FLIGHT | PASSENGER — all in BCNF. Every FD's LHS is a superkey.</span></div>
+                            </div>
+                        </div>
+                    </div>
+</div>
             </div>
 
             <!-- MODULE 3 - FDs and Minimal Cover -->
@@ -3627,7 +4118,55 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q2</span>
+                            <span class="q-paper">FAT Nov 2019 (Slot D1) – Q11 (Chase Algorithm / Non-Additive Join Test)</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">R(ABCDE) with F={A→C, B→C, C→D, DE→C, CE→A}. Decomposed as R1(AD), R2(AB), R3(BE), R4(CDE), R5(AE). Apply test for non-additive Join Property (Chase Algorithm). Determine if decomposition is lossless.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="algo-box">
+                                <div class="algo-title">Chase Algorithm (Lossless Join Test)</div>
+                                <div class="algo-step"><span class="algo-num">1.</span><span>Create tableau: rows = decomposed relations, columns = schema attributes (A,B,C,D,E).</span></div>
+                                <div class="algo-step"><span class="algo-num">2.</span><span>Fill: if Aj in Ri → a<sub>j</sub> (distinguished). Else → b<sub>ij</sub> (non-distinguished, unique).</span></div>
+                                <div class="algo-step"><span class="algo-num">3.</span><span>Apply each FD: rows agreeing on LHS → make RHS equal (use a<sub>j</sub> if any has it, otherwise any b).</span></div>
+                                <div class="algo-step"><span class="algo-num">4.</span><span>Repeat until no change. If any row = all a's → LOSSLESS.</span></div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Initial Tableau</div>
+                                <table class="sol-table"><tr><th>Relation</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+                                <tr><td>R1(AD)</td><td>a1</td><td>b12</td><td>b13</td><td>a4</td><td>b15</td></tr>
+                                <tr><td>R2(AB)</td><td>a1</td><td>a2</td><td>b23</td><td>b24</td><td>b25</td></tr>
+                                <tr><td>R3(BE)</td><td>b31</td><td>a2</td><td>b33</td><td>b34</td><td>a5</td></tr>
+                                <tr><td>R4(CDE)</td><td>b41</td><td>b42</td><td>a3</td><td>a4</td><td>a5</td></tr>
+                                <tr><td>R5(AE)</td><td>a1</td><td>b52</td><td>b53</td><td>b54</td><td>a5</td></tr></table>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Apply FD A → C (rows with A=a1: R1, R2, R5)</div>
+                                <div class="sol-para">Make C equal for R1, R2, R5 → set all to b13. Result: R1.C=b13, R2.C=b13, R5.C=b13.</div>
+                                <div class="sol-heading">Apply FD B → C (rows with B=a2: R2, R3)</div>
+                                <div class="sol-para">R2.C=b13, R3.C=b33. Set both to b13. Result: R3.C=b13.</div>
+                                <div class="sol-heading">Apply FD C → D (rows with C=b13: R1, R2, R3, R5)</div>
+                                <div class="sol-para">R1 has D=a4 (distinguished!). Set all D=a4 for R1,R2,R3,R5.</div>
+                                <div class="sol-heading">Apply FD DE → C (rows with D=a4 and E=a5: R3,R4,R5)</div>
+                                <div class="sol-para">R4 has C=a3 (distinguished!). Set C=a3 for R3, R5 as well.</div>
+                                <div class="sol-heading">Apply FD CE → A (rows with C=a3 and E=a5: R3, R4, R5)</div>
+                                <div class="sol-para">R5 has A=a1 (distinguished!). Set A=a1 for R3, R4.</div>
+                                <div class="sol-heading">Result after all FDs applied</div>
+                                <table class="sol-table"><tr><th>Relation</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>All a's?</th></tr>
+                                <tr><td>R1(AD)</td><td>a1</td><td>b12</td><td>a3</td><td>a4</td><td>b15</td><td>No</td></tr>
+                                <tr><td>R2(AB)</td><td>a1</td><td>a2</td><td>a3</td><td>a4</td><td>b25</td><td>No</td></tr>
+                                <tr><td><strong>R3(BE)</strong></td><td><strong>a1</strong></td><td><strong>a2</strong></td><td><strong>a3</strong></td><td><strong>a4</strong></td><td><strong>a5</strong></td><td><strong>YES! ✓</strong></td></tr>
+                                <tr><td>R4(CDE)</td><td>a1</td><td>b42</td><td>a3</td><td>a4</td><td>a5</td><td>No</td></tr>
+                                <tr><td>R5(AE)</td><td>a1</td><td>b52</td><td>a3</td><td>a4</td><td>a5</td><td>No</td></tr></table>
+                                <div class="formula-box"><span class="formula-label">Chase Result</span><span class="formula-content">R3 row = (a1, a2, a3, a4, a5) — ALL distinguished symbols → LOSSLESS JOIN DECOMPOSITION ✓</span></div>
+                            </div>
+                            <div class="ans-box"><strong>Conclusion:</strong> The decomposition {R1(AD), R2(AB), R3(BE), R4(CDE), R5(AE)} HAS the Lossless-Join property (Non-additive Join Property). After applying all FDs using the Chase algorithm, row R3 became all distinguished symbols (a1,a2,a3,a4,a5). Natural join of all 5 decomposed relations exactly reconstructs R(ABCDE) with no spurious tuples.</div>
+                        </div>
+                    </div>
+</div>
             </div>
 
             <!-- ==================== MODULE 4 ==================== -->
@@ -4044,7 +4583,102 @@
                         </div>
                     </div>
 
-                </div>
+                
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q4</span>
+                            <span class="q-paper">FAT Nov/Dec 2025 (Appalaraju Muralidhar) – Q7a (B+ Tree Order 4, 15 keys)</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">Construct B+ tree (left-biased) order 4 for keys: 32,14,56,73,25,68,47,19,85,39,8,91,62,28,41. Show all splits. Delete 56 and 73.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="formula-box"><span class="formula-label">Order 4 Rules</span><span class="formula-content">Max keys/node = 3 | Split: left gets ⌊(m+1)/2⌋ keys, right gets rest | Copy middle key to parent (leaf split) | Push middle key up (internal split)</span></div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Key Insertion Steps</div>
+                                <div class="sol-step"><span class="step-label">32,14,56</span><span class="step-content">Leaf: [14,32,56] — Full (3 keys = max 3, no overflow yet)</span></div>
+                                <div class="sol-step"><span class="step-label">+73 → overflow!</span><span class="step-content">[14,32,56,73] → Split: L=[14,32], R=[56,73]. Copy 56 up. Root=[56]</span></div>
+                                <div class="sol-step"><span class="step-label">+25</span><span class="step-content">25&lt;56 → L=[14,32]. Insert: [14,25,32]. OK.</span></div>
+                                <div class="sol-step"><span class="step-label">+68</span><span class="step-content">68&gt;56 → R=[56,73]. Insert: [56,68,73]. OK.</span></div>
+                                <div class="sol-step"><span class="step-label">+47 → overflow!</span><span class="step-content">[14,25,32,47] → L=[14,25], R=[32,47]. Copy 32 up. Root=[32,56]</span></div>
+                                <div class="sol-step"><span class="step-label">+19</span><span class="step-content">19&lt;32 → [14,25]. Insert [14,19,25]. OK.</span></div>
+                                <div class="sol-step"><span class="step-label">+85 → overflow!</span><span class="step-content">[56,68,73,85] → L=[56,68], R=[73,85]. Copy 73 up. Root=[32,56,73]</span></div>
+                                <div class="sol-step"><span class="step-label">+39</span><span class="step-content">32&lt;39&lt;56 → [32,47]. Insert [32,39,47]. OK.</span></div>
+                                <div class="sol-step"><span class="step-label">+8 → overflow!</span><span class="step-content">[8,14,19,25] → L=[8,14], R=[19,25]. Copy 19 up. Root=[19,32,56,73] → root overflow! Split: L=[19,32], R=[56,73], new root=[56]</span></div>
+                                <div class="sol-step"><span class="step-label">+91,62,28,41</span><span class="step-content">91→[73,85]: [73,85,91] OK. 62→[56,68]: [56,62,68] OK. 28→[19,25]: [19,25,28] OK. 41→[32,39,47] overflow: [32,39,41,47]→L=[32,39],R=[41,47], copy 41 up to [19,32,41].</span></div>
+                                <div class="tree-display">Final B+ Tree (Order 4, all 15 keys):
+
+                        ┌──────[56]──────┐
+                        │                  │
+          ┌──[19,32,41]──┐           ┌──[73]──┐
+          │    │    │      │          │          │
+       [8,14][19,25,28][32,39][41,47] [56,62,68] [73,85,91]
+
+Leaf chain: 8→14→19→25→28→32→39→41→47→56→62→68→73→85→91</div>
+                                <div class="sol-heading">Delete 56: remove from leaf [56,62,68] → [62,68]. Update internal: 56→62. Delete 73: remove from [73,85,91] → [85,91]. Update internal: 73→85.</div>
+                                <div class="tree-display">After deleting 56 and 73:
+                        ┌──────[62]──────┐
+                        │                  │
+          ┌──[19,32,41]──┐           ┌──[85]──┐
+          │    │    │      │          │          │
+       [8,14][19,25,28][32,39][41,47] [62,68] [85,91]</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q5</span>
+                            <span class="q-paper">FAT Nov/Dec 2025 (VK KP/Jani) – Q7i (15,25,35...100 Order 4) | FAT Apr/May 2025 (Sandhya) – Q7b (Order 3)</span>
+                            <span class="q-marks marks-orange">8–9 Marks 🟠</span>
+                            <div class="q-title">(Q7i) Order 4: insert 15,25,35,45,10,20,30,5,40,50,60,70,80,90,100. Delete 35,100. (Q7b) Order 3: insert 300,127,530,50,260,70,100,80,150,143,55,65,88. Delete 300,530.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Order 4 — Sequential Insertions</div>
+                                <div class="sol-step"><span class="step-label">15,25,35</span><span class="step-content">[15,25,35] OK</span></div>
+                                <div class="sol-step"><span class="step-label">+45 overflow</span><span class="step-content">[15,25,35,45]→L=[15,25],R=[35,45]. Root=[35]</span></div>
+                                <div class="sol-step"><span class="step-label">+10</span><span class="step-content">[10,15,25] OK</span></div>
+                                <div class="sol-step"><span class="step-label">+20 overflow</span><span class="step-content">[10,15,20,25]→L=[10,15],R=[20,25]. Root=[20,35]</span></div>
+                                <div class="sol-step"><span class="step-label">+30,5,40</span><span class="step-content">[20,25,30] OK; [5,10,15] OK; [35,40,45] OK</span></div>
+                                <div class="sol-step"><span class="step-label">+50 overflow</span><span class="step-content">[35,40,45,50]→L=[35,40],R=[45,50]. Root=[20,35,45]</span></div>
+                                <div class="sol-step"><span class="step-label">+60</span><span class="step-content">[45,50,60] OK</span></div>
+                                <div class="sol-step"><span class="step-label">+70 overflow</span><span class="step-content">[45,50,60,70]→L=[45,50],R=[60,70]. Root=[20,35,45,60] overflow! → new root level</span></div>
+                                <div class="sol-step"><span class="step-label">+80,90,100</span><span class="step-content">Continue insertions with splits as needed</span></div>
+                                <div class="tree-display">Final state (Order 4, 15 keys):
+                    ┌─[45]─┐
+                    │         │
+          ┌──[20,35]──┐   ┌──[60,80]──┐
+          │    │       │   │    │        │
+       [5,10,15][20,25,30][35,40][45,50][60,70][80,90,100]
+
+Delete 35: leaf [35,40]→[40]. Internal 35→40.
+Delete 100: leaf [80,90,100]→[80,90]. No internal update needed.
+
+After deletes:
+          ┌──[20,40]──┐   ┌──[60,80]──┐
+       [5,10,15][20,25,30][40][45,50][60,70][80,90]</div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Order 3 — 300,127,530,50,260,70,100,80,150,143,55,65,88</div>
+                                <div class="formula-box"><span class="formula-label">Order 3 Rules</span><span class="formula-content">Max keys = 2 | Overflow at 3 keys | Split: 1 left, 1 right, middle key copies up</span></div>
+                                <div class="sol-step"><span class="step-label">300,127</span><span class="step-content">[127,300] OK</span></div>
+                                <div class="sol-step"><span class="step-label">+530 overflow</span><span class="step-content">[127,300,530]→L=[127],R=[300,530]. Root=[300]</span></div>
+                                <div class="sol-step"><span class="step-label">+50</span><span class="step-content">[50,127] OK</span></div>
+                                <div class="sol-step"><span class="step-label">+260 overflow</span><span class="step-content">[50,127,260]→L=[50],R=[127,260]. Root=[127,300]</span></div>
+                                <div class="sol-step"><span class="step-label">+70,100,80,150,143,55,65,88</span><span class="step-content">Continue: 70&lt;127→[50]: [50,70] OK; 100&lt;127→[50,70]: [50,70,100] overflow→L=[50],R=[70,100], copy 70↑; Root=[70,127,300] overflow! Split root→new level. Continue for remaining keys with splits.</span></div>
+                                <div class="tree-display">After all insertions and deletions of 300,530:
+                          ┌──[127]──┐
+                          │            │
+                   ┌─[70,100]─┐     ┌─[260]─┐
+                   │     │      │    │          │
+                [50,55,65][70,80,88][100,143,150][260][530→removed]
+
+Delete 300: find in leaf, remove, handle underflow by borrowing/merging.
+Delete 530: find in leaf [530], remove → possible merge with sibling.</div>
+                            </div>
+                        </div>
+                    </div>
+</div>
             </div>
 
             <!-- MODULE 4 - Hashing -->
@@ -5195,7 +5829,162 @@ Insert 50 → [30,40,50] FULL → Split, promote 40:
                         </div>
                     </div>
 
-                </div>
+                
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q2</span>
+                            <span class="q-paper">FAT Jul/Aug 2023 (Reena Roy) – Q6a (Student SQL)</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">SQL on STUDENT(Reg_No, Name, Physics, Chemistry, Maths, Age, Department, Residential_City): (a) Add 'Average' column and compute. (b) Students in Science dept with avg&gt;60. (c) Oldest student. (d) Students where Maths &gt; Physics. (e) Students from Chennai or Bangalore.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="code-block">-- (a) Add Average column and compute it
+ALTER TABLE STUDENT ADD COLUMN Average DECIMAL(5,2);
+UPDATE STUDENT SET Average = (Physics + Chemistry + Maths) / 3.0;
+-- Or as SELECT:
+SELECT Reg_No, Name, (Physics + Chemistry + Maths) / 3.0 AS Average FROM STUDENT;
+
+-- (b) Science dept students with average > 60
+SELECT Name, Department, ROUND((Physics + Chemistry + Maths) / 3.0, 2) AS Avg_Marks
+FROM STUDENT
+WHERE Department = 'Science'
+  AND (Physics + Chemistry + Maths) / 3.0 > 60;
+
+-- (c) Oldest student(s)
+SELECT Name, Age FROM STUDENT
+WHERE Age = (SELECT MAX(Age) FROM STUDENT);
+
+-- (d) Students where Maths > Physics
+SELECT Name, Maths, Physics FROM STUDENT
+WHERE Maths > Physics;
+
+-- (e) Students from Chennai or Bangalore
+SELECT Name, Residential_City FROM STUDENT
+WHERE Residential_City IN ('Chennai', 'Bangalore');</div>
+                        </div>
+                    </div>
+
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q3</span>
+                            <span class="q-paper">FAT May 2024 (Premalatha M) – Q9 | FAT Nov/Dec 2025 (Appalaraju Muralidhar) – Q3 (Passenger/Bus SQL)</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">SQL for Passenger(PId, PName), BusRoute(RouteNo, Source, Destination), Drivers(DId, DName), Travel(PId, RouteNo, DId): (i) Passengers on route 151/201. (ii) Passenger count per route. (iii) Drivers on all routes. (iv) Passenger+driver names on same route. (v) Routes with &gt;5 passengers.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="code-block">-- (i) Passengers on route 151 (change to 201 for Appalaraju paper)
+SELECT P.PName FROM PASSENGER P
+JOIN TRAVEL T ON P.PId = T.PId
+WHERE T.RouteNo = 151;
+
+-- (ii) Number of passengers per route
+SELECT T.RouteNo, B.Source, B.Destination, COUNT(DISTINCT T.PId) AS PassengerCount
+FROM TRAVEL T JOIN BUSROUTE B ON T.RouteNo = B.RouteNo
+GROUP BY T.RouteNo, B.Source, B.Destination;
+
+-- (iii) Drivers who drove on ALL routes (relational division)
+SELECT D.DName FROM DRIVERS D
+WHERE NOT EXISTS (
+    SELECT B.RouteNo FROM BUSROUTE B
+    WHERE NOT EXISTS (
+        SELECT * FROM TRAVEL T
+        WHERE T.DId = D.DId AND T.RouteNo = B.RouteNo
+    )
+);
+
+-- (iv) Passenger names and their driver names on same route
+SELECT P.PName, D.DName, T.RouteNo
+FROM PASSENGER P, DRIVERS D, TRAVEL T
+WHERE P.PId = T.PId AND D.DId = T.DId;
+
+-- (v) Routes with more than 5 passengers
+SELECT T.RouteNo, B.Source, B.Destination, COUNT(DISTINCT T.PId) AS PCount
+FROM TRAVEL T JOIN BUSROUTE B ON T.RouteNo = B.RouteNo
+GROUP BY T.RouteNo, B.Source, B.Destination
+HAVING COUNT(DISTINCT T.PId) > 5;</div>
+                        </div>
+                    </div>
+
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q4</span>
+                            <span class="q-paper">FAT Apr/May 2025 (Sandhya) – Q4 a–e (PROJECT/EMPLOYEE SQL)</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">SQL for PROJECT(proj_no, proj_name, dept_no), EMPLOYEE(emp_no, emp_name, DOB, address, doj, mobile_no, salary), DEPARTMENT(dept_no, dept_name, location), WORKS_ON(emp_no, proj_no, start_date, end_date, hours): (a) Employees on 'AI Research'. (b) Total hours per employee. (c) Salary&gt;50000 sorted by name. (d) Projects with no employees. (e) Average salary per department.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="code-block">-- (a) Employee names working on 'AI Research'
+SELECT DISTINCT E.emp_name
+FROM EMPLOYEE E
+JOIN WORKS_ON W ON E.emp_no = W.emp_no
+JOIN PROJECT P ON W.proj_no = P.proj_no
+WHERE P.proj_name = 'AI Research';
+
+-- (b) Total hours per employee
+SELECT E.emp_name, SUM(W.hours) AS Total_Hours
+FROM EMPLOYEE E JOIN WORKS_ON W ON E.emp_no = W.emp_no
+GROUP BY E.emp_no, E.emp_name
+ORDER BY Total_Hours DESC;
+
+-- (c) Employees with salary > 50000, sorted by name
+SELECT emp_name, salary FROM EMPLOYEE
+WHERE salary > 50000
+ORDER BY emp_name ASC;
+
+-- (d) Projects with no employees assigned
+SELECT proj_no, proj_name FROM PROJECT
+WHERE proj_no NOT IN (SELECT proj_no FROM WORKS_ON);
+
+-- (e) Average salary per department
+SELECT D.dept_name, ROUND(AVG(E.salary), 2) AS Avg_Salary
+FROM DEPARTMENT D JOIN EMPLOYEE E ON D.dept_no = E.dept_no
+GROUP BY D.dept_no, D.dept_name
+ORDER BY Avg_Salary DESC;</div>
+                        </div>
+                    </div>
+
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q5</span>
+                            <span class="q-paper">FAT Nov/Dec 2025 (Vijayakumar KP / Jani Anbarasi L) – Q4 i–v (Food Delivery SQL)</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">SQL and RA for Customer(CustID, CustName, City, Phone), FoodItems(FoodID, FoodName, Category, Price), Orders(OrderID, CustID, FoodID, Quantity, OrderDate): (i) Customers who ordered Pizza. (ii) Total order value per customer. (iii) Items ordered &gt;10 times. (iv) Customers who never ordered. (v) Most expensive item per category.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="code-block">-- (i) Customer names and cities who ordered 'Pizza'
+SELECT DISTINCT C.CustName, C.City
+FROM CUSTOMER C
+JOIN ORDERS O ON C.CustID = O.CustID
+JOIN FOODITEMS F ON O.FoodID = F.FoodID
+WHERE F.FoodName = 'Pizza';
+-- RA: π(CustName,City)(σ(FoodName='Pizza')(CUSTOMER ⋈ ORDERS ⋈ FOODITEMS))
+
+-- (ii) Total order value (Price × Quantity) per customer
+SELECT C.CustName, SUM(F.Price * O.Quantity) AS TotalValue
+FROM CUSTOMER C
+JOIN ORDERS O ON C.CustID = O.CustID
+JOIN FOODITEMS F ON O.FoodID = F.FoodID
+GROUP BY C.CustID, C.CustName;
+
+-- (iii) Food items ordered more than 10 times (total quantity)
+SELECT F.FoodName, SUM(O.Quantity) AS TotalOrdered
+FROM FOODITEMS F JOIN ORDERS O ON F.FoodID = O.FoodID
+GROUP BY F.FoodID, F.FoodName
+HAVING SUM(O.Quantity) > 10;
+
+-- (iv) Customers who never placed an order
+SELECT CustName FROM CUSTOMER
+WHERE CustID NOT IN (SELECT DISTINCT CustID FROM ORDERS);
+-- RA: π(CustName)(CUSTOMER) - π(CustName)(CUSTOMER ⋈ ORDERS)
+
+-- (v) Most expensive food item in each category
+SELECT Category, FoodName, Price
+FROM FOODITEMS F1
+WHERE Price = (SELECT MAX(Price) FROM FOODITEMS F2
+               WHERE F2.Category = F1.Category);</div>
+                        </div>
+                    </div>
+</div>
             </div>
 
         </div><!-- end main -->
@@ -6252,7 +7041,75 @@ No cycle detected!</div>
                         </div>
                     </div>
 
-                </div>
+                
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q3</span>
+                            <span class="q-paper">FAT Jul/Aug 2023 (Jani Anbarasi) – Q3 (T1,T2,T3 with X,Y,Z)</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">T1: r1(X);r1(Z);w1(X);w1(Z). T2: r2(Y);r2(Z);w2(Z). T3: r3(Y);r3(X);w3(Y). S1: r1(X);r3(Y);r3(X);r2(Y);r2(Z);w3(Y);w2(Z);r1(Z);w1(X);w1(Z). S2: r1(X);r2(Y);r3(Y);r1(Z);r2(Z);r3(X);w1(X);w2(Z);w3(Y);w1(Z). Check conflict serializability. Draw precedence graph.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Schedule S1 Analysis</div>
+                                <div class="sol-para">S1: r1(X); r3(Y); r3(X); r2(Y); r2(Z); w3(Y); w2(Z); r1(Z); w1(X); w1(Z)</div>
+                                <table class="sol-table"><tr><th>Conflict</th><th>Item</th><th>Edge</th></tr>
+                                <tr><td>r3(X)[pos3] before w1(X)[pos9]</td><td>X</td><td><strong>T3→T1</strong></td></tr>
+                                <tr><td>r2(Y)[pos4] before w3(Y)[pos6]</td><td>Y</td><td><strong>T2→T3</strong></td></tr>
+                                <tr><td>r2(Z)[pos5] before w1(Z)[pos10]</td><td>Z</td><td><strong>T2→T1</strong></td></tr>
+                                <tr><td>w2(Z)[pos7] before r1(Z)[pos8]</td><td>Z</td><td><strong>T2→T1</strong></td></tr>
+                                <tr><td>w2(Z)[pos7] before w1(Z)[pos10]</td><td>Z</td><td><strong>T2→T1</strong></td></tr></table>
+                                <div class="tree-display">S1 Graph: T2→T3→T1, T2→T1. NO CYCLE → S1 IS SERIALIZABLE ✓
+Topological order: T2 → T3 → T1</div>
+                                <div class="formula-box"><span class="formula-label">S1 Result</span><span class="formula-content">Conflict Serializable ✓ | Equivalent serial schedule: T2 → T3 → T1</span></div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Schedule S2 Analysis</div>
+                                <div class="sol-para">S2: r1(X); r2(Y); r3(Y); r1(Z); r2(Z); r3(X); w1(X); w2(Z); w3(Y); w1(Z)</div>
+                                <table class="sol-table"><tr><th>Conflict</th><th>Item</th><th>Edge</th></tr>
+                                <tr><td>r3(X)[pos6] before w1(X)[pos7]</td><td>X</td><td><strong>T3→T1</strong></td></tr>
+                                <tr><td>r2(Y)[pos2] before w3(Y)[pos9]</td><td>Y</td><td><strong>T2→T3</strong></td></tr>
+                                <tr><td>r1(Z)[pos4] before w2(Z)[pos8]</td><td>Z</td><td><strong>T1→T2</strong> ← KEY</td></tr>
+                                <tr><td>r2(Z)[pos5] before w1(Z)[pos10]</td><td>Z</td><td><strong>T2→T1</strong></td></tr>
+                                <tr><td>w2(Z)[pos8] before w1(Z)[pos10]</td><td>Z</td><td><strong>T2→T1</strong></td></tr></table>
+                                <div class="tree-display">S2 Graph: T3→T1, T2→T3, T1→T2, T2→T1
+CYCLE: T1→T2→T1 (and T1→T2→T3→T1)
+→ S2 is NOT Conflict Serializable ✗</div>
+                                <div class="formula-box"><span class="formula-label">S2 Result</span><span class="formula-content">NOT Conflict Serializable ✗ | Cycle: T1→T2→T1. Caused by r1(Z)→w2(Z) (T1→T2) AND r2(Z)→w1(Z) (T2→T1)</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q4</span>
+                            <span class="q-paper">FAT Apr/May 2025 (Sandhya) – Q2 (Emma/Liam/Olivia Payroll)</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">T1=Emma(payroll X), T2=Liam(tax Z), T3=Olivia(expense Y). S1: r1(X);r2(Z);r3(Y);r3(X);r2(Y);r1(Z);w3(Y);w2(Z);w1(X);w1(Z). Check conflict serializability. Draw precedence graph. State equivalent serial order if serializable.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">S1 Conflict Identification</div>
+                                <div class="sol-para">S1: r1(X)[1]; r2(Z)[2]; r3(Y)[3]; r3(X)[4]; r2(Y)[5]; r1(Z)[6]; w3(Y)[7]; w2(Z)[8]; w1(X)[9]; w1(Z)[10]</div>
+                                <table class="sol-table"><tr><th>Conflict</th><th>Item</th><th>Edge</th></tr>
+                                <tr><td>r3(X)[4] before w1(X)[9]</td><td>X</td><td><strong>T3→T1</strong></td></tr>
+                                <tr><td>r2(Y)[5] before w3(Y)[7]</td><td>Y</td><td><strong>T2→T3</strong></td></tr>
+                                <tr><td>r1(Z)[6] before w2(Z)[8]</td><td>Z</td><td><strong>T1→T2</strong></td></tr>
+                                <tr><td>r2(Z)[2] before w1(Z)[10]</td><td>Z</td><td><strong>T2→T1</strong></td></tr>
+                                <tr><td>w2(Z)[8] before w1(Z)[10]</td><td>Z</td><td><strong>T2→T1</strong></td></tr></table>
+                                <div class="tree-display">S1 Precedence Graph:
+T3 → T1
+T2 → T3
+T1 → T2   ← from r1(Z) before w2(Z)
+T2 → T1   ← from r2(Z) before w1(Z)
+
+CYCLE: T1→T2→T1 AND T1→T2→T3→T1
+→ S1 is NOT Conflict Serializable ✗</div>
+                                <div class="formula-box"><span class="formula-label">Result</span><span class="formula-content">S1 NOT serializable. Cycle: T1→T2→T1 (Emma reads Z before Liam writes Z, but Liam reads Z before Emma writes it — circular dependency on Z)</span></div>
+                            </div>
+                        </div>
+                    </div>
+</div>
             </div>
 
             <!-- ==================== MODULE 6 - 2PL ==================== -->
@@ -6378,7 +7235,52 @@ No cycle detected!</div>
                         </div>
                     </div>
 
-                </div>
+                
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q3</span>
+                            <span class="q-paper">FAT Jul/Aug 2023 (Jani Anbarasi) – Q8a | FAT Jul/Aug 2023 (Reena Roy) – Q9b</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">(Q8a) T1: R(P),P+10,W(P),R(Q),Q-5,W(Q). T2: R(P),R(Q),R(Sum),Sum+=(P*Q),W(Sum). T3: R(Sum),Sum+2,W(Sum),Q+2,W(Q). Identify conflict problems. (Q9b) Illustrate solutions using Basic, Strict, Rigorous 2PL with justification.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Conflict Problems in T1,T2,T3 Schedule</div>
+                                <table class="sol-table"><tr><th>Problem</th><th>Items</th><th>Scenario</th></tr>
+                                <tr><td>Lost Update</td><td>P, Q</td><td>T1 writes P, T3 writes Q without seeing each other's updates — last write wins, earlier update lost.</td></tr>
+                                <tr><td>Dirty Read (Temp Update)</td><td>Sum</td><td>T2 reads Sum, T3 reads Sum before T2 commits. If T2 aborts, T3 used wrong Sum.</td></tr>
+                                <tr><td>Write-Write Conflict</td><td>Sum</td><td>T2 writes Sum, T3 also writes Sum. T2's write overwritten by T3 (or vice versa) — lost update on Sum.</td></tr>
+                                <tr><td>Incorrect Summary</td><td>P, Q, Sum</td><td>T2 computes Sum=P*Q. If T1 updated P and T3 updated Q between T2's reads — inconsistent snapshot.</td></tr></table>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Solution using Basic 2PL</div>
+                                <div class="sol-step"><span class="step-label">Rule</span><span class="step-content">Growing phase: acquire all needed locks. Shrinking phase: release locks. Locks may be released BEFORE commit.</span></div>
+                                <div class="sol-step"><span class="step-label">Solves Lost Update</span><span class="step-content">T1 acquires X(P) → T2 must wait → reads updated P after T1 releases. No lost update on P.</span></div>
+                                <div class="sol-step"><span class="step-label">Risk</span><span class="step-content">T1 may release X(P) before committing. T2 reads P. T1 aborts → T2 has dirty P → cascading abort!</span></div>
+                                <div class="note-box">Basic 2PL: Solves lost update but NOT dirty reads. Cascading aborts remain possible.</div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Solution using Strict 2PL</div>
+                                <div class="sol-step"><span class="step-label">Rule</span><span class="step-content">Exclusive (X) locks held until COMMIT. Shared (S) locks may be released earlier.</span></div>
+                                <div class="sol-step"><span class="step-label">Solves Dirty Read</span><span class="step-content">T1 holds X(P) until commit. T2 cannot read P at all until T1 commits → T2 always reads committed P → no dirty read.</span></div>
+                                <div class="sol-step"><span class="step-label">Solves Cascading Abort</span><span class="step-content">Since T2 only reads after T1 commits, if T1 aborts, T2 was blocked (not using T1's data) → no cascade.</span></div>
+                                <div class="tree-display">Strict 2PL execution:
+T1: X(P), X(Q) → R(P),W(P),R(Q),W(Q) → COMMIT → unlock(P,Q)
+                                                         ↓
+T2:                                      S(P),S(Q),X(Sum) → compute → COMMIT → unlock
+                                                                              ↓
+T3:                                                             X(Sum),X(Q) → compute → COMMIT</div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Solution using Rigorous 2PL</div>
+                                <div class="sol-step"><span class="step-label">Rule</span><span class="step-content">ALL locks (S and X) held until COMMIT.</span></div>
+                                <div class="sol-step"><span class="step-label">Solves Everything</span><span class="step-content">T1 holds S(P)+X(P) and S(Q)+X(Q) until commit. T2 cannot read or write P or Q until T1 commits. T3 cannot read or write Sum or Q until T2 commits.</span></div>
+                                <div class="sol-step"><span class="step-label">Serial order</span><span class="step-content">Commit order = serial order. T1 commits first → T2 sees T1's final P,Q → computes correct Sum. T3 sees T2's final Sum → all consistent.</span></div>
+                                <div class="formula-box"><span class="formula-label">2PL Hierarchy</span><span class="formula-content">Rigorous 2PL ⊆ Strict 2PL ⊆ Basic 2PL. All guarantee conflict serializability. Rigorous 2PL is safest — used in practice (most commercial RDBMS).</span></div>
+                            </div>
+                        </div>
+                    </div>
+</div>
             </div>
 
             <!-- ==================== MODULE 6 - DEADLOCK ==================== -->
@@ -6982,7 +7884,58 @@ After partition heals: sync → both show 8 (eventual consistency)</div>
                         </div>
                     </div>
 
-                </div>
+                
+                    <div class="q-card" onclick="toggleQ(this)">
+                        <div class="q-header"><div class="q-meta">
+                            <span class="q-num">Q4</span>
+                            <span class="q-paper">FAT Jul/Aug 2023 (Jani Anbarasi) – Q4 (NoSQL for Research Institute)</span>
+                            <span class="q-marks marks-red">10 Marks 🔴</span>
+                            <div class="q-title">A premier institute stores research works (Journal publications, Patents, Consultancy, Challenging tasks) with atomic, multivalued, numeric, and descriptive data. Suggest a suitable NoSQL database. Justify your choice. Explain how it handles different data types.</div>
+                        </div><span class="q-chevron">▼</span></div>
+                        <div class="q-body">
+                            <div class="sol-section">
+                                <div class="sol-heading">Why Traditional SQL is Insufficient</div>
+                                <div class="sol-step"><span class="step-label">Varied Schema</span><span class="step-content">Journal has: title, authors(MV), journal_name, impact_factor. Patent has: patent_no, inventors(MV), filing_date, technical_description(text). Consultancy has: client, funding(numeric), description(long text). Each type has different attributes — SQL requires fixed schema → many NULL columns.</span></div>
+                                <div class="sol-step"><span class="step-label">Multivalued</span><span class="step-content">Authors (multiple), inventors (multiple), keywords (multiple) — SQL needs extra tables for each. NoSQL stores arrays natively in documents.</span></div>
+                                <div class="sol-step"><span class="step-label">Descriptive Text</span><span class="step-content">Abstracts, project reports, technical descriptions are large unstructured text. SQL VARCHAR has limits; NoSQL handles arbitrarily long text.</span></div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Recommended: Document Store — MongoDB</div>
+                                <div class="code-block">// Journal Publication document
+{ "_id": "JP001", "type": "journal",
+  "title": "Smart DB Optimization using ML",
+  "authors": ["Dr. Smith", "Prof. Kumar", "Ms. Priya"],  // MV - array
+  "journal": "IEEE Transactions", "impact_factor": 5.2,   // numeric
+  "year": 2023, "abstract": "This paper presents..."      // descriptive
+}
+// Patent document (different structure, same collection)
+{ "_id": "PAT042", "type": "patent",
+  "title": "Energy Efficient Indexing",
+  "inventors": ["Dr. Raj", "Dr. Anand"],                 // MV
+  "patent_no": "IN2023CH12345",
+  "description": "This invention relates to B+ trees..."  // descriptive
+}
+// Consultancy Project
+{ "_id": "CON015", "type": "consultancy",
+  "client": "TCS Ltd.", "dept": "CS",
+  "funding": 500000,                                      // numeric
+  "description": "AI-based supply chain..."               // descriptive
+}</div>
+                            </div>
+                            <div class="sol-section">
+                                <div class="sol-heading">Why MongoDB specifically?</div>
+                                <table class="sol-table"><tr><th>Data Type</th><th>Research Example</th><th>MongoDB Handling</th></tr>
+                                <tr><td>Atomic</td><td>Title, Year, Dept</td><td>Simple string/number field</td></tr>
+                                <tr><td>Multivalued</td><td>Authors, Inventors, Keywords</td><td>Native JSON array: ["Author1", "Author2"]</td></tr>
+                                <tr><td>Numeric</td><td>Impact factor, Funding amount</td><td>Number/Decimal field type</td></tr>
+                                <tr><td>Descriptive</td><td>Abstract, Technical description</td><td>Large text string (no size limit)</td></tr>
+                                <tr><td>Composite</td><td>Address {street, city, state}</td><td>Nested sub-document</td></tr></table>
+                                <div class="formula-box"><span class="formula-label">CAP for Research DB</span><span class="formula-content">MongoDB = CP system. Research data must be consistent (correct author lists, exact patent numbers). Availability slightly sacrificed during partitions is acceptable for academic integrity.</span></div>
+                            </div>
+                            <div class="ans-box"><strong>Conclusion:</strong> Document Store (MongoDB) is recommended because: (1) Flexible schema accommodates all 4 research types without NULL columns, (2) Native arrays handle multivalued attributes (authors, inventors), (3) Unlimited text fields handle descriptive content, (4) Numeric types for funding/impact_factor, (5) Each research item is a self-contained document — natural fit for heterogeneous research records.</div>
+                        </div>
+                    </div>
+</div>
             </div>
 
             <!-- ==================== MODULE 7 - NOSQL ==================== -->
