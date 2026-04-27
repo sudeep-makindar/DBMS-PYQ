@@ -337,7 +337,7 @@
 
         .q-header {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             gap: 1rem;
             padding: 1rem 1.5rem;
             background: var(--surface2);
@@ -415,12 +415,17 @@
             font-family: 'Source Serif 4', serif;
         }
 
+        .q-title-wrap {
+            width: 100%;
+        }
+
         .q-chevron {
             color: var(--text-muted);
             font-size: 0.8rem;
             transition: transform 0.2s;
             flex-shrink: 0;
-            margin-top: 2px;
+            display: flex;
+            align-items: center;
         }
 
         .q-card.open .q-chevron {
@@ -966,6 +971,33 @@
         .ans-box strong {
             color: var(--accent3);
         }
+
+        .copy-btn {
+            background: rgba(79, 142, 247, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(79, 142, 247, 0.2);
+            border-radius: 4px;
+            padding: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .copy-btn:hover {
+            background: rgba(79, 142, 247, 0.2);
+            border-color: rgba(79, 142, 247, 0.4);
+            transform: scale(1.05);
+        }
+        
+        .copy-btn.copied {
+            background: rgba(79, 247, 168, 0.2);
+            color: var(--accent3);
+            border-color: rgba(79, 247, 168, 0.4);
+        }
     </style>
 </head>
 
@@ -1159,7 +1191,7 @@
                                 <div class="q-title">Illustrate the importance of the three-tier architecture for a
                                     University DBMS (managing student info, courses, faculty, academic records,
                                     administration).</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -1268,7 +1300,7 @@
                                 <span class="q-marks marks-red">10 Marks 🔴</span>
                                 <div class="q-title">Identify the DBMS component responsible for 5 given scenarios (1+1
                                     marks each). Justify each.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -1362,7 +1394,7 @@
                                 <span class="q-marks marks-red">8 Marks 🔴</span>
                                 <div class="q-title">Identify and elaborate the DBMS architecture for 'HappyShoppy'
                                     online retail store with a neat diagram.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -1445,7 +1477,7 @@
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Detail all three architectures: Centralised, Two-Tier
                                     Client/Server, Three-Tier Client/Server DBMS.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -1522,7 +1554,7 @@
                                 <div class="q-title">Identify and describe the disadvantages of file processing system
                                     with suitable example [Context: Public distribution system for smart ration cards].
                                 </div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -1592,7 +1624,7 @@
                                 <span class="q-marks marks-orange">6 Marks 🟠</span>
                                 <div class="q-title">Describe the schema architecture that ensures data consistency,
                                     security, and performance with appropriate diagram.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -1703,7 +1735,7 @@
                                 <span class="q-marks marks-red">10 / 8 Marks 🔴</span>
                                 <div class="q-title">Construct an ER Model for the Banking Enterprise. Entities:
                                     Customer, Account, Loan, Payment, Branch. Map ER to relational schemas.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -1867,7 +1899,7 @@
                                 <span class="q-marks marks-red">10 Marks 🔴</span>
                                 <div class="q-title">Design an ER diagram for a Railway Reservation System. Entities:
                                     Passenger, Train, Ticket, Station, Route.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -2012,7 +2044,7 @@
                                 <span class="q-marks marks-red">10 Marks 🔴</span>
                                 <div class="q-title">Design an EER diagram for a Vehicle Management/Rental System.
                                     Superclass: Vehicle. Subclasses: Car, Truck, Motorcycle.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -2106,7 +2138,7 @@
                                 <span class="q-marks marks-red">15 Marks 🔴</span>
                                 <div class="q-title">Draw an ER diagram for Smart Health Clinic. Entities: Patient,
                                     Doctor, Appointment, Medical Test, Insurance Provider, Dependent.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -2261,7 +2293,8 @@
                             <span class="q-paper">FAT May 2024 (Premalatha M) – Q1</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">Design a comprehensive DBMS architecture for a university: student info, course offerings, faculty details, academic records, administrative activities. Describe 3-schema architecture and 3-tier client-server model. How is data abstraction achieved?</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="sol-section">
                                 <div class="sol-heading">Three-Schema (ANSI/SPARC) Architecture</div>
@@ -2297,7 +2330,8 @@ TIER 3 (Database): DBMS Server (PostgreSQL/Oracle)
                             <span class="q-paper">FAT Nov/Dec 2025 (Vijayakumar KP / Jani Anbarasi L) – Q1</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">Identify which DBMS component is primarily responsible for: (i) Redefining table structures/updating catalog (ii) Generating inefficient query execution plan (iii) Coordinating multi-user access (iv) Translating high-level queries to low-level ops (v) Fetching data from disk to memory.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <table class="sol-table"><tr><th>#</th><th>Scenario</th><th>Component</th><th>Justification</th></tr>
                             <tr><td>i</td><td>Redefining table structures, updating catalog</td><td><strong>DDL Compiler</strong></td><td>Processes DDL commands (CREATE/ALTER/DROP). Updates the System Catalog (Data Dictionary) with new schema info — table names, data types, constraints.</td></tr>
@@ -2315,7 +2349,8 @@ TIER 3 (Database): DBMS Server (PostgreSQL/Oracle)
                             <span class="q-paper">FAT May 2024 (KP Vijayakumar) – Q1b | FAT Jul/Aug 2023 (Reena Roy) – Q1a</span>
                             <span class="q-marks marks-orange">7–8 Marks 🟠</span>
                             <div class="q-title">(Q1b) Describe three-tier architecture with neat diagram. (Q1a) HappyShoppy online retail store has rapid growth in customer base and product inventory. Identify the DBMS architecture needed for this scale.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="sol-section">
                                 <div class="sol-heading">Three-Tier Architecture Diagram</div>
@@ -2352,7 +2387,8 @@ TIER 3 (Database): DBMS Server (PostgreSQL/Oracle)
                             <span class="q-paper">FAT Nov 2019 (D1/D2) | FAT Apr/May 2023 | FAT Jul/Aug 2023 (Reena Roy) – Banking ER</span>
                             <span class="q-marks marks-red">8–10 Marks 🔴</span>
                             <div class="q-title">Construct an ER Model for the Banking Enterprise. Customer(cust_no/SSN, name, DOB, street, city), Account(account-no, balance), Loan(loan-no, amount), Branch(branch-name, city, assets), Employee(SSN, name, phone multivalued). Map to relational schema.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="sol-section">
                                 <div class="sol-heading">Entities and Key Attributes</div>
@@ -2398,7 +2434,8 @@ MANAGES(SSN [FK→EMPLOYEE], branch_name [FK→BRANCH])   -- 1:1</div>
                             <span class="q-paper">FAT May 2024 (Premalatha M) – Q2 (Railway Reservation ER)</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">Design ER diagram for a railway reservation system. Passenger(PassengerID PK, Name composite, DoB, Age derived, Gender, Contact multivalued). Train(TrainID, TrainName, Source, Destination, DepartureTime, ArrivalTime). Route(RouteNo, Stops multivalued, Distance). Booking(BookingID, Date, Status, SeatType). Relationships: Passenger BOOKS Booking, Booking FOR Train, Train RUNS-ON Route.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="sol-section">
                                 <div class="sol-heading">Attribute Types Table</div>
@@ -2436,7 +2473,8 @@ TRAIN_ROUTE(TrainID [FK], RouteNo [FK], ScheduleDays)             -- M:N</div>
                             <span class="q-paper">FAT Apr/May 2025 (Sandhya) + FAT Nov/Dec 2025 (Appalaraju) – Q5 (Hospital ER)</span>
                             <span class="q-marks marks-red">15 Marks 🔴</span>
                             <div class="q-title">Hospital Management System ER + Mapping. Patient(patient_ID, name, gender, DOB, address, phone, email), Doctor(doctor_ID, name, specialization, qualification, years_exp, consulting_fees), Nurse(nurse_ID, name, ward), Bills(bill_ID, amount, date, status), Rooms(room_no, room_type, charges_per_day). Draw ER diagram and map to relational schema step by step.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="algo-box">
                                 <div class="algo-title">ER Mapping Rules (7 Steps)</div>
@@ -2485,7 +2523,8 @@ TREATS(patient_ID [FK→PATIENT], doctor_ID [FK→DOCTOR],
                             <span class="q-paper">FAT Nov/Dec 2025 (Vijayakumar KP / Jani Anbarasi L) – Q5 (Game Developer ER)</span>
                             <span class="q-marks marks-red">15 Marks 🔴</span>
                             <div class="q-title">Consider ER diagram for Game Developer system: GameDeveloper, Team, Assets, GameFeatures, StudioLocation, Publisher. Convert into relations by applying ER mapping rules. Show final schema after mapping.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="sol-section">
                                 <div class="sol-heading">Entities, Attributes, Relationships</div>
@@ -2525,7 +2564,8 @@ PUBLISHES(pub_ID [FK], feature_ID [FK], release_date) -- publisher publishes fea
                             <span class="q-paper">FAT Jul/Aug 2023 (Jani Anbarasi) – Q4 (Research Works ER) | FAT Jul/Aug 2023 – Q5i (University Enrollment)</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">(Q4) Premier institute ER for research: Journal publication, Patents, Consultancy, Challenging tasks — showing all attribute types (atomic, multivalued, numeric, descriptive). (Q5i) University enrollment ER: Course, Section, Instructor, Student enrollment.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="sol-section">
                                 <div class="sol-heading">Research Works ER — Attribute Types</div>
@@ -2619,7 +2659,7 @@ ENROLLMENT(student_ID [FK→STUDENT], section_ID [FK→SECTION], grade)
                                 <div class="q-title">Extend banking ER to include Savings Account (interest rate) and
                                     Checking Account (overdraft amount). Explain Generalisation and Specialisation.
                                 </div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -2675,7 +2715,8 @@ ENROLLMENT(student_ID [FK→STUDENT], section_ID [FK→SECTION], grade)
                             <span class="q-paper">FAT May 2024 (KP Vijayakumar) – Q2</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">Design EER diagram for vehicle management system. Vehicle(VehicleID, Make, Model, Year, Color) is superclass. Car(NumDoors, NumPassengers, CargoSpace), Truck(PayloadCapacity, NumAxles), Motorbike(SaddleHeight) are subclasses. Show ISA hierarchy, disjoint/total constraints, inheritance. Map to relational schema.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="algo-box">
                                 <div class="algo-title">EER Specialization Steps</div>
@@ -2768,7 +2809,7 @@ MAINTENANCE(MaintID [PK], MaintDate, Type, Cost, VehicleID [FK→VEHICLE])</div>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Map the ER model [Supplier-Supply-Part-Project] to relation
                                     schemas. Identify primary and foreign keys.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -2820,7 +2861,7 @@ MAINTENANCE(MaintID [PK], MaintDate, Type, Cost, VehicleID [FK→VEHICLE])</div>
                                 <div class="q-title">Convert the ER diagram [STUDENT — Attends — CLASS, STUDENT —
                                     Studies — SUBJECT (taught by TEACHER), CLASS — HAS — SECTION] to relational schema.
                                 </div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -2882,7 +2923,8 @@ MAINTENANCE(MaintID [PK], MaintDate, Type, Cost, VehicleID [FK→VEHICLE])</div>
                             <span class="q-paper">FAT May 2024 (Premalatha M) – Q8 (Car-Customer-Employee-Invoice-Order Mapping)</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">Convert the ER diagram [Car-Customer-Employee-Invoice-Order] into a relational model step by step. Car(CarID, Make, Model, Year, Color, Price), Customer(CustID, Name, Phone multivalued, Email, Address), Employee(EmpID, Name, Role, Commission), Invoice(InvoiceID, Date, Amount), Order(OrderID, Date, Status). Relationships: Customer PLACES Order (1:N), Order FOR Car (M:N), Employee HANDLES Order (1:N), Invoice FOR Order (1:1).</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="algo-box">
                                 <div class="algo-title">ER-to-Relational Mapping (7 Rules)</div>
@@ -2966,7 +3008,7 @@ ORDER_ITEMS(OrderID [FK→ORDER_TABLE], CarID [FK→CAR],
                                 <div class="q-title">Schema: customer(id, name, phone1, phone2, gender, branchid,
                                     income). Demonstrate SQL constraints: (a) phone1+phone2 unique (b) gender check (c)
                                     branchid FK.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -3032,7 +3074,7 @@ ORDER_ITEMS(OrderID [FK→ORDER_TABLE], CarID [FK→CAR],
                                 <span class="q-marks marks-yellow">4+2+1 Marks 🟡</span>
                                 <div class="q-title">Create table cust_rest_food with key constraints. Schema: customer,
                                     restaurant, food, cust_rest_food. Set price CHECK. Add NOT NULL to mob.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -3134,7 +3176,7 @@ ORDER_ITEMS(OrderID [FK→ORDER_TABLE], CarID [FK→CAR],
                                     Treatcode, Amount). FDs: Doctor_id+Patient_id → unique; Patient_id → Patient_name;
                                     Doctor_id → Doctor_name; Treatcode → Diagnosis, Amount. Is R in 3NF? Decompose if
                                     not.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -3230,7 +3272,7 @@ ORDER_ITEMS(OrderID [FK→ORDER_TABLE], CarID [FK→CAR],
                                 <span class="q-marks marks-orange">7 Marks 🟠</span>
                                 <div class="q-title">Normalize Conference Table (reg_no, name, college_name,
                                     college_address, event_number, event_name, date) to highest normal form.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -3314,7 +3356,7 @@ ORDER_ITEMS(OrderID [FK→ORDER_TABLE], CarID [FK→CAR],
                                     CustomerID→CustomerName,CustomerAddress;
                                     ProductID→ProductName,CategoryID,UnitPrice,SupplierID; CategoryID→CategoryName;
                                     SupplierID→SupplierName,SupplierCity; OrderID,ProductID→Quantity.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -3407,7 +3449,7 @@ ORDER_ITEMS(OrderID [FK→ORDER_TABLE], CarID [FK→CAR],
                                     title, author, publisher) to BCNF. Given FDs: user_id→name,dept_id,dept_name;
                                     isbn→title,publisher,author; dept_id→dept_name; title→author,publisher;
                                     dept_id,user_id→name.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -3488,7 +3530,7 @@ ORDER_ITEMS(OrderID [FK→ORDER_TABLE], CarID [FK→CAR],
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Hostels(Student_ID PK, Hostel_Block, Fee). FDs: Hostel_Block→Fee;
                                     Student_Id→Hostel_Block; Student_ID→Fee. Check 1NF, 2NF, 3NF.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -3547,7 +3589,8 @@ ORDER_ITEMS(OrderID [FK→ORDER_TABLE], CarID [FK→CAR],
                             <span class="q-paper">FAT Jul/Aug 2023 (Reena Roy) – Q3 / Q7a i (Book/PersonData normalize to 3NF)</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">Normalize table: BookTable(BookID, PublishedDate, TutorID, Title, Room, PHONE_NUMBER[multivalued], Block_Numbers). FDs: BookID→{PublishedDate, TutorID, Title}; TutorID→{Room, Block_Numbers}; TutorID→→PHONE_NUMBER. Normalize up to 3NF with justification.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="sol-section">
                                 <div class="sol-heading">1NF — Remove Multivalued Attribute</div>
@@ -3588,7 +3631,8 @@ TUTOR_PHONE(TutorID [FK→TUTOR], PHONE_NUMBER)   -- from 1NF</div>
                             <span class="q-paper">FAT Nov/Dec 2025 (Vijayakumar KP / Jani Anbarasi L) – Q6ii Airline FLIGHT_BOOKING</span>
                             <span class="q-marks marks-yellow">9 Marks 🟡</span>
                             <div class="q-title">Normalize FLIGHT_BOOKING to 3NF step by step. FDs: BookingID→{PassengerID, FlightNo, SeatNo, BookingDate, Class}; FlightNo→{AirlineName, DepartureCity, ArrivalCity}; PassengerID→{PassengerName, PassportNo}; (FlightNo, SeatNo)→Class. Then check if 3NF violates BCNF. Decompose if needed.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="sol-section">
                                 <div class="sol-heading">Original Relation</div>
@@ -3665,7 +3709,7 @@ PASSENGER(PassengerID [PK], PassengerName, PassportNo)</div>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Find the minimal cover of: F = {AB→C, C→ABE, B→C, ABC→BD, A→C,
                                     BD→A} for R(A,B,C,D,E).</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -3730,7 +3774,7 @@ PASSENGER(PassengerID [PK], PassengerName, PassportNo)</div>
                                 <span class="q-marks marks-yellow">4 Marks 🟡</span>
                                 <div class="q-title">Is B→G in F⁺? R={A,B,C,D,E} and F={B→CD, E→F, D→E, B→A, AD→B, F→G}.
                                     Find B⁺.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -3785,7 +3829,7 @@ PASSENGER(PassengerID [PK], PassengerName, PassportNo)</div>
                                 <span class="q-marks marks-yellow">2 Marks 🟡</span>
                                 <div class="q-title">Find the candidate key(s) of R(A,B,C,D,E,F) with FD={A→C, AB→C,
                                     C→DF, CD→F, EC→AB, EF→C}.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -3861,7 +3905,7 @@ PASSENGER(PassengerID [PK], PassengerName, PassportNo)</div>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Employee_details(EmployeeSSN, ProjectID, DependentID). Check for
                                     non-trivial MVDs. Apply tests for 4NF.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -3964,7 +4008,7 @@ PASSENGER(PassengerID [PK], PassengerName, PassportNo)</div>
                                 <div class="q-title">R(ABCDE) with F={A→C, B→C, C→D, DE→C, CE→A}. Decomposed into
                                     R1(AD), R2(AB), R3(BE), R4(CDE), R5(AE). Apply Chase test for non-additive join.
                                 </div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -4135,7 +4179,8 @@ PASSENGER(PassengerID [PK], PassengerName, PassportNo)</div>
                             <span class="q-paper">FAT Nov 2019 (Slot D1) – Q11 (Chase Algorithm / Non-Additive Join Test)</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">R(ABCDE) with F={A→C, B→C, C→D, DE→C, CE→A}. Decomposed as R1(AD), R2(AB), R3(BE), R4(CDE), R5(AE). Apply test for non-additive Join Property (Chase Algorithm). Determine if decomposition is lossless.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="algo-box">
                                 <div class="algo-title">Chase Algorithm (Lossless Join Test)</div>
@@ -4237,7 +4282,7 @@ PASSENGER(PassengerID [PK], PassengerName, PassportNo)</div>
                                 <span class="q-marks marks-red">10 Marks 🔴</span>
                                 <div class="q-title">Insert 10, 8, 15, 7, 3, 6, 12, 5, 9, 17 into B+ tree of order m=3
                                     (right-biased). Then delete 9, 10, 15.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -4401,7 +4446,7 @@ PASSENGER(PassengerID [PK], PassengerName, PassportNo)</div>
                                 <div class="q-title">Construct B+ Tree of node size 3 for
                                     {101,102,115,116,203,205,229,301,310,323,351}. Insert 201, 208. Delete 116, 229,
                                     301.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -4481,7 +4526,7 @@ PASSENGER(PassengerID [PK], PassengerName, PassportNo)</div>
                                 <span class="q-marks marks-red">9 Marks 🔴</span>
                                 <div class="q-title">Construct B+ Tree of order 4 for:
                                     15,25,35,45,10,20,30,5,40,50,60,70,80,90,100. Delete 35 and 100.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -4600,7 +4645,8 @@ PASSENGER(PassengerID [PK], PassengerName, PassportNo)</div>
                             <span class="q-paper">FAT Nov/Dec 2025 (Appalaraju Muralidhar) – Q7a (B+ Tree Order 4, 15 keys)</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">Construct B+ tree (left-biased) order 4 for keys: 32,14,56,73,25,68,47,19,85,39,8,91,62,28,41. Show all splits. Delete 56 and 73.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="formula-box"><span class="formula-label">Order 4 Rules</span><span class="formula-content">Max keys/node = 3 | Split: left gets ⌊(m+1)/2⌋ keys, right gets rest | Copy middle key to parent (leaf split) | Push middle key up (internal split)</span></div>
                             <div class="sol-section">
@@ -4641,7 +4687,8 @@ Leaf chain: 8→14→19→25→28→32→39→41→47→56→62→68→73→85�
                             <span class="q-paper">FAT Nov/Dec 2025 (VK KP/Jani) – Q7i (15,25,35...100 Order 4) | FAT Apr/May 2025 (Sandhya) – Q7b (Order 3)</span>
                             <span class="q-marks marks-orange">8–9 Marks 🟠</span>
                             <div class="q-title">(Q7i) Order 4: insert 15,25,35,45,10,20,30,5,40,50,60,70,80,90,100. Delete 35,100. (Q7b) Order 3: insert 300,127,530,50,260,70,100,80,150,143,55,65,88. Delete 300,530.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="sol-section">
                                 <div class="sol-heading">Order 4 — Sequential Insertions</div>
@@ -4743,7 +4790,7 @@ Delete 530: find in leaf [530], remove → possible merge with sibling.</div>
                                 <span class="q-marks marks-red">10 Marks 🔴</span>
                                 <div class="q-title">Keys 10,16,11,25,3,21,8,18,15,9 into hash table of length 10.
                                     h(key)=key mod 8. Show linear probing AND quadratic probing.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -5043,7 +5090,7 @@ Delete 530: find in leaf [530], remove → possible merge with sibling.</div>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Construct extendible hashing by inserting 5,2,6,1,7,3,4,9. Use LSB.
                                     Bucket capacity = 2.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -5186,7 +5233,7 @@ Delete 530: find in leaf [530], remove → possible merge with sibling.</div>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Keys 12,18,13,2,3,23,5,15 into hash table of length 8. h(k)=k mod
                                     8. Open addressing.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -5321,7 +5368,7 @@ Delete 530: find in leaf [530], remove → possible merge with sibling.</div>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Detail differences between Primary and Secondary Indices, and Dense
                                     and Sparse Indices, with examples.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -5423,7 +5470,7 @@ Delete 530: find in leaf [530], remove → possible merge with sibling.</div>
                                 <span class="q-marks marks-yellow">3+3 Marks 🟡</span>
                                 <div class="q-title">Construct a primary dense index and a sparse index for EmpID
                                     attribute. Employee table: EmpId 1022-1125, Empname, HoursPerWeek, ContractNo.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -5481,7 +5528,7 @@ Delete 530: find in leaf [530], remove → possible merge with sibling.</div>
                                 <span class="q-paper">FAT Nov 2019 (Slot D1)</span>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">What are the disadvantages of multi-level indexing? Detail how dynamic multi-level indexes address these issues with suitable examples.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -5592,7 +5639,7 @@ Insert 50 → [30,40,50] FULL → Split, promote 40:
                                 <span class="q-paper">FAT Nov 2019 (Slot D2)</span>
                                 <span class="q-marks marks-orange">7 Marks 🟠</span>
                                 <div class="q-title">Develop a multilevel indexing structure with four keys per block for key values 2, 35, 55, 85. First-level bases: 2, 8, 15, 24, 35, 39, 44, 51, 55, 63, 71, 79, 85, 90, 97. Create at least three levels. Explain single and multi-level indexing.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -5770,7 +5817,7 @@ Insert 50 → [30,40,50] FULL → Split, promote 40:
                                 <div class="q-title">SQL on EMPLOYEES & DEPARTMENTS: (a) Salary 5000-12000 in dept 20/50
                                     (b) No manager (c) Commission earners sorted (d) Highest/lowest/sum/avg salary per
                                     job (e) Employees hired before their managers.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -5846,7 +5893,8 @@ Insert 50 → [30,40,50] FULL → Split, promote 40:
                             <span class="q-paper">FAT Jul/Aug 2023 (Reena Roy) – Q6a (Student SQL)</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">SQL on STUDENT(Reg_No, Name, Physics, Chemistry, Maths, Age, Department, Residential_City): (a) Add 'Average' column and compute. (b) Students in Science dept with avg&gt;60. (c) Oldest student. (d) Students where Maths &gt; Physics. (e) Students from Chennai or Bangalore.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="code-block">-- (a) Add Average column and compute it
 ALTER TABLE STUDENT ADD COLUMN Average DECIMAL(5,2);
@@ -5880,7 +5928,8 @@ WHERE Residential_City IN ('Chennai', 'Bangalore');</div>
                             <span class="q-paper">FAT May 2024 (Premalatha M) – Q9 | FAT Nov/Dec 2025 (Appalaraju Muralidhar) – Q3 (Passenger/Bus SQL)</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">SQL for Passenger(PId, PName), BusRoute(RouteNo, Source, Destination), Drivers(DId, DName), Travel(PId, RouteNo, DId): (i) Passengers on route 151/201. (ii) Passenger count per route. (iii) Drivers on all routes. (iv) Passenger+driver names on same route. (v) Routes with &gt;5 passengers.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="code-block">-- (i) Passengers on route 151 (change to 201 for Appalaraju paper)
 SELECT P.PName FROM PASSENGER P
@@ -5921,7 +5970,8 @@ HAVING COUNT(DISTINCT T.PId) > 5;</div>
                             <span class="q-paper">FAT Apr/May 2025 (Sandhya) – Q4 a–e (PROJECT/EMPLOYEE SQL)</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">SQL for PROJECT(proj_no, proj_name, dept_no), EMPLOYEE(emp_no, emp_name, DOB, address, doj, mobile_no, salary), DEPARTMENT(dept_no, dept_name, location), WORKS_ON(emp_no, proj_no, start_date, end_date, hours): (a) Employees on 'AI Research'. (b) Total hours per employee. (c) Salary&gt;50000 sorted by name. (d) Projects with no employees. (e) Average salary per department.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="code-block">-- (a) Employee names working on 'AI Research'
 SELECT DISTINCT E.emp_name
@@ -5959,7 +6009,8 @@ ORDER BY Avg_Salary DESC;</div>
                             <span class="q-paper">FAT Nov/Dec 2025 (Vijayakumar KP / Jani Anbarasi L) – Q4 i–v (Food Delivery SQL)</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">SQL and RA for Customer(CustID, CustName, City, Phone), FoodItems(FoodID, FoodName, Category, Price), Orders(OrderID, CustID, FoodID, Quantity, OrderDate): (i) Customers who ordered Pizza. (ii) Total order value per customer. (iii) Items ordered &gt;10 times. (iv) Customers who never ordered. (v) Most expensive item per category.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="code-block">-- (i) Customer names and cities who ordered 'Pizza'
 SELECT DISTINCT C.CustName, C.City
@@ -6036,7 +6087,7 @@ WHERE Price = (SELECT MAX(Price) FROM FOODITEMS F2
                                 <span class="q-paper">FAT Apr/May 2023 – Q7d</span>
                                 <span class="q-marks marks-yellow">3 Marks 🟡</span>
                                 <div class="q-title">Write relational algebra expressions: (i) Number of employees who worked fewer hours than average hours/week. (ii) Employee IDs and names of every employee working for ContractID C103.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -6078,7 +6129,7 @@ result ← π<sub>COUNT(EmpId)</sub>(σ<sub>HoursPerWeek &lt; avgHrs.AVG(HoursPe
                                 <span class="q-paper">FAT Jul/Aug 2023 (Jani Anbarasi) – Q2a–d</span>
                                 <span class="q-marks marks-red">10 Marks 🔴</span>
                                 <div class="q-title">RA &amp; SQL on Registration_Table and Sports_Table: (a) Name+location of students enrolled (age&gt;13) in Football. (b) Count level earned per club. (c) Girls in Volleyball club. (d) DateOfJoining for students with 'B' qualification.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -6133,7 +6184,7 @@ result ← π<sub>COUNT(EmpId)</sub>(σ<sub>HoursPerWeek &lt; avgHrs.AVG(HoursPe
                                 <span class="q-paper">FAT Nov 2019 (Slot D2) – Q6a</span>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">List the Transformation Rules for Relational Algebra Operations used for algebraic query optimization.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -6176,7 +6227,7 @@ result ← π<sub>COUNT(EmpId)</sub>(σ<sub>HoursPerWeek &lt; avgHrs.AVG(HoursPe
                                 <span class="q-paper">FAT Nov 2019 (Slot D2) – Q6b</span>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Write RA expression for SQL query: SELECT LNAME FROM EMPLOYEE, WORKS_ON, PROJECT WHERE PNAME='AQUARIUS' AND PNUMBER=PNO AND ESSN=SSN AND BDATE&gt;'1957-12-31'. Draw initial query tree and optimized query tree.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -6273,7 +6324,7 @@ Improvements:
                                 <span class="q-paper">FAT Nov 2019 (Slot D1) – Q12</span>
                                 <span class="q-marks marks-red">10 Marks 🔴</span>
                                 <div class="q-title">Construct Initial and Optimized Query Tree using Heuristic Optimization for: SELECT e.name, p.project_name FROM employee e, department d, workson w, project p WHERE e.dep_number=d.dep_number AND e.ssn=w.ssn AND w.project_id=p.project_id AND d.dname='SBST' AND p.project_name='OS'.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -6347,7 +6398,7 @@ Benefits of Optimization:
                                 <span class="q-paper">FAT May 2024 (KP Vijayakumar) – Q6b</span>
                                 <span class="q-marks marks-orange">8 Marks 🟠</span>
                                 <div class="q-title">Step-by-step optimized query tree for: SELECT name FROM employee, department, location WHERE dept=Finance AND city='New York' AND salary&gt;50000.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -6428,7 +6479,7 @@ Transformations Applied:
                                 <span class="q-paper">FAT Jul/Aug 2023 (Reena Roy) – Q4b</span>
                                 <span class="q-marks marks-orange">6 Marks 🟠</span>
                                 <div class="q-title">Write log records for Deferred and Immediate modification. Initial: A=1100, B=1200, C=1000. T0: Read(A); A:=A-550; Write(A); Read(B); B:=B+550; Write(B). T1: Read(C); C:=C-300; Write(C).</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -6490,7 +6541,7 @@ Transformations Applied:
                                 <span class="q-paper">FAT May 2024 (Premalatha M) – Q6i</span>
                                 <span class="q-marks marks-orange">6 Marks 🟠</span>
                                 <div class="q-title">Initial: A=25000, B=12000, C=10000. Log records for S1 with deferred and immediate modification. T1: Read(A); A:=A-15000; Write(A); Read(B); B:=B+15000; Write(B). T2: Read(C); C:=C-1500; Write(C).</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -6539,7 +6590,7 @@ Transformations Applied:
                                 <span class="q-paper">FAT Nov 2019 (Slot D2) – Q8a</span>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Distinguish between immediate and deferred modification methods in log-based recovery. Explain using Redo and Undo operations for making recovery based on commit/abort stored in log records.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -6616,7 +6667,7 @@ Transformations Applied:
                                 <span class="q-paper">FAT May 2024 (Premalatha M) – Q5i</span>
                                 <span class="q-marks marks-orange">7 Marks 🟠</span>
                                 <div class="q-title">Ensure ACID properties for bank transfer: User transfers ₹5000 from current to savings. Server crashes after debit but before credit. How to maintain ACID and transaction state integrity?</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -6682,7 +6733,7 @@ Transformations Applied:
                                 <span class="q-paper">FAT Nov 2019 (Slot D2) – Q14b</span>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Compare BASE and ACID Properties of Transactions.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -6720,7 +6771,7 @@ Transformations Applied:
                                 <span class="q-paper">FAT May 2024 (Premalatha M) – Q5ii</span>
                                 <span class="q-marks marks-yellow">3 Marks 🟡</span>
                                 <div class="q-title">Explain the different transaction states with a neat sketch.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -6803,7 +6854,7 @@ Transformations Applied:
                                 <span class="q-paper">FAT May 2024 (Premalatha M) – Q6ii</span>
                                 <span class="q-marks marks-orange">4 Marks 🟠</span>
                                 <div class="q-title">Identify and justify whether S2 is cascadeless. If not, convert to cascadeless: S2: T1:Read(A); A:=A-15000; Write(A); Read(B); B:=B+15000; Write(B); then T2:Read(A); A:=A-2000; Write(A); then T3:Read(A).</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -6855,7 +6906,7 @@ T3:                                                                             
                                 <span class="q-paper">FAT Nov/Dec 2025 (Vijayakumar KP) – Q8ii</span>
                                 <span class="q-marks marks-orange">6 Marks 🟠</span>
                                 <div class="q-title">Analyze the schedule and modify it to be recoverable and cascadeless. T1: read(X), write(X). T3: read(Y), read(Z), write(Y), write(Z). T2: read(Z), read(Y), write(Y), read(Y), write(Y), read(X), write(X).</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -6922,7 +6973,7 @@ Rule Applied:
                                 <span class="q-paper">FAT Apr/May 2023 – Q3</span>
                                 <span class="q-marks marks-red">10 Marks 🔴</span>
                                 <div class="q-title">Check conflict serializability of S1 and S2. T1: r1(X);r1(Z);w1(X);w1(Z). T2: r2(Y);r2(X);w2(Y). T3: r3(Y);r3(Z);w3(Z). S1: r2(Y);r1(X);r2(X);r3(Y);r3(Z);w2(Y);w3(Z);r1(Z);w1(X);w1(Z). S2: r2(Y);r1(X);r3(Y);r2(X);r1(Z);r3(Z);w2(Y);w1(X);w3(Z);w1(Z).</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -7001,7 +7052,7 @@ Now: T1 → T3 → T2 → T1 ← CYCLE DETECTED!
                                 <span class="q-paper">FAT Nov/Dec 2025 (Vijayakumar KP) – Q8i</span>
                                 <span class="q-marks marks-orange">9 Marks 🟠</span>
                                 <div class="q-title">Determine conflict serializability. T1: r(X),w(X),r(Y),w(Y). T2: r(Z),r(Y),w(Y),r(X),w(X). T3: r(Y),r(Z),w(Y),w(Z). Write all conflicting operations, precedence graph, serializable or not, equivalent serial order if yes.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -7058,7 +7109,8 @@ No cycle detected!</div>
                             <span class="q-paper">FAT Jul/Aug 2023 (Jani Anbarasi) – Q3 (T1,T2,T3 with X,Y,Z)</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">T1: r1(X);r1(Z);w1(X);w1(Z). T2: r2(Y);r2(Z);w2(Z). T3: r3(Y);r3(X);w3(Y). S1: r1(X);r3(Y);r3(X);r2(Y);r2(Z);w3(Y);w2(Z);r1(Z);w1(X);w1(Z). S2: r1(X);r2(Y);r3(Y);r1(Z);r2(Z);r3(X);w1(X);w2(Z);w3(Y);w1(Z). Check conflict serializability. Draw precedence graph.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="sol-section">
                                 <div class="sol-heading">Schedule S1 Analysis</div>
@@ -7096,7 +7148,8 @@ CYCLE: T1→T2→T1 (and T1→T2→T3→T1)
                             <span class="q-paper">FAT Apr/May 2025 (Sandhya) – Q2 (Emma/Liam/Olivia Payroll)</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">T1=Emma(payroll X), T2=Liam(tax Z), T3=Olivia(expense Y). S1: r1(X);r2(Z);r3(Y);r3(X);r2(Y);r1(Z);w3(Y);w2(Z);w1(X);w1(Z). Check conflict serializability. Draw precedence graph. State equivalent serial order if serializable.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="sol-section">
                                 <div class="sol-heading">S1 Conflict Identification</div>
@@ -7157,7 +7210,7 @@ CYCLE: T1→T2→T1 AND T1→T2→T3→T1
                                 <span class="q-paper">FAT Nov/Dec 2025 (Vijayakumar KP) – Q2</span>
                                 <span class="q-marks marks-red">10 Marks 🔴</span>
                                 <div class="q-title">Analyze schedule of T1, T2, T3 under Basic 2PL, Strict 2PL, and Rigorous 2PL. T1: Read(A),Write(A),Commit. T2: Read(B),Write(B),Commit. T3: Read(A),Read(B),Commit.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -7217,7 +7270,7 @@ CYCLE: T1→T2→T1 AND T1→T2→T3→T1
                                 <span class="q-paper">FAT Nov 2019 (Slot D1) – Q6</span>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Detail the disadvantages of 2PL and how they are overcome using Rigorous 2PL with suitable examples.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -7252,7 +7305,8 @@ CYCLE: T1→T2→T1 AND T1→T2→T3→T1
                             <span class="q-paper">FAT Jul/Aug 2023 (Jani Anbarasi) – Q8a | FAT Jul/Aug 2023 (Reena Roy) – Q9b</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">(Q8a) T1: R(P),P+10,W(P),R(Q),Q-5,W(Q). T2: R(P),R(Q),R(Sum),Sum+=(P*Q),W(Sum). T3: R(Sum),Sum+2,W(Sum),Q+2,W(Q). Identify conflict problems. (Q9b) Illustrate solutions using Basic, Strict, Rigorous 2PL with justification.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="sol-section">
                                 <div class="sol-heading">Conflict Problems in T1,T2,T3 Schedule</div>
@@ -7327,7 +7381,7 @@ T3:                                                             X(Sum),X(Q) → 
                                 <span class="q-paper">FAT Apr/May 2023 – Q8c</span>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Create a wait-for graph and determine if deadlock exists. T1 locks X2, waits X1,X3. T2 locks X3,X10, waits X7,X8. T3 locks X8, waits X4,X5. T4 locks X7, waits X1. T5 locks X1,X5, waits X3. T6 locks X4,X9, waits X6. T7 locks X6, waits X5.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -7386,7 +7440,7 @@ All transactions in this cycle are deadlocked!</div>
                                 <span class="q-paper">FAT Jul/Aug 2023 (Jani Anbarasi) – Q8b</span>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Wait-for graph and deadlock check. T1 requests A(Exclusive), B(Shared). T2 requests B(Exclusive). T3 requests B(Shared). T4 requests A(Shared), C(Exclusive).</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -7456,7 +7510,7 @@ NO CYCLE FOUND!</div>
                                 <span class="q-paper">FAT Nov/Dec 2025 (Appalaraju Muralidhar) – Q8a</span>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Apply timestamp ordering algorithm. T1(TS=1): read(P), write(P). T2(TS=2): read(R), read(Q), write(Q), read(R), read(Q), write(Q), read(R), write(R). T3(TS=3): read(Q), read(R). Analyze each operation.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -7513,7 +7567,7 @@ NO CYCLE FOUND!</div>
                                 <span class="q-paper">FAT Apr/May 2023 – Q8a</span>
                                 <span class="q-marks marks-orange">4 Marks 🟠</span>
                                 <div class="q-title">Illustrate S1 for Read-Write conflict and Write-Write conflict. T1 reads X and Y then writes X. T2 reads X and Y then writes X and Y.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -7556,7 +7610,7 @@ NO CYCLE FOUND!</div>
                                 <span class="q-paper">FAT Nov 2019 (Slot D2) – Q7a</span>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Write the Properties of a transaction. Explain the need for locks in concurrent execution. Draw the compatibility matrix for locks.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -7620,7 +7674,7 @@ NO CYCLE FOUND!</div>
                                 <span class="q-paper">FAT Nov 2019 (Slot D1) – Q13a</span>
                                 <span class="q-marks marks-orange">5 Marks 🟠</span>
                                 <div class="q-title">Detail the following issues with Concurrent Transactions using suitable examples: Lost Update Problem, Temporary Update Problem, Incorrect Summary Problem.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -7731,7 +7785,7 @@ Time  T1 (sum)                    T2 (transfer)
                                 <span class="q-paper">FAT May 2024 (KP Vijayakumar) – Q10</span>
                                 <span class="q-marks marks-red">10 Marks 🔴</span>
                                 <div class="q-title">Grade Monitoring System: Faculty posts grade of student A from node XYZ. Student A accesses grade from node PQR. Illustrate the upholding of CAP theorem for this scenario with suitable diagrams.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -7810,7 +7864,7 @@ Option 2 (AP system — Sacrifice Consistency):
                                 <span class="q-paper">FAT Nov/Dec 2025 (Vijayakumar KP) – Q3</span>
                                 <span class="q-marks marks-red">10 Marks 🔴</span>
                                 <div class="q-title">International e-commerce: Data replicated across data centers. During network outage, system continues accepting orders and allowing product views. Analyze which 2 CAP properties are prioritized and which is compromised. Evaluate why this trade-off is appropriate.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -7860,7 +7914,7 @@ After partition heals: sync → both show 8 (eventual consistency)</div>
                                 <span class="q-paper">FAT Apr/May 2023 – Q4a</span>
                                 <span class="q-marks marks-orange">6 Marks 🟠</span>
                                 <div class="q-title">Discuss in detail the relevance of the CAP theorem with respect to NoSQL.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -7901,7 +7955,8 @@ After partition heals: sync → both show 8 (eventual consistency)</div>
                             <span class="q-paper">FAT Jul/Aug 2023 (Jani Anbarasi) – Q4 (NoSQL for Research Institute)</span>
                             <span class="q-marks marks-red">10 Marks 🔴</span>
                             <div class="q-title">A premier institute stores research works (Journal publications, Patents, Consultancy, Challenging tasks) with atomic, multivalued, numeric, and descriptive data. Suggest a suitable NoSQL database. Justify your choice. Explain how it handles different data types.</div>
-                        </div><span class="q-chevron">▼</span></div>
+                        </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                            <span class="q-chevron">▼</span></div>
                         <div class="q-body">
                             <div class="sol-section">
                                 <div class="sol-heading">Why Traditional SQL is Insufficient</div>
@@ -7973,7 +8028,7 @@ After partition heals: sync → both show 8 (eventual consistency)</div>
                                 <span class="q-paper">FAT May 2024 (Premalatha M) – Q7</span>
                                 <span class="q-marks marks-red">10 Marks 🔴</span>
                                 <div class="q-title">Design a database for a large e-commerce platform. Outline considerations for choosing between document-oriented, key-value, column-oriented, and graph databases. Discuss features, advantages, drawbacks of each. Explain how chosen NoSQL aligns with scalability, performance, data modeling needs.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -8043,7 +8098,7 @@ After partition heals: sync → both show 8 (eventual consistency)</div>
                                 <span class="q-paper">FAT Apr/May 2025 (Sandhya) – Q3b</span>
                                 <span class="q-marks marks-orange">4 Marks 🟠</span>
                                 <div class="q-title">Compare SQL and NoSQL. Describe how NoSQL is used for developing a Hospital Management System.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -8082,7 +8137,7 @@ After partition heals: sync → both show 8 (eventual consistency)</div>
                                 <span class="q-paper">FAT Nov/Dec 2025 (Appalaraju Muralidhar) – Q4c</span>
                                 <span class="q-marks marks-yellow">3 Marks 🟡</span>
                                 <div class="q-title">Compare and contrast between SQL and NoSQL.</div>
-                            </div>
+                            </div><button class="copy-btn" title="Copy Question" onclick="copyQ(event, this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                             <span class="q-chevron">▼</span>
                         </div>
                         <div class="q-body">
@@ -8198,7 +8253,29 @@ After partition heals: sync → both show 8 (eventual consistency)</div>
                 if (btn) btn.classList.toggle('show', scrollTop > 300);
             });
         }
-    </script>
+    
+        // Copy Question Details
+        function copyQ(e, btn) {
+            e.stopPropagation(); // Prevent toggling the card accordion
+            var qCard = btn.closest('.q-card');
+            var qNum = qCard.querySelector('.q-num').innerText;
+            var qPaper = qCard.querySelector('.q-paper').innerText;
+            var qMarks = qCard.querySelector('.q-marks').innerText;
+            var qTitle = qCard.querySelector('.q-title').innerText;
+            
+            var copyFormat = qNum + " | " + qPaper + " | " + qMarks + "\n" + qTitle;
+            
+            navigator.clipboard.writeText(copyFormat).then(function() {
+                var originalHTML = btn.innerHTML;
+                btn.classList.add('copied');
+                btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                setTimeout(function() {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+</script>
 
 </body>
 </html>
