@@ -37,13 +37,19 @@
             padding: 0;
         }
 
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
             background: var(--bg);
             color: var(--text);
             font-family: 'Source Serif 4', Georgia, serif;
             font-size: 16px;
             line-height: 1.7;
-            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* HEADER */
@@ -122,7 +128,9 @@
         /* LAYOUT */
         .layout {
             display: flex;
-            min-height: calc(100vh - 140px);
+            flex: 1;
+            overflow: hidden;
+            height: 0; /* forces flex children to use their own scroll */
         }
 
         /* SIDEBAR */
@@ -188,8 +196,7 @@
             overflow-x: hidden;
             padding: 2rem;
             max-width: 900px;
-            height: calc(100vh - 140px);
-            scroll-behavior: smooth;
+            scroll-behavior: auto;
         }
 
         /* MODULE HEADER */
@@ -8178,18 +8185,19 @@ After partition heals: sync → both show 8 (eventual consistency)</div>
             });
         }
 
-        // Progress bar on scroll
-        window.addEventListener('scroll', function() {
-            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            var bar = document.getElementById('progressBar');
-            if (bar) bar.style.width = pct + '%';
-
-            // Show/hide scroll-to-top button
-            var btn = document.getElementById('scrollTop');
-            if (btn) btn.classList.toggle('show', scrollTop > 300);
-        });
+        // Progress bar on .main scroll (body is fixed, window doesn't scroll)
+        var mainEl = document.getElementById('mainContent');
+        if (mainEl) {
+            mainEl.addEventListener('scroll', function() {
+                var scrollTop = mainEl.scrollTop;
+                var docHeight = mainEl.scrollHeight - mainEl.clientHeight;
+                var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                var bar = document.getElementById('progressBar');
+                if (bar) bar.style.width = pct + '%';
+                var btn = document.getElementById('scrollTop');
+                if (btn) btn.classList.toggle('show', scrollTop > 300);
+            });
+        }
     </script>
 
 </body>
