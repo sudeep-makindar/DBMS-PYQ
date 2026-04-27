@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -185,8 +185,11 @@
         .main {
             flex: 1;
             overflow-y: auto;
+            overflow-x: hidden;
             padding: 2rem;
             max-width: 900px;
+            height: calc(100vh - 140px);
+            scroll-behavior: smooth;
         }
 
         /* MODULE HEADER */
@@ -1054,8 +1057,8 @@
                             <div class="stat-label">Modules</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-num">180+</div>
-                            <div class="stat-label">Questions</div>
+                            <div class="stat-num">89</div>
+                            <div class="stat-label">Q-Cards</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-num">10</div>
@@ -8119,21 +8122,31 @@ After partition heals: sync → both show 8 (eventual consistency)</div>
                 target.style.display = 'block';
             }
 
-            // Update sidebar active state
+            // Update sidebar active state & scroll active button into view
             document.querySelectorAll('.sidebar-topic').forEach(function(btn) {
                 btn.classList.remove('active');
             });
-            // Find matching sidebar button
             var btns = document.querySelectorAll('.sidebar-topic');
             btns.forEach(function(btn) {
                 if (btn.getAttribute('onclick') && btn.getAttribute('onclick').indexOf("'" + module + "','" + section + "'") !== -1) {
                     btn.classList.add('active');
+                    // Scroll sidebar so the active button is visible
+                    var sidebar = document.getElementById('sidebar');
+                    if (sidebar) {
+                        var btnTop = btn.offsetTop;
+                        var sidebarH = sidebar.clientHeight;
+                        sidebar.scrollTop = Math.max(0, btnTop - sidebarH / 2);
+                    }
                 }
             });
 
-            // Scroll to top of main content
+            // Scroll main content area to top (the .main div is the scroll container)
             var main = document.getElementById('mainContent');
-            if (main) main.scrollTop = 0;
+            if (main) {
+                main.scrollTop = 0;
+                main.scrollLeft = 0;
+            }
+            // Also reset window scroll for safety
             window.scrollTo(0, 0);
         }
 
